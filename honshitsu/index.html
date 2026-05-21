@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI本質力トレーニング — 思考停止の時代に、本質を見抜く力を</title>
+<meta name="description" content="AIが答えを出す時代だからこそ、人間の本質力が問われる。毎日のビジネスニュースで思考力を鍛えるトレーニングアプリ。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700;900&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--deep:#04201A;--forest:#085041;--primary:#1D9E75;--accent:#C8A96E;--gold:#E8C87A;--cream:#F5F0E8;--text:#F5F0E8;--muted:rgba(245,240,232,0.55);--border:rgba(200,169,110,0.2);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--deep);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;overflow-x:hidden;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(4,32,26,0.97),transparent);backdrop-filter:blur(12px);}
+.nav-logo{text-decoration:none;display:flex;align-items:center;gap:10px;}
+.logo-block{width:44px;height:44px;background:#085041;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;gap:0;}
+.logo-block-think{font-family:'Noto Sans JP',sans-serif;font-size:7px;color:white;font-weight:300;letter-spacing:0.1em;line-height:1.8;}
+.logo-block-text{font-family:'Noto Sans JP',sans-serif;font-size:15px;color:white;font-weight:700;letter-spacing:0;line-height:1.1;}
+.logo-block-line{width:30px;height:2px;background:#1D9E75;margin-top:3px;}
+.nav-logo-name{font-family:'Noto Sans JP',sans-serif;font-size:0.95rem;font-weight:500;color:var(--text);}
+.nav-cta{background:var(--primary);color:white;padding:0.6rem 1.5rem;border-radius:100px;font-size:0.85rem;font-weight:500;text-decoration:none;letter-spacing:0.02em;transition:all 0.2s;}
+.nav-cta:hover{background:#24b885;transform:translateY(-1px);}
+
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:9rem 4rem 6rem;overflow:hidden;}
+.hero-photo{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?w=1600&auto=format&fit=crop&q=80') center/cover no-repeat;opacity:0.18;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(4,32,26,0.97) 0%,rgba(4,32,26,0.85) 40%,rgba(4,32,26,0.5) 100%);}
+.hero-content{position:relative;z-index:1;max-width:680px;}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.25em;color:var(--primary);text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:1rem;}
+.hero-eyebrow::before{content:'';display:block;width:40px;height:1px;background:var(--primary);}
+.hero-title{font-family:'Noto Serif JP',serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:900;line-height:1.15;letter-spacing:-0.02em;margin-bottom:2rem;}
+.hero-title em{font-style:normal;color:var(--gold);display:block;}
+.hero-subtitle{font-size:1.05rem;color:var(--muted);line-height:2;max-width:520px;margin-bottom:3rem;}
+.hero-subtitle strong{color:var(--text);font-weight:500;}
+.store-row{display:flex;gap:1rem;flex-wrap:wrap;}
+.store-btn{display:inline-flex;align-items:center;gap:0.6rem;background:rgba(245,240,232,0.08);border:1px solid rgba(245,240,232,0.2);color:var(--text);padding:0.7rem 1.4rem;border-radius:10px;font-size:0.82rem;text-decoration:none;transition:all 0.2s;line-height:1.3;}
+.store-btn:hover{background:rgba(245,240,232,0.15);border-color:rgba(245,240,232,0.4);}
+.store-btn svg{width:20px;height:20px;flex-shrink:0;}
+.store-btn-text small{display:block;font-size:0.65rem;color:var(--muted);letter-spacing:0.05em;}
+.store-btn-text span{font-weight:500;font-size:0.88rem;}
+
+section{position:relative;z-index:1;}
+.section-inner{max-width:1100px;margin:0 auto;padding:0 4rem;}
+.section-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;color:var(--primary);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;}
+.section-label::before{content:'';display:block;width:30px;height:1px;background:var(--primary);}
+.section-title{font-family:'Noto Serif JP',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.3;margin-bottom:1.5rem;letter-spacing:-0.01em;}
+
+.problem{padding:8rem 0;border-top:1px solid var(--border);}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;margin-top:4rem;}
+.problem-text p{color:var(--muted);line-height:2.1;margin-bottom:1.5rem;font-size:1rem;}
+.problem-text p strong{color:var(--text);font-weight:500;}
+.problem-visual{display:flex;flex-direction:column;gap:1.5rem;}
+.problem-quote{background:rgba(8,80,65,0.3);border:1px solid var(--border);border-left:3px solid var(--primary);padding:2rem;border-radius:4px;}
+.problem-quote p{font-family:'Noto Serif JP',serif;font-size:1.05rem;line-height:1.9;color:var(--text);}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.stat-box{background:rgba(8,80,65,0.25);border:1px solid var(--border);padding:1.5rem;text-align:center;border-radius:8px;}
+.stat-num{font-family:'DM Serif Display',serif;font-size:2.8rem;color:var(--gold);display:block;line-height:1;margin-bottom:0.5rem;}
+.stat-label{font-size:0.75rem;color:var(--muted);line-height:1.6;}
+.stat-source{font-size:0.62rem;color:rgba(245,240,232,0.3);margin-top:0.75rem;font-family:'Space Mono',monospace;letter-spacing:0.04em;}
+
+.manifesto{padding:8rem 0;border-top:1px solid var(--border);background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(8,80,65,0.25) 0%,transparent 70%);}
+.manifesto-inner{max-width:800px;margin:0 auto;padding:0 4rem;text-align:center;}
+.manifesto-text{font-family:'Noto Serif JP',serif;font-size:clamp(1.5rem,3vw,2.4rem);font-weight:600;line-height:1.8;}
+.manifesto-text .hl{color:var(--gold);}
+.manifesto-text .em{color:var(--primary);}
+.manifesto-sub{margin-top:3rem;font-size:1rem;color:var(--muted);line-height:2;max-width:600px;margin-left:auto;margin-right:auto;}
+
+.features{padding:8rem 0;border-top:1px solid var(--border);}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:4rem;}
+.feature-card{background:var(--deep);padding:2.5rem;transition:background 0.3s;}
+.feature-card:hover{background:rgba(8,80,65,0.35);}
+.feature-num{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;color:var(--primary);margin-bottom:1.5rem;}
+.feature-illust{width:64px;height:64px;margin-bottom:1.5rem;}
+.feature-title{font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:600;margin-bottom:0.75rem;line-height:1.5;}
+.feature-desc{font-size:0.88rem;color:var(--muted);line-height:1.9;}
+.feature-badge{display:inline-block;margin-top:1rem;background:rgba(200,169,110,0.12);border:1px solid rgba(200,169,110,0.3);color:var(--accent);font-size:0.7rem;padding:0.25rem 0.75rem;border-radius:100px;font-family:'Space Mono',monospace;letter-spacing:0.08em;}
+
+.how{padding:8rem 0;border-top:1px solid var(--border);}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:5rem;position:relative;}
+.steps::before{content:'';position:absolute;top:2rem;left:calc(12.5% + 1.5rem);right:calc(12.5% + 1.5rem);height:1px;background:linear-gradient(to right,transparent,var(--primary),var(--primary),transparent);opacity:0.25;}
+.step{padding:0 1.5rem;text-align:center;}
+.step-num{width:4rem;height:4rem;background:var(--forest);border:1px solid rgba(29,158,117,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:0.85rem;font-weight:700;color:var(--primary);margin:0 auto 2rem;position:relative;z-index:1;}
+.step-title{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;margin-bottom:0.75rem;}
+.step-desc{font-size:0.82rem;color:var(--muted);line-height:1.9;}
+
+.target{padding:8rem 0;border-top:1px solid var(--border);}
+.target-intro{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:4rem;}
+.target-photo-wrap{position:relative;border-radius:16px;overflow:hidden;height:480px;}
+.target-photo-wrap img{width:100%;height:100%;object-fit:cover;display:block;opacity:0.85;}
+.target-photo-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(4,32,26,0.85) 0%,transparent 55%);}
+.target-photo-caption{position:absolute;bottom:1.5rem;left:1.5rem;right:1.5rem;z-index:1;font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:600;line-height:1.7;}
+.target-cards{display:flex;flex-direction:column;gap:1rem;}
+.target-card{background:rgba(8,80,65,0.2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:all 0.3s;}
+.target-card:hover{background:rgba(8,80,65,0.4);border-color:rgba(29,158,117,0.4);}
+.target-tag{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.15em;color:var(--primary);text-transform:uppercase;margin-bottom:0.6rem;}
+.target-title{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;margin-bottom:0.4rem;}
+.target-desc{font-size:0.83rem;color:var(--muted);line-height:1.8;}
+.target-corp{margin-top:3rem;background:linear-gradient(135deg,rgba(8,80,65,0.45),rgba(4,32,26,0.7));border:1px solid rgba(29,158,117,0.3);border-radius:16px;padding:3rem;display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center;}
+.target-corp-badge{background:var(--primary);color:white;font-size:0.7rem;font-family:'Space Mono',monospace;padding:0.3rem 0.8rem;border-radius:100px;display:inline-block;margin-bottom:1rem;letter-spacing:0.1em;}
+.target-corp-title{font-family:'Noto Serif JP',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.75rem;}
+.target-corp-desc{font-size:0.88rem;color:var(--muted);line-height:2;}
+.target-corp-cta{display:inline-flex;align-items:center;gap:0.5rem;background:var(--primary);color:white;padding:0.9rem 2rem;border-radius:100px;font-size:0.88rem;font-weight:500;text-decoration:none;white-space:nowrap;transition:all 0.25s;}
+.target-corp-cta:hover{background:#24b885;transform:translateY(-2px);}
+
+.effect{padding:8rem 0;border-top:1px solid var(--border);}
+.effect-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:4rem;}
+.effect-list{list-style:none;display:flex;flex-direction:column;gap:1.5rem;}
+.effect-item{display:flex;gap:1.5rem;align-items:flex-start;}
+.effect-icon{width:44px;height:44px;min-width:44px;}
+.effect-item-text h4{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;margin-bottom:0.3rem;}
+.effect-item-text p{font-size:0.85rem;color:var(--muted);line-height:1.8;}
+.effect-note{background:rgba(8,80,65,0.3);border:1px solid var(--border);border-radius:12px;padding:2.5rem;}
+.effect-note-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:600;margin-bottom:1.5rem;color:var(--gold);}
+.effect-note p{font-size:0.88rem;color:var(--muted);line-height:2;margin-bottom:1rem;}
+
+.pricing{padding:8rem 0;border-top:1px solid var(--border);}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:4rem;max-width:760px;}
+.pricing-card{border:1px solid var(--border);border-radius:16px;padding:2.5rem;background:rgba(8,80,65,0.15);position:relative;overflow:hidden;}
+.pricing-card.featured{background:rgba(8,80,65,0.45);border-color:rgba(29,158,117,0.5);}
+.pricing-card.featured::before{content:'おすすめ';position:absolute;top:1.5rem;right:1.5rem;background:var(--primary);color:white;font-size:0.7rem;font-family:'Noto Sans JP',sans-serif;font-weight:500;padding:0.25rem 0.9rem;border-radius:100px;letter-spacing:0.05em;}
+.pricing-plan{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-bottom:1.5rem;}
+.pricing-price{font-family:'DM Serif Display',serif;font-size:3rem;line-height:1;margin-bottom:0.3rem;}
+.pricing-period{font-size:0.8rem;color:var(--muted);margin-bottom:2rem;}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2rem;}
+.pricing-features li{font-size:0.85rem;color:var(--muted);display:flex;align-items:flex-start;gap:0.75rem;line-height:1.7;}
+.pricing-features li::before{content:'→';color:var(--primary);font-family:'Space Mono',monospace;font-size:0.75rem;flex-shrink:0;margin-top:0.15rem;}
+.pricing-features li.on{color:var(--text);}
+.pricing-btn{display:block;text-align:center;padding:0.9rem;border-radius:100px;font-size:0.9rem;font-weight:500;text-decoration:none;transition:all 0.25s;border:1px solid var(--border);color:var(--muted);}
+.pricing-btn.featured-btn{background:var(--primary);border-color:var(--primary);color:white;}
+.pricing-btn:hover{transform:translateY(-1px);}
+.pricing-btn.featured-btn:hover{background:#24b885;box-shadow:0 8px 30px rgba(29,158,117,0.3);}
+
+.faq{padding:8rem 0;border-top:1px solid var(--border);}
+.faq-list{margin-top:4rem;max-width:760px;}
+.faq-item{border-bottom:1px solid var(--border);padding:2rem 0;}
+.faq-q{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;margin-bottom:1rem;line-height:1.6;}
+.faq-a{font-size:0.88rem;color:var(--muted);line-height:2;}
+
+.cta-section{padding:10rem 0;border-top:1px solid var(--border);text-align:center;position:relative;overflow:hidden;}
+.cta-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1400&auto=format&fit=crop&q=80') center/cover no-repeat;opacity:0.08;}
+.cta-overlay{position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 100%,rgba(8,80,65,0.6) 0%,rgba(4,32,26,0.9) 60%);}
+.cta-content{position:relative;z-index:1;}
+.cta-section .section-label{justify-content:center;}
+.cta-section .section-label::before{display:none;}
+.cta-title{font-family:'Noto Serif JP',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:700;line-height:1.3;margin-bottom:1.5rem;max-width:700px;margin-left:auto;margin-right:auto;}
+.cta-sub{font-size:1rem;color:var(--muted);max-width:500px;margin:0 auto 3rem;line-height:2;}
+.cta-stores{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;}
+.cta-note{font-size:0.78rem;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:0.05em;}
+
+footer{border-top:1px solid var(--border);padding:3rem 4rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:var(--muted);gap:2rem;flex-wrap:wrap;}
+footer a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
+footer a:hover{color:var(--text);}
+.footer-links{display:flex;gap:2rem;flex-wrap:wrap;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.hero-eyebrow{animation:fadeUp 0.8s ease both;}
+.hero-title{animation:fadeUp 0.8s 0.15s ease both;}
+.hero-subtitle{animation:fadeUp 0.8s 0.3s ease both;}
+.store-row{animation:fadeUp 0.8s 0.45s ease both;}
+
+@media(max-width:900px){
+  nav{padding:1.25rem 1.5rem;}
+  .hero{padding:7rem 1.5rem 4rem;}
+  .section-inner{padding:0 1.5rem;}
+  .problem-grid,.target-intro,.effect-grid{grid-template-columns:1fr;}
+  .features-grid{grid-template-columns:1fr;}
+  .steps{grid-template-columns:1fr 1fr;gap:3rem;}
+  .steps::before{display:none;}
+  .target-photo-wrap{height:300px;}
+  .target-corp{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  footer{flex-direction:column;align-items:flex-start;padding:2rem 1.5rem;}
+  .manifesto-inner{padding:0 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPgogIDxyZWN0IHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiIHJ4PSIyMzAiIGZpbGw9IiMwODUwNDEiLz4KICA8dGV4dCB4PSI1MTIiIHk9IjMxMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAwIiBmb250LXdlaWdodD0iMzAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjE4Ij5USElOSzwvdGV4dD4KICA8dGV4dCB4PSI1MTIiIHk9IjYyMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QUnmnKzos6o8L3RleHQ+CiAgPHJlY3QgeD0iMTk2IiB5PSI3MTAiIHdpZHRoPSI2MzIiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzFEOUU3NSIvPgo8L3N2Zz4=" alt="AI本質力" style="width:44px;height:44px;border-radius:14px;display:block;flex-shrink:0;">
+    <span class="nav-logo-name">AI本質力トレーニング</span>
+  </a>
+  <a href="#download" class="nav-cta">無料で試す</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">AI HONSHITSU TRAINING</p>
+    <h1 class="hero-title">答えより、<br><em>本質を。</em></h1>
+    <p class="hero-subtitle">AIがすべての答えを出す時代になった。<br>だからこそ、人間に問われるのは<strong>「本質を見抜く力」</strong>だ。<br>毎日5分。ビジネスニュースで思考力を鍛える。</p>
+    <div class="store-row">
+      <a href="#" class="store-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        <div class="store-btn-text"><small>App Store</small><span>iOS版 ダウンロード</span></div>
+      </a>
+      <span class="store-btn" style="opacity:0.5;cursor:default;">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.22.99.14l12.12-6.99-2.54-2.54-10.57 9.39zm-1.8-20.3c-.1.26-.15.55-.15.86v19.36c0 .31.05.6.15.86l.1.09 10.84-10.84v-.24L1.47 3.37l-.09.09zm18.52 9.73l-2.46-1.42-2.77 2.77 2.77 2.77 2.49-1.44c.71-.41.71-1.08-.03-1.68zM4.17.24L16.29 7.23l-2.54 2.54L3.18.38C3.52.3 3.88.35 4.17.54v-.3z"/></svg>
+        <div class="store-btn-text"><small>Google Play</small><span>Android版 近日リリース</span></div>
+      </span>
+    </div>
+  </div>
+</section>
+
+<section class="problem" id="problem">
+  <div class="section-inner">
+    <p class="section-label">THE PROBLEM</p>
+    <h2 class="section-title">AIが思考を<br>奪っている。</h2>
+    <div class="problem-grid">
+      <div class="problem-text">
+        <p>「ChatGPTに聞けばいい」——その一言が、若手ビジネスパーソンの思考回路を静かに蝕んでいる。答えは即座に得られる。だが<strong>なぜその答えなのか、その背景に何があるのか</strong>を理解しないまま、業務が進んでいく。</p>
+        <p>新入社員がAIの出力をそのままコピーし、<strong>中身を理解せずにプレゼンする</strong>光景は、いまや珍しくない。企業のAI利用ガイドラインが整備されはじめた背景には、こうした「思考の空洞化」への危機感がある。</p>
+        <p><strong>知識とは、答えを知ることではない。本質が見えてはじめて、知識になる。</strong>そしてその本質が見える人間こそが、AIを武器として使いこなせる。</p>
+      </div>
+      <div class="problem-visual">
+        <div class="problem-quote">
+          <p>「生成AIの活用に向けた課題として、企業の<strong style="color:var(--text);font-weight:500;">70.3%</strong>が『リテラシー・スキル不足』を挙げた。AIを導入しても、使いこなせる人材がいない」</p>
+        </div>
+        <div class="stat-row">
+          <div class="stat-box">
+            <span class="stat-num">57.7%</span>
+            <p class="stat-label">企業が生成AIを<br>「導入済み」と回答</p>
+            <p class="stat-source">野村総合研究所<br>IT活用実態調査2025</p>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">70.3%</span>
+            <p class="stat-label">「リテラシー・<br>スキル不足」が課題</p>
+            <p class="stat-source">野村総合研究所<br>IT活用実態調査2025</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="manifesto">
+  <div class="manifesto-inner">
+    <p class="section-label" style="justify-content:center;">MANIFESTO</p>
+    <p class="manifesto-text">今こそ、人間の<span class="hl">「本質」</span>を見せる時。<br>AIが便利になるほど、<span class="em">思考する人間</span>の価値は高まる。<br>本質が見えれば、AIはより強力な武器になる。</p>
+    <p class="manifesto-sub">AI本質力トレーニングは、毎日のビジネスニュースを題材に、あなたの業界・職種にパーソナライズされた「問い」と向き合うことで、思考の筋肉を鍛えるアプリです。</p>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="section-inner">
+    <p class="section-label">FEATURES</p>
+    <h2 class="section-title">思考を鍛える、<br>3つの柱。</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <p class="feature-num">01</p>
+        <svg class="feature-illust" viewBox="0 0 64 64" fill="none">
+          <rect width="64" height="64" rx="14" fill="rgba(29,158,117,0.12)"/>
+          <rect x="12" y="15" width="40" height="5" rx="2.5" fill="rgba(29,158,117,0.65)"/>
+          <rect x="12" y="24" width="32" height="3" rx="1.5" fill="rgba(29,158,117,0.35)"/>
+          <rect x="12" y="31" width="36" height="3" rx="1.5" fill="rgba(29,158,117,0.3)"/>
+          <rect x="12" y="38" width="24" height="3" rx="1.5" fill="rgba(29,158,117,0.25)"/>
+          <circle cx="48" cy="48" r="9" fill="rgba(29,158,117,0.85)"/>
+          <path d="M44 48l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3 class="feature-title">パーソナライズされた<br>毎日のニュース</h3>
+        <p class="feature-desc">あなたの業界・職種・経験をAIが解析。関係のないニュースではなく、あなたの仕事に直結する最新情報を毎日届ける。</p>
+        <span class="feature-badge">毎日更新</span>
+      </div>
+      <div class="feature-card">
+        <p class="feature-num">02</p>
+        <svg class="feature-illust" viewBox="0 0 64 64" fill="none">
+          <rect width="64" height="64" rx="14" fill="rgba(29,158,117,0.12)"/>
+          <circle cx="32" cy="26" r="13" stroke="rgba(29,158,117,0.6)" stroke-width="1.5"/>
+          <path d="M25 26c0-3.87 3.13-7 7-7" stroke="rgba(29,158,117,0.9)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="32" cy="26" r="3.5" fill="rgba(29,158,117,0.85)"/>
+          <path d="M27 45h10M29 41l-2 4M35 41l2 4" stroke="rgba(29,158,117,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="20" cy="17" r="2" fill="rgba(232,200,122,0.55)"/>
+          <circle cx="44" cy="17" r="2" fill="rgba(232,200,122,0.55)"/>
+          <circle cx="15" cy="30" r="2" fill="rgba(232,200,122,0.4)"/>
+          <circle cx="49" cy="30" r="2" fill="rgba(232,200,122,0.4)"/>
+        </svg>
+        <h3 class="feature-title">本質を問う<br>AIフィードバック</h3>
+        <p class="feature-desc">ニュースに対して「あなたの考え」を書く。AIが背景・因果関係・構造的視点の4軸で採点し、見落とした本質を教える。</p>
+        <span class="feature-badge">即時採点</span>
+      </div>
+      <div class="feature-card">
+        <p class="feature-num">03</p>
+        <svg class="feature-illust" viewBox="0 0 64 64" fill="none">
+          <rect width="64" height="64" rx="14" fill="rgba(29,158,117,0.12)"/>
+          <rect x="10" y="44" width="9" height="11" rx="2" fill="rgba(29,158,117,0.35)"/>
+          <rect x="23" y="36" width="9" height="19" rx="2" fill="rgba(29,158,117,0.55)"/>
+          <rect x="36" y="27" width="9" height="28" rx="2" fill="rgba(29,158,117,0.75)"/>
+          <rect x="49" y="17" width="9" height="38" rx="2" fill="rgba(29,158,117,0.9)"/>
+          <path d="M13 40l13-9 13-8 13-13" stroke="rgba(232,200,122,0.85)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="13" cy="40" r="2.5" fill="var(--gold)"/>
+          <circle cx="26" cy="31" r="2.5" fill="var(--gold)"/>
+          <circle cx="39" cy="23" r="2.5" fill="var(--gold)"/>
+          <circle cx="52" cy="10" r="2.5" fill="var(--gold)"/>
+        </svg>
+        <h3 class="feature-title">本質力スコアで<br>成長を可視化</h3>
+        <p class="feature-desc">継続するほど上がる「本質力スコア」。背景理解・因果関係・構造的思考・多角的視点の4軸で、弱点と成長が一目でわかる。</p>
+        <span class="feature-badge">週次レポート</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="section-inner">
+    <p class="section-label">HOW IT WORKS</p>
+    <h2 class="section-title">毎日5分から<br>始められる。</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><h3 class="step-title">プロフィール設定</h3><p class="step-desc">業界・職種・経験を入力。AIがあなた専用のトレーニングを設計する。</p></div>
+      <div class="step"><div class="step-num">02</div><h3 class="step-title">ニュースを読む</h3><p class="step-desc">3行要約・1分解説・一次ソースの3層でニュースを深く理解する。</p></div>
+      <div class="step"><div class="step-num">03</div><h3 class="step-title">考えを書く</h3><p class="step-desc">「このニュースの本質は何か」という問いに、自分の言葉で答える。</p></div>
+      <div class="step"><div class="step-num">04</div><h3 class="step-title">本質を学ぶ</h3><p class="step-desc">AIが採点・フィードバック。見落とした視点と本質的な洞察を得る。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="target" id="target">
+  <div class="section-inner">
+    <p class="section-label">WHO IS THIS FOR</p>
+    <h2 class="section-title">こんな方に、<br>こんな企業に。</h2>
+    <div class="target-intro">
+      <div class="target-photo-wrap">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&auto=format&fit=crop&q=80" alt="ビジネスパーソン">
+        <p class="target-photo-caption">思考する力が、<br>あなたの最大の武器になる。</p>
+      </div>
+      <div class="target-cards">
+        <div class="target-card">
+          <p class="target-tag">INDIVIDUAL</p>
+          <h3 class="target-title">思考の質を上げたいビジネスパーソン</h3>
+          <p class="target-desc">日々の業務に追われ、深く考える時間が取れない。でもこのままじゃいけないと感じている方。</p>
+        </div>
+        <div class="target-card">
+          <p class="target-tag">CAREER</p>
+          <h3 class="target-title">昇進・転職を目指すミドル層</h3>
+          <p class="target-desc">技術だけでなく「視座」「戦略思考」「業界感」が求められるポジションを目指す方。</p>
+        </div>
+        <div class="target-card">
+          <p class="target-tag">YOUNG PROFESSIONAL</p>
+          <h3 class="target-title">AIに頼りすぎず成長したい若手</h3>
+          <p class="target-desc">AIツールは使いこなしたい。でも自分自身の思考力も鍛えたい。そのバランスを求める方。</p>
+        </div>
+      </div>
+    </div>
+    <div class="target-corp">
+      <div>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+          <span class="target-corp-badge" style="margin-bottom:0;">CORPORATE</span>
+          <span style="background:rgba(232,200,122,0.15);border:1px solid rgba(232,200,122,0.4);color:var(--gold);font-size:0.65rem;font-family:'Space Mono',monospace;padding:0.25rem 0.75rem;border-radius:100px;letter-spacing:0.1em;">COMING SOON</span>
+        </div>
+        <h3 class="target-corp-title">法人プラン、<br>近日リリース予定。</h3>
+        <p class="target-corp-desc">新入社員研修・若手育成プログラム・管理職のビジネス感度向上に。チームメンバーのスコア推移や業界別傾向を一括管理できる法人向けダッシュボードを準備中です。お問い合わせはこちらから。</p>
+        <div style="display:flex;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap;">
+          <div style="font-size:0.82rem;color:var(--muted);display:flex;flex-direction:column;gap:0.25rem;">
+            <span style="color:var(--text);font-weight:500;font-family:'Noto Serif JP',serif;">予定機能</span>
+            <span>チームメンバー一括管理</span>
+            <span>スコア・進捗ダッシュボード</span>
+            <span>請求書払い対応</span>
+          </div>
+        </div>
+      </div>
+      <a href="/honshitsu/contact" class="target-corp-cta">お問い合わせはこちら →</a>
+    </div>
+  </div>
+</section>
+
+<section class="effect">
+  <div class="section-inner">
+    <p class="section-label">EXPECTED EFFECTS</p>
+    <h2 class="section-title">鍛えられる、<br>4つの思考力。</h2>
+    <div class="effect-grid">
+      <ul class="effect-list">
+        <li class="effect-item">
+          <svg class="effect-icon" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="10" fill="rgba(29,158,117,0.15)"/><circle cx="22" cy="22" r="8" stroke="rgba(29,158,117,0.7)" stroke-width="1.5"/><path d="M22 14v-3M22 33v-3M14 22h-3M33 22h-3" stroke="rgba(29,158,117,0.5)" stroke-width="1.5" stroke-linecap="round"/><circle cx="22" cy="22" r="3" fill="rgba(29,158,117,0.8)"/></svg>
+          <div class="effect-item-text"><h4>背景理解力</h4><p>ニュースの表面だけでなく、背景にある市場構造・業界動向・歴史的文脈を読む力。</p></div>
+        </li>
+        <li class="effect-item">
+          <svg class="effect-icon" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="10" fill="rgba(29,158,117,0.15)"/><circle cx="13" cy="22" r="4" stroke="rgba(29,158,117,0.7)" stroke-width="1.5"/><circle cx="31" cy="22" r="4" stroke="rgba(29,158,117,0.7)" stroke-width="1.5"/><path d="M17 22h10" stroke="rgba(29,158,117,0.8)" stroke-width="1.5" stroke-linecap="round"/><path d="M24 19l4 3-4 3" stroke="rgba(232,200,122,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="effect-item-text"><h4>因果関係把握力</h4><p>「なぜそうなったのか」「次に何が起きるか」という因果の連鎖を追う思考力。</p></div>
+        </li>
+        <li class="effect-item">
+          <svg class="effect-icon" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="10" fill="rgba(29,158,117,0.15)"/><rect x="11" y="11" width="22" height="15" rx="2" stroke="rgba(29,158,117,0.7)" stroke-width="1.5"/><rect x="15" y="26" width="14" height="8" rx="1.5" stroke="rgba(29,158,117,0.5)" stroke-width="1.5"/><line x1="22" y1="11" x2="22" y2="34" stroke="rgba(29,158,117,0.3)" stroke-width="1" stroke-dasharray="2 2"/><line x1="11" y1="18" x2="33" y2="18" stroke="rgba(29,158,117,0.3)" stroke-width="1" stroke-dasharray="2 2"/></svg>
+          <div class="effect-item-text"><h4>構造的思考力</h4><p>物事を体系的に整理し、本質的な要因を抽出して論理的に説明する力。</p></div>
+        </li>
+        <li class="effect-item">
+          <svg class="effect-icon" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="10" fill="rgba(29,158,117,0.15)"/><circle cx="22" cy="22" r="11" stroke="rgba(29,158,117,0.4)" stroke-width="1.5"/><ellipse cx="22" cy="22" rx="5.5" ry="11" stroke="rgba(29,158,117,0.65)" stroke-width="1.5"/><line x1="11" y1="22" x2="33" y2="22" stroke="rgba(29,158,117,0.5)" stroke-width="1.5" stroke-linecap="round"/><line x1="12.5" y1="17" x2="31.5" y2="17" stroke="rgba(29,158,117,0.3)" stroke-width="1" stroke-linecap="round"/><line x1="12.5" y1="27" x2="31.5" y2="27" stroke="rgba(29,158,117,0.3)" stroke-width="1" stroke-linecap="round"/></svg>
+          <div class="effect-item-text"><h4>多角的視点</h4><p>自社・競合・市場・社会の複数視点から物事を捉え、偏りのない判断をする力。</p></div>
+        </li>
+      </ul>
+      <div class="effect-note">
+        <p class="effect-note-title">期待される行動変容</p>
+        <p>毎日の積み重ねにより、ニュースや課題に直面した時に「なぜ？」「本質は？」と問いかける習慣が形成されます。</p>
+        <p>AIツールを使う際も、生成された回答の根拠を自分で検証し、より深い問いを立てられるようになります。</p>
+        <p>競合ウォッチ機能で、業界の動向を自分の仕事に紐づけて考える視点が養われます。</p>
+        <p style="color:var(--text);font-size:0.8rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);">※ 効果は個人の取り組み方・継続度によって異なります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="section-inner">
+    <p class="section-label">PRICING</p>
+    <h2 class="section-title">まず7問、<br>無料で体験を。</h2>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <p class="pricing-plan">FREE</p>
+        <p class="pricing-price">¥0</p>
+        <p class="pricing-period">まず試してみる</p>
+        <ul class="pricing-features">
+          <li class="on">累計7問まで無料で体験</li>
+          <li class="on">AIフィードバック</li>
+          <li class="on">本質力スコア</li>
+          <li>ニュース更新（1日1回）</li>
+          <li>競合ウォッチ</li>
+          <li>週次AIコーチングレポート</li>
+        </ul>
+        <a href="#download" class="pricing-btn">無料でダウンロード</a>
+      </div>
+      <div class="pricing-card featured">
+        <p class="pricing-plan">PRO</p>
+        <p class="pricing-price">¥3,480</p>
+        <p class="pricing-period">/ 月（税込）いつでも解約可</p>
+        <ul class="pricing-features">
+          <li class="on">毎日3問・無制限に継続</li>
+          <li class="on">AIフィードバック</li>
+          <li class="on">本質力スコア</li>
+          <li class="on">ニュース更新（1日3回）</li>
+          <li class="on">競合企業の動き自動検知</li>
+          <li class="on">週次AIコーチングレポート</li>
+        </ul>
+        <a href="#download" class="pricing-btn featured-btn">プロプランで始める →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="section-inner">
+    <p class="section-label">FAQ</p>
+    <h2 class="section-title">よくある質問</h2>
+    <div class="faq-list">
+      <div class="faq-item"><p class="faq-q">毎日どれくらいの時間が必要ですか？</p><p class="faq-a">1問あたり5〜10分が目安です。ニュースを読み、自分の考えを書き、フィードバックを受けるサイクルで、1日15〜30分から始められます。</p></div>
+      <div class="faq-item"><p class="faq-q">どんな業界・職種に対応していますか？</p><p class="faq-a">オンボーディング時に入力した業界・職種・経験レベルをAIが解析し、あなたに最適なニュースと問いを生成します。製造業・SaaS・金融・コンサルなど幅広い業界に対応しています。</p></div>
+      <div class="faq-item"><p class="faq-q">AIのフィードバックはどのような基準で採点されますか？</p><p class="faq-a">「背景理解力」「因果関係把握力」「構造的思考力」「多角的視点」の4軸で0〜100点で採点されます。単に正解を当てるのではなく、思考の深さと視点の多様性を評価します。</p></div>
+      <div class="faq-item"><p class="faq-q">解約はいつでもできますか？</p><p class="faq-a">はい、Stripeカスタマーポータルからいつでも解約できます。解約後は当月末まで利用可能です。</p></div>
+      <div class="faq-item"><p class="faq-q">法人での利用は可能ですか？</p><p class="faq-a">法人でのご利用についてはお問い合わせください。チーム単位での導入や研修への組み込みについてご相談を承ります。info@gn-kamakura.com までご連絡ください。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="download">
+  <div class="cta-bg"></div>
+  <div class="cta-overlay"></div>
+  <div class="section-inner cta-content">
+    <p class="section-label">GET STARTED</p>
+    <h2 class="cta-title">思考の筋肉を、<br>今日から鍛え始める。</h2>
+    <p class="cta-sub">まず7問、無料で体験してください。<br>本質が見えるようになる感覚を、自分で確かめてほしい。</p>
+    <div class="cta-stores">
+      <a href="#" class="store-btn" style="border-color:rgba(245,240,232,0.35);">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        <div class="store-btn-text"><small>App Store</small><span>iOS版 ダウンロード</span></div>
+      </a>
+      <span class="store-btn" style="border-color:rgba(245,240,232,0.15);opacity:0.5;cursor:default;">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><path d="M3.18 23.76c.3.17.64.22.99.14l12.12-6.99-2.54-2.54-10.57 9.39zm-1.8-20.3c-.1.26-.15.55-.15.86v19.36c0 .31.05.6.15.86l.1.09 10.84-10.84v-.24L1.47 3.37l-.09.09zm18.52 9.73l-2.46-1.42-2.77 2.77 2.77 2.77 2.49-1.44c.71-.41.71-1.08-.03-1.68zM4.17.24L16.29 7.23l-2.54 2.54L3.18.38C3.52.3 3.88.35 4.17.54v-.3z"/></svg>
+        <div class="store-btn-text"><small>Google Play</small><span>Android版 近日リリース</span></div>
+      </span>
+    </div>
+    <p class="cta-note">無料体験7問 · プロプラン ¥3,480/月 · いつでも解約可能</p>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <p style="font-family:'Noto Serif JP',serif;font-weight:600;margin-bottom:0.5rem;">AI本質力トレーニング</p>
+    <p>© 2026 グッドネイバーカマクラ合同会社</p>
+  </div>
+  <div class="footer-links">
+    <a href="/honshitsu/terms">利用規約</a>
+    <a href="/honshitsu/privacy">プライバシーポリシー</a>
+    <a href="/honshitsu/tokusho">特定商取引法</a>
+    <a href="mailto:info@gn-kamakura.com">お問い合わせ</a>
+    <a href="https://www.gn-kamakura.com">Good Neighbor Kamakura</a>
+  </div>
+</footer>
+
+</body>
+</html>
