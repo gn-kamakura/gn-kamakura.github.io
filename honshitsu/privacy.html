@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>プライバシーポリシー — AI本質力トレーニング</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"><style>
 :root{--deep:#04201A;--forest:#085041;--primary:#1D9E75;--gold:#E8C87A;--text:#F5F0E8;--muted:rgba(245,240,232,0.55);--border:rgba(200,169,110,0.2);}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--deep);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;min-height:100vh;}
@@ -21,22 +18,42 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display
 .page-title{font-family:'Noto Serif JP',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;line-height:1.3;margin-bottom:1rem;}
 .page-desc{font-size:0.95rem;color:var(--muted);line-height:2;margin-bottom:2rem;max-width:560px;}
 .updated{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--muted);margin-bottom:3rem;letter-spacing:0.05em;}
-.content-card{background:rgba(8,80,65,0.2);border:1px solid var(--border);border-radius:16px;padding:2.5rem;margin-bottom:1.5rem;}
-.section-title{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;color:var(--gold);margin-bottom:1.25rem;}
-.content-text{font-size:0.88rem;color:var(--muted);line-height:2;}
-.content-text p{margin-bottom:0.75rem;}
-.content-text p:last-child{margin-bottom:0;}
-.content-text ul{padding-left:1.4em;margin-top:0.5rem;}
-.content-text ul li{margin-bottom:0.4rem;}
-.content-text strong{color:var(--text);font-weight:500;}
-.content-text a{color:var(--primary);text-decoration:none;}
-.contact-box{background:rgba(4,32,26,0.6);border:1px solid rgba(200,169,110,0.25);border-radius:8px;padding:1.5rem;margin-top:1rem;font-size:0.88rem;color:var(--muted);line-height:2;}
-.contact-box strong{color:var(--text);display:block;margin-bottom:0.5rem;}
-@media(max-width:640px){nav{padding:1.25rem 1.5rem;}.page{padding:7rem 1.5rem 4rem;}.content-card{padding:1.5rem;}}
+.card{background:rgba(8,80,65,0.2);border:1px solid var(--border);border-radius:16px;padding:2.5rem;margin-bottom:1.5rem;}
+.card-title{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;color:var(--gold);margin-bottom:1.25rem;}
+.text{font-size:0.88rem;color:var(--muted);line-height:2;}
+.text p{margin-bottom:0.75rem;}.text p:last-child{margin-bottom:0;}
+.text ul{padding-left:1.4em;margin-top:0.5rem;}.text ul li{margin-bottom:0.4rem;}
+.text a{color:var(--primary);text-decoration:none;}
+.text table{width:100%;border-collapse:collapse;margin-top:0.5rem;}
+.text table th,.text table td{padding:0.75rem 1rem;border:1px solid var(--border);font-size:0.82rem;text-align:left;vertical-align:top;}
+.text table th{color:var(--text);font-weight:500;background:rgba(8,80,65,0.3);}
+.infobox{background:rgba(4,32,26,0.6);border:1px solid rgba(200,169,110,0.25);border-radius:8px;padding:1.5rem;margin-top:1rem;font-size:0.88rem;color:var(--muted);line-height:2;}
+.infobox strong{color:var(--text);display:block;margin-bottom:0.5rem;}
+.form-group{margin-bottom:1.75rem;}
+.form-label{display:block;font-size:0.85rem;font-weight:500;color:var(--text);margin-bottom:0.6rem;}
+.form-label span{color:var(--primary);margin-left:0.25rem;font-size:0.75rem;}
+.form-label .opt{color:var(--muted);margin-left:0.25rem;font-size:0.75rem;}
+.form-input,.form-select,.form-textarea{width:100%;background:rgba(4,32,26,0.6);border:1px solid rgba(200,169,110,0.25);border-radius:8px;padding:0.85rem 1rem;font-size:0.9rem;color:var(--text);font-family:'Noto Sans JP',sans-serif;transition:border-color 0.2s;outline:none;}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(245,240,232,0.25);}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(29,158,117,0.6);background:rgba(8,80,65,0.3);}
+.form-select{appearance:none;cursor:pointer;}.form-select option{background:#04201A;color:var(--text);}
+.form-textarea{min-height:160px;resize:vertical;line-height:1.8;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+.form-divider{border:none;border-top:1px solid var(--border);margin:2rem 0;}
+.form-section-title{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;color:var(--gold);margin-bottom:1.5rem;}
+.submit-btn{width:100%;background:var(--primary);color:white;border:none;padding:1.1rem;border-radius:100px;font-size:1rem;font-weight:500;cursor:pointer;font-family:'Noto Sans JP',sans-serif;letter-spacing:0.02em;transition:all 0.25s;margin-top:0.5rem;}
+.submit-btn:hover{background:#24b885;transform:translateY(-1px);box-shadow:0 8px 30px rgba(29,158,117,0.3);}
+.submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.privacy-note{font-size:0.75rem;color:var(--muted);text-align:center;margin-top:1rem;line-height:1.8;}
+.privacy-note a{color:var(--primary);text-decoration:none;}
+.success-msg{display:none;background:rgba(29,158,117,0.15);border:1px solid rgba(29,158,117,0.4);border-radius:12px;padding:2rem;text-align:center;margin-top:2rem;}
+.success-msg.show{display:block;}
+.success-msg h3{font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:600;margin-bottom:0.75rem;color:var(--primary);}
+.success-msg p{font-size:0.88rem;color:var(--muted);line-height:2;}
+@media(max-width:640px){nav{padding:1.25rem 1.5rem;}.page{padding:7rem 1.5rem 4rem;}.card{padding:1.5rem;}.form-row{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
-
 <nav>
   <a href="/honshitsu/" class="nav-logo">
     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPgogIDxyZWN0IHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiIHJ4PSIyMzAiIGZpbGw9IiMwODUwNDEiLz4KICA8dGV4dCB4PSI1MTIiIHk9IjMxMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAwIiBmb250LXdlaWdodD0iMzAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjE4Ij5USElOSzwvdGV4dD4KICA8dGV4dCB4PSI1MTIiIHk9IjYyMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QUnmnKzos6o8L3RleHQ+CiAgPHJlY3QgeD0iMTk2IiB5PSI3MTAiIHdpZHRoPSI2MzIiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzFEOUU3NSIvPgo8L3N2Zz4=" alt="AI本質力" style="width:44px;height:44px;border-radius:14px;display:block;flex-shrink:0;">
@@ -44,104 +61,158 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display
   </a>
   <a href="/honshitsu/" class="nav-back">← LPに戻る</a>
 </nav>
-
 <div class="page">
   <p class="page-label">PRIVACY POLICY</p>
   <h1 class="page-title">プライバシーポリシー</h1>
-  <p class="page-desc">グッドネイバーカマクラ合同会社（以下「当社」）は、「AI本質力トレーニング」（以下「本アプリ」）におけるユーザーの個人情報の取扱いについて、以下のとおりプライバシーポリシーを定めます。</p>
+  <p class="page-desc">グッドネイバーカマクラ合同会社（以下「当社」）は、「AI本質力トレーニング」（以下「本アプリ」）において、ユーザーの個人情報を適切に保護・管理するため、以下のとおりプライバシーポリシーを定めます。本アプリをご利用いただくことで、本ポリシーに同意したものとみなします。</p>
   <p class="updated">最終更新日：2026年5月21日</p>
 
-  <div class="content-card">
-    <p class="section-title">1. 収集する情報</p>
-    <div class="content-text">
+  <div class="card">
+    <p class="card-title">1. 事業者情報</p>
+    <div class="text">
+      <div class="infobox">
+        <strong>グッドネイバーカマクラ合同会社</strong>
+        所在地：〒248-0014　神奈川県鎌倉市由比ガ浜<br>
+        代表者：室井 雅光<br>
+        Email：<a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">2. 収集する個人情報の種類</p>
+    <div class="text">
       <p>本アプリは、以下の情報を収集することがあります。</p>
+      <table>
+        <tr><th>情報の種類</th><th>収集方法</th><th>任意・必須</th></tr>
+        <tr><td>業界・職種・経験レベル・目標</td><td>オンボーディング入力</td><td>任意</td></tr>
+        <tr><td>競合企業名</td><td>オンボーディング入力</td><td>任意</td></tr>
+        <tr><td>回答内容・スコア・学習履歴</td><td>トレーニング利用時に自動取得</td><td>自動</td></tr>
+        <tr><td>アプリ利用状況・操作ログ</td><td>アプリ利用時に自動取得</td><td>自動</td></tr>
+        <tr><td>プッシュ通知の許可状況</td><td>OS設定から取得</td><td>自動</td></tr>
+        <tr><td>課金・サブスクリプション情報</td><td>Apple In-App Purchase経由</td><td>自動</td></tr>
+        <tr><td>デバイス情報・OS情報</td><td>アプリ起動時に自動取得</td><td>自動</td></tr>
+      </table>
+      <p style="margin-top:0.75rem;">※ 氏名・住所・クレジットカード番号などの機密個人情報は当社では収集しません。決済はApple In-App Purchaseを通じて行われます。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">3. 個人情報の利用目的</p>
+    <div class="text">
+      <p>収集した情報は、以下の目的にのみ利用します。</p>
       <ul>
-        <li>業界・職種・経験レベルなどのプロフィール情報（任意入力）</li>
-        <li>トレーニングの回答内容・スコア・学習履歴</li>
-        <li>アプリの利用状況・操作ログ</li>
-        <li>プッシュ通知の許可状況</li>
-        <li>課金・サブスクリプション情報（Apple経由で処理）</li>
+        <li>ユーザーの業界・職種・経験に合わせたパーソナライズされたニュース・問題の生成・配信</li>
+        <li>AIフィードバックの生成・精度向上・学習モデルの改善</li>
+        <li>本質力スコアの計算・学習進捗の管理・可視化</li>
+        <li>競合ウォッチ機能（競合企業に関するニュース自動検知）の提供</li>
+        <li>週次AIコーチングレポートの生成・配信</li>
+        <li>プッシュ通知の送信（学習リマインダー等）</li>
+        <li>サブスクリプション管理・課金処理</li>
+        <li>アプリの不具合検知・品質改善・新機能開発</li>
+        <li>利用規約違反・不正利用の検知・対応</li>
+        <li>ユーザーからのお問い合わせへの対応</li>
+      </ul>
+      <p>上記以外の目的で個人情報を利用する場合は、事前にユーザーの同意を得るものとします。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">4. 第三者への提供</p>
+    <div class="text">
+      <p>当社は、以下の場合を除き、ユーザーの個人情報を第三者に提供・開示しません。</p>
+      <ul>
+        <li>ユーザーの事前の同意がある場合</li>
+        <li>法令に基づき開示が必要な場合</li>
+        <li>人の生命・身体・財産の保護のために必要であり、ユーザーの同意を得ることが困難な場合</li>
+        <li>国の機関もしくは地方公共団体またはその委託を受けた者が法令の定める事務を遂行することに対して協力する必要がある場合</li>
+        <li>当社の事業承継（合併・会社分割・事業譲渡等）に伴って個人情報が移転する場合（この場合、移転先においても本ポリシーが引き継がれます）</li>
       </ul>
     </div>
   </div>
 
-  <div class="content-card">
-    <p class="section-title">2. 情報の利用目的</p>
-    <div class="content-text">
-      <p>収集した情報は、以下の目的で利用します。</p>
+  <div class="card">
+    <p class="card-title">5. 業務委託先への提供</p>
+    <div class="text">
+      <p>当社は、利用目的の達成に必要な範囲で、以下の業務委託先に個人情報を提供することがあります。提供に際しては、適切な秘密保持契約を締結し、委託先における個人情報の安全管理を監督します。</p>
+      <table>
+        <tr><th>委託先・サービス</th><th>利用目的</th><th>プライバシーポリシー</th></tr>
+        <tr><td>Anthropic（Claude API）</td><td>AIフィードバック・ニュース生成</td><td><a href="https://www.anthropic.com/privacy" target="_blank">確認する</a></td></tr>
+        <tr><td>Supabase</td><td>データベース・認証・ストレージ</td><td><a href="https://supabase.com/privacy" target="_blank">確認する</a></td></tr>
+        <tr><td>Stripe</td><td>決済処理・サブスクリプション管理</td><td><a href="https://stripe.com/jp/privacy" target="_blank">確認する</a></td></tr>
+        <tr><td>Apple（Push Notification / In-App Purchase）</td><td>プッシュ通知・課金処理</td><td><a href="https://www.apple.com/jp/privacy/" target="_blank">確認する</a></td></tr>
+        <tr><td>Expo（EAS）</td><td>アプリビルド・配信</td><td><a href="https://expo.dev/privacy" target="_blank">確認する</a></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">6. 個人情報の保管・セキュリティ</p>
+    <div class="text">
+      <p>ユーザーデータはSupabaseのセキュアなサーバー（データセンター所在地：AWS）に保管されます。当社は以下のセキュリティ対策を実施しています。</p>
       <ul>
-        <li>パーソナライズされたニュース・問題の配信</li>
-        <li>AIフィードバックの生成・精度向上</li>
-        <li>学習進捗の管理・可視化</li>
-        <li>アプリの機能改善およびサービス向上</li>
-        <li>お問い合わせへの対応</li>
+        <li>通信の暗号化（TLS/SSL）</li>
+        <li>データベースアクセスの認証・権限管理（Row Level Security）</li>
+        <li>APIキーの安全な管理（環境変数・秘密鍵管理）</li>
+        <li>定期的なセキュリティレビューの実施</li>
       </ul>
+      <p>ただし、インターネット上での完全な安全性を保証するものではありません。</p>
     </div>
   </div>
 
-  <div class="content-card">
-    <p class="section-title">3. 第三者への提供</p>
-    <div class="content-text">
-      <p>当社は、以下の場合を除き、ユーザーの個人情報を第三者に提供しません。</p>
+  <div class="card">
+    <p class="card-title">7. 個人情報の保存期間</p>
+    <div class="text">
+      <p>個人情報は、利用目的に必要な期間保存します。アカウント削除後は、法令上の保存義務がある場合を除き、速やかに削除します。なお、匿名化・統計処理されたデータについては、個人を特定できない形でサービス改善のために継続利用することがあります。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">8. ユーザーの権利</p>
+    <div class="text">
+      <p>ユーザーは、当社が保有する自己の個人情報について、以下の権利を有します。</p>
       <ul>
-        <li>ユーザーの同意がある場合</li>
-        <li>法令に基づく場合</li>
-        <li>人の生命・身体・財産の保護のために必要な場合</li>
+        <li><strong style="color:var(--text);">開示請求：</strong>保有している個人情報の内容の確認・開示を求める権利</li>
+        <li><strong style="color:var(--text);">訂正・追加・削除：</strong>内容が事実でない場合の訂正・追加・削除を求める権利</li>
+        <li><strong style="color:var(--text);">利用停止・消去：</strong>利用目的の範囲を超えた利用や不正取得の場合の利用停止・消去を求める権利</li>
+        <li><strong style="color:var(--text);">アカウント削除：</strong>いつでも全データの削除を申請できる権利</li>
       </ul>
+      <p>ご要望は下記お問い合わせ先までご連絡ください。本人確認の上、合理的な期間内に対応いたします。</p>
     </div>
   </div>
 
-  <div class="content-card">
-    <p class="section-title">4. 利用する外部サービス</p>
-    <div class="content-text">
-      <p>本アプリは以下の外部サービスを利用しており、各サービスのプライバシーポリシーが適用されます。</p>
-      <ul>
-        <li>Anthropic Claude API（AIフィードバック生成）</li>
-        <li>Supabase（データベース・認証）</li>
-        <li>Stripe（決済処理）</li>
-        <li>Expo / Apple Push Notification Service（プッシュ通知）</li>
-      </ul>
+  <div class="card">
+    <p class="card-title">9. Cookie・トラッキングについて</p>
+    <div class="text">
+      <p>本アプリはネイティブモバイルアプリであり、ブラウザCookieは使用しません。ただし、アプリ内のデータ永続化のためにデバイスのローカルストレージ（AsyncStorage）を使用します。これにはプロフィール情報・学習履歴・通知設定等が含まれます。</p>
     </div>
   </div>
 
-  <div class="content-card">
-    <p class="section-title">5. データの保管・セキュリティ</p>
-    <div class="content-text">
-      <p>ユーザーデータはSupabaseのセキュアなサーバーに保管され、適切なアクセス制御のもとで管理されます。不正アクセス・漏洩防止のために合理的なセキュリティ対策を講じています。</p>
+  <div class="card">
+    <p class="card-title">10. 未成年者のご利用</p>
+    <div class="text">
+      <p>本アプリは13歳未満のお子様を対象としておりません。13歳未満の方の個人情報を意図的に収集することはありません。13歳未満の方がご利用であることが判明した場合、速やかに当該情報を削除いたします。保護者の方がお子様のご利用に気づかれた場合は、下記お問い合わせ先までご連絡ください。</p>
     </div>
   </div>
 
-  <div class="content-card">
-    <p class="section-title">6. データの削除</p>
-    <div class="content-text">
-      <p>ユーザーはいつでも本アプリのアカウントおよびデータの削除を申請できます。削除のご依頼は下記お問い合わせ先までご連絡ください。</p>
+  <div class="card">
+    <p class="card-title">11. プライバシーポリシーの変更</p>
+    <div class="text">
+      <p>当社は、法令の改正・サービス内容の変更等に伴い、本ポリシーを改定することがあります。重要な変更がある場合は、アプリ内通知またはメールにて事前にお知らせします。変更後も引き続き本アプリをご利用いただいた場合、改定後のポリシーに同意したものとみなします。</p>
     </div>
   </div>
 
-  <div class="content-card">
-    <p class="section-title">7. 未成年者のご利用</p>
-    <div class="content-text">
-      <p>本アプリは13歳未満のお子様を対象としておりません。13歳未満の方の個人情報を意図的に収集することはありません。</p>
-    </div>
-  </div>
-
-  <div class="content-card">
-    <p class="section-title">8. プライバシーポリシーの変更</p>
-    <div class="content-text">
-      <p>本ポリシーは必要に応じて改定することがあります。重要な変更がある場合はアプリ内でお知らせします。</p>
-    </div>
-  </div>
-
-  <div class="content-card">
-    <p class="section-title">9. お問い合わせ</p>
-    <div class="contact-box">
-      <strong>グッドネイバーカマクラ合同会社</strong>
-      〒248-0014　神奈川県鎌倉市由比ガ浜<br>
-      Email：<a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a><br>
-      サポート：<a href="/honshitsu/contact">/honshitsu/contact</a>
+  <div class="card">
+    <p class="card-title">12. お問い合わせ</p>
+    <div class="text">
+      <div class="infobox">
+        <strong>グッドネイバーカマクラ合同会社　個人情報取扱窓口</strong>
+        Email：<a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a><br>
+        受付時間：平日 10:00〜18:00（土日祝・年末年始を除く）<br>
+        お問い合わせページ：<a href="/honshitsu/contact">/honshitsu/contact</a>
+      </div>
     </div>
   </div>
 </div>
-
 </body>
 </html>

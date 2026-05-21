@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>利用規約 — AI本質力トレーニング</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"><style>
+:root{--deep:#04201A;--forest:#085041;--primary:#1D9E75;--gold:#E8C87A;--text:#F5F0E8;--muted:rgba(245,240,232,0.55);--border:rgba(200,169,110,0.2);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--deep);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display:flex;align-items:center;justify-content:space-between;background:rgba(4,32,26,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-logo{text-decoration:none;display:flex;align-items:center;gap:10px;}
+.nav-logo-name{font-family:'Noto Sans JP',sans-serif;font-size:0.95rem;font-weight:500;color:var(--text);}
+.nav-back{color:var(--muted);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+.nav-back:hover{color:var(--text);}
+.page{padding:9rem 4rem 6rem;max-width:760px;margin:0 auto;}
+.page-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;color:var(--primary);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;}
+.page-label::before{content:'';display:block;width:30px;height:1px;background:var(--primary);}
+.page-title{font-family:'Noto Serif JP',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;line-height:1.3;margin-bottom:1rem;}
+.page-desc{font-size:0.95rem;color:var(--muted);line-height:2;margin-bottom:2rem;max-width:560px;}
+.updated{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--muted);margin-bottom:3rem;letter-spacing:0.05em;}
+.card{background:rgba(8,80,65,0.2);border:1px solid var(--border);border-radius:16px;padding:2.5rem;margin-bottom:1.5rem;}
+.card-title{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;color:var(--gold);margin-bottom:1.25rem;}
+.text{font-size:0.88rem;color:var(--muted);line-height:2;}
+.text p{margin-bottom:0.75rem;}.text p:last-child{margin-bottom:0;}
+.text ul{padding-left:1.4em;margin-top:0.5rem;}.text ul li{margin-bottom:0.4rem;}
+.text a{color:var(--primary);text-decoration:none;}
+.text table{width:100%;border-collapse:collapse;margin-top:0.5rem;}
+.text table th,.text table td{padding:0.75rem 1rem;border:1px solid var(--border);font-size:0.82rem;text-align:left;vertical-align:top;}
+.text table th{color:var(--text);font-weight:500;background:rgba(8,80,65,0.3);}
+.infobox{background:rgba(4,32,26,0.6);border:1px solid rgba(200,169,110,0.25);border-radius:8px;padding:1.5rem;margin-top:1rem;font-size:0.88rem;color:var(--muted);line-height:2;}
+.infobox strong{color:var(--text);display:block;margin-bottom:0.5rem;}
+.form-group{margin-bottom:1.75rem;}
+.form-label{display:block;font-size:0.85rem;font-weight:500;color:var(--text);margin-bottom:0.6rem;}
+.form-label span{color:var(--primary);margin-left:0.25rem;font-size:0.75rem;}
+.form-label .opt{color:var(--muted);margin-left:0.25rem;font-size:0.75rem;}
+.form-input,.form-select,.form-textarea{width:100%;background:rgba(4,32,26,0.6);border:1px solid rgba(200,169,110,0.25);border-radius:8px;padding:0.85rem 1rem;font-size:0.9rem;color:var(--text);font-family:'Noto Sans JP',sans-serif;transition:border-color 0.2s;outline:none;}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(245,240,232,0.25);}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(29,158,117,0.6);background:rgba(8,80,65,0.3);}
+.form-select{appearance:none;cursor:pointer;}.form-select option{background:#04201A;color:var(--text);}
+.form-textarea{min-height:160px;resize:vertical;line-height:1.8;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+.form-divider{border:none;border-top:1px solid var(--border);margin:2rem 0;}
+.form-section-title{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;color:var(--gold);margin-bottom:1.5rem;}
+.submit-btn{width:100%;background:var(--primary);color:white;border:none;padding:1.1rem;border-radius:100px;font-size:1rem;font-weight:500;cursor:pointer;font-family:'Noto Sans JP',sans-serif;letter-spacing:0.02em;transition:all 0.25s;margin-top:0.5rem;}
+.submit-btn:hover{background:#24b885;transform:translateY(-1px);box-shadow:0 8px 30px rgba(29,158,117,0.3);}
+.submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.privacy-note{font-size:0.75rem;color:var(--muted);text-align:center;margin-top:1rem;line-height:1.8;}
+.privacy-note a{color:var(--primary);text-decoration:none;}
+.success-msg{display:none;background:rgba(29,158,117,0.15);border:1px solid rgba(29,158,117,0.4);border-radius:12px;padding:2rem;text-align:center;margin-top:2rem;}
+.success-msg.show{display:block;}
+.success-msg h3{font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:600;margin-bottom:0.75rem;color:var(--primary);}
+.success-msg p{font-size:0.88rem;color:var(--muted);line-height:2;}
+@media(max-width:640px){nav{padding:1.25rem 1.5rem;}.page{padding:7rem 1.5rem 4rem;}.card{padding:1.5rem;}.form-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/honshitsu/" class="nav-logo">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPgogIDxyZWN0IHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiIHJ4PSIyMzAiIGZpbGw9IiMwODUwNDEiLz4KICA8dGV4dCB4PSI1MTIiIHk9IjMxMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAwIiBmb250LXdlaWdodD0iMzAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjE4Ij5USElOSzwvdGV4dD4KICA8dGV4dCB4PSI1MTIiIHk9IjYyMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QUnmnKzos6o8L3RleHQ+CiAgPHJlY3QgeD0iMTk2IiB5PSI3MTAiIHdpZHRoPSI2MzIiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzFEOUU3NSIvPgo8L3N2Zz4=" alt="AI本質力" style="width:44px;height:44px;border-radius:14px;display:block;flex-shrink:0;">
+    <span class="nav-logo-name">AI本質力トレーニング</span>
+  </a>
+  <a href="/honshitsu/" class="nav-back">← LPに戻る</a>
+</nav>
+<div class="page">
+  <p class="page-label">TERMS OF SERVICE</p>
+  <h1 class="page-title">利用規約</h1>
+  <p class="page-desc">本利用規約（以下「本規約」）は、グッドネイバーカマクラ合同会社（以下「当社」）が提供するアプリケーション「AI本質力トレーニング」（以下「本アプリ」）の利用に関する条件を定めるものです。本アプリをご利用いただく前に、本規約を必ずお読みください。</p>
+  <p class="updated">最終更新日：2026年5月21日</p>
+
+  <div class="card">
+    <p class="card-title">第1条（適用）</p>
+    <div class="text">
+      <p>本規約は、ユーザーと当社との間の本アプリの利用に関わる一切の関係に適用されます。当社は本アプリに関し、本規約のほか、ご利用にあたってのルール等、各種の定め（以下「個別規定」）をすることがあります。これら個別規定はその名称のいかんに関わらず、本規約の一部を構成するものとします。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">第2条（利用登録）</p>
+    <div class="text">
+      <p>本アプリは、ユーザーが本規約に同意の上、所定の方法によって利用登録を申請し、当社がこれを承認することによって利用できます。当社は、以下の場合に利用登録の申請を承認しないことがあります。</p>
+      <ul>
+        <li>申請内容に虚偽・誤記・記載漏れがあった場合</li>
+        <li>過去に本規約違反等により利用を停止・削除された場合</li>
+        <li>未成年者・成年被後見人・被保佐人・被補助人で法定代理人等の同意を得ていない場合</li>
+        <li>その他当社が利用登録を相当でないと判断した場合</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">第3条（料金・決済）</p>
+    <div class="text">
+      <p>本アプリには無料プランと有料プラン（プロプラン）があります。</p>
+      <table>
+        <tr><th>プラン</th><th>料金</th><th>主な内容</th></tr>
+        <tr><td>無料プラン</td><td>¥0</td><td>累計7問まで・1日3問・ニュース閲覧（更新不可）</td></tr>
+        <tr><td>プロプラン</td><td>¥3,480/月（税込）</td><td>毎日3問・無制限継続・ニュース更新（1日3回）・競合ウォッチ・週次レポート</td></tr>
+      </table>
+      <p>有料プランの決済はApple In-App Purchaseを通じて行われます。お支払いはApple IDに請求されます。サブスクリプションは期間終了の24時間前までに解約しない限り自動更新されます。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">第4条（解約・返金）</p>
+    <div class="text">
+      <p>プロプランの解約は、iPhoneの「設定」→「Apple ID」→「サブスクリプション」から、いつでも行うことができます。解約後は翌課金期間からプロプランの機能が利用できなくなります。すでに課金済みの期間については返金いたしません。ただし、Apple社の定める返金ポリシーに従い、Apple社を通じた返金申請が可能な場合があります。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">第5条（禁止事項）</p>
+    <div class="text">
+      <p>ユーザーは、本アプリの利用にあたり、以下の行為を行ってはなりません。</p>
+      <ul>
+        <li>法令または公序良俗に違反する行為</li>
+        <li>当社または第三者の知的財産権・肖像権・プライバシー・名誉その他の権利または利益を侵害する行為</li>
+        <li>本アプリのサーバーまたはネットワークの機能を破壊・妨害する行為</li>
+        <li>本アプリのリバースエンジニアリング・逆コンパイル・逆アセンブル等の行為</li>
+        <li>AIが生成したコンテンツ（フィードバック・ニュース等）を無断で第三者に販売・転用する行為</li>
+        <li>不正アクセス・不正ログイン・他ユーザーへのなりすまし</li>
+        <li>複数アカウントの作成による無料枠の不正利用</li>
+        <li>当社の事前承諾なく本アプリを利用した営業活動・商業目的での利用</li>
+        <li>その他当社が不適切と判断する行為</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">第6条（本アプリの提供の停止等）</p>
+    <div class="text">
+      <p>当社は、以下の場合に本アプリの全部または一部の提供を停止・中断することがあります。</p>
+      <ul>
+        <li>本アプリのシステムの保守点検・更新を行う場合</li>
+        <li>地震・落雷・火災・停電・天災等の不可抗力により本アプリの提供が困難な場合</li>
+        <li>コンピュータ・通信回線等が事故により停止した場合</li>
+        <li>その他当社が本アプリの提供が困難と判断した場合</li>
+      </ul>
+      <p>当社は、本アプリの提供の停止・中断によりユーザーまたは第三者が被ったいかなる不利益・損害についても、責任を負わないものとします。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">第7条（著作権・知的財産権）</p>
+    <div class="text">
+      <p>本アプリおよびその構成要素（テキスト・画像・ロゴ・AIが生成したコンテンツ等）に関する著作権その他の知的財産権は、当社または当社にライセンスを付与した権利者に帰属します。ユーザーは、当社の事前の書面による承諾なしに、これらを複製・転用・二次利用することはできません。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">第8条（免責事項）</p>
+    <div class="text">
+      <p>当社は、本アプリに関して以下の事項について責任を負いません。</p>
+      <ul>
+        <li>AIが生成するフィードバック・ニュース・コンテンツの正確性・完全性・有用性・適時性</li>
+        <li>ユーザーが本アプリを利用したことによる職業上・ビジネス上の結果</li>
+        <li>本アプリの利用に起因するユーザーと第三者との間のトラブル</li>
+        <li>本アプリへの不正アクセス・情報の改ざん・消去等による損害</li>
+        <li>通信障害・システム障害等による本アプリの利用不能</li>
+      </ul>
+      <p>なお、本規約の免責規定は、当社に故意または重過失がある場合には適用されません。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">第9条（サービス内容の変更・終了）</p>
+    <div class="text">
+      <p>当社は、ユーザーへの事前通知なしに本アプリの内容を変更・追加・削除することがあります。また、当社の都合により本アプリのサービスを終了することがあります。サービス終了の際は、原則として30日前までにアプリ内またはメールにてお知らせします。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">第10条（利用規約の変更）</p>
+    <div class="text">
+      <p>当社は、必要と判断した場合に本規約を変更することがあります。変更後の利用規約は、本アプリ内に掲示したときから効力を生じます。変更後も本アプリを継続してご利用いただいた場合、変更後の規約に同意したものとみなします。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">第11条（準拠法・管轄裁判所）</p>
+    <div class="text">
+      <p>本規約の解釈にあたっては、日本法を準拠法とします。本アプリに関して紛争が生じた場合は、横浜地方裁判所を第一審の専属的合意管轄裁判所とします。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">第12条（お問い合わせ）</p>
+    <div class="text">
+      <div class="infobox">
+        <strong>グッドネイバーカマクラ合同会社</strong>
+        Email：<a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a><br>
+        お問い合わせページ：<a href="/honshitsu/contact">/honshitsu/contact</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
