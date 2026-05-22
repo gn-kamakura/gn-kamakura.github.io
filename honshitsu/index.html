@@ -24,7 +24,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display
 .nav-cta{background:var(--primary);color:white;padding:0.6rem 1.5rem;border-radius:100px;font-size:0.85rem;font-weight:500;text-decoration:none;letter-spacing:0.02em;transition:all 0.2s;}
 .nav-cta:hover{background:#24b885;transform:translateY(-1px);}
 
-.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:9rem 4rem 6rem;overflow:hidden;}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:9rem 4rem 6rem;overflow:hidden;}.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1;max-width:1200px;margin:0 auto;width:100%;}.hero-mockup{display:flex;justify-content:center;align-items:center;}@media(max-width:960px){.hero-inner{grid-template-columns:1fr;}.hero-mockup{display:none;}}
 .hero-photo{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?w=1600&auto=format&fit=crop&q=80') center/cover no-repeat;opacity:0.18;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(4,32,26,0.97) 0%,rgba(4,32,26,0.85) 40%,rgba(4,32,26,0.5) 100%);}
 .hero-content{position:relative;z-index:1;max-width:680px;}
@@ -189,19 +189,24 @@ footer a:hover{color:var(--text);}
 <section class="hero">
   <div class="hero-photo"></div>
   <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">AI HONSHITSU TRAINING</p>
-    <h1 class="hero-title">答えより、<br><em>本質を。</em></h1>
-    <p class="hero-subtitle">AIがすべての答えを出す時代になった。<br>だからこそ、人間に問われるのは<strong>「本質を見抜く力」</strong>だ。<br>毎日5分。ビジネスニュースで思考力を鍛える。</p>
-    <div class="store-row">
-      <a href="#" class="store-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        <div class="store-btn-text"><small>App Store</small><span>iOS版 ダウンロード</span></div>
-      </a>
-      <span class="store-btn" style="opacity:0.5;cursor:default;">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.22.99.14l12.12-6.99-2.54-2.54-10.57 9.39zm-1.8-20.3c-.1.26-.15.55-.15.86v19.36c0 .31.05.6.15.86l.1.09 10.84-10.84v-.24L1.47 3.37l-.09.09zm18.52 9.73l-2.46-1.42-2.77 2.77 2.77 2.77 2.49-1.44c.71-.41.71-1.08-.03-1.68zM4.17.24L16.29 7.23l-2.54 2.54L3.18.38C3.52.3 3.88.35 4.17.54v-.3z"/></svg>
-        <div class="store-btn-text"><small>Google Play</small><span>Android版 近日リリース</span></div>
-      </span>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <p class="hero-eyebrow">AI HONSHITSU TRAINING</p>
+      <h1 class="hero-title">答えより、<br><em>本質を。</em></h1>
+      <p class="hero-subtitle">AIがすべての答えを出す時代になった。<br>だからこそ、人間に問われるのは<strong>「本質を見抜く力」</strong>だ。<br>毎日5分。ビジネスニュースで思考力を鍛える。</p>
+      <div class="store-row">
+        <a href="#" class="store-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <div class="store-btn-text"><small>App Store</small><span>iOS版 ダウンロード</span></div>
+        </a>
+        <span class="store-btn" style="opacity:0.5;cursor:default;">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.22.99.14l12.12-6.99-2.54-2.54-10.57 9.39zm-1.8-20.3c-.1.26-.15.55-.15.86v19.36c0 .31.05.6.15.86l.1.09 10.84-10.84v-.24L1.47 3.37l-.09.09zm18.52 9.73l-2.46-1.42-2.77 2.77 2.77 2.77 2.49-1.44c.71-.41.71-1.08-.03-1.68zM4.17.24L16.29 7.23l-2.54 2.54L3.18.38C3.52.3 3.88.35 4.17.54v-.3z"/></svg>
+          <div class="store-btn-text"><small>Google Play</small><span>Android版 近日リリース</span></div>
+        </span>
+      </div>
+    </div>
+    <div class="hero-mockup">
+      <img src="/honshitsu/mockup_phones.png" alt="AI本質力トレーニング アプリ画面" style="width:100%;max-width:520px;filter:drop-shadow(0 40px 80px rgba(0,0,0,0.6));">
     </div>
   </div>
 </section>
