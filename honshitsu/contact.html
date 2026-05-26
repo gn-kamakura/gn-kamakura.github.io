@@ -35,7 +35,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display
 .submit-btn:hover{background:#24b885;transform:translateY(-1px);box-shadow:0 8px 30px rgba(29,158,117,0.3);}
 .submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
 .privacy-note{font-size:0.75rem;color:var(--muted);text-align:center;margin-top:1rem;line-height:1.8;}
-.privacy-note a{color:#4DD4A0;text-decoration:none;}
+.privacy-note a{color:var(--primary);text-decoration:none;} .corp-info{background:rgba(8,80,65,0.2);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:2rem;} .corp-info-title{font-family:'Noto Serif JP',serif;font-size:0.9rem;font-weight:600;color:var(--gold);margin-bottom:0.5rem;} .corp-info-desc{font-size:0.82rem;color:var(--muted);line-height:2;} .corp-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem;} .corp-tag{font-size:0.72rem;color:var(--muted);background:rgba(4,32,26,0.5);border:1px solid var(--border);padding:0.25rem 0.65rem;border-radius:100px;}
 .success-msg{display:none;background:rgba(29,158,117,0.15);border:1px solid rgba(29,158,117,0.4);border-radius:12px;padding:2rem;text-align:center;margin-top:2rem;}
 .success-msg.show{display:block;}
 .success-msg h3{font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:600;margin-bottom:0.75rem;color:var(--primary);}
@@ -55,6 +55,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display
   <p class="page-label">CONTACT</p>
   <h1 class="page-title">お問い合わせ</h1>
   <p class="page-desc">ご質問・不具合のご報告・データ削除のご依頼など、お気軽にご連絡ください。通常2営業日以内にご返信いたします。</p>
+  <div class="corp-info"><p class="corp-info-title">法人プランをご検討の方へ</p><p class="corp-info-desc">お問い合わせ種別で「法人プラン申込」をお選びいただき、導入予定人数・開始希望時期・ご担当者名をご記入ください。担当者よりご連絡いたします。</p><div class="corp-tags"><span class="corp-tag">スモール 〜10名 ¥29,800/月</span><span class="corp-tag">スタンダード 〜30名 ¥79,800/月</span><span class="corp-tag">ラージ 〜50名 ¥124,800/月</span><span class="corp-tag">エンタープライズ 51名〜 要相談</span></div></div>
   <div class="form-card">
     <form id="contactForm" action="https://formspree.io/f/info@gn-kamakura.com" method="POST">
       <p class="form-section-title">お問い合わせ内容</p>
@@ -67,6 +68,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display
           <option value="billing">解約・課金について</option>
           <option value="delete">データ削除のご依頼</option>
           <option value="feature">機能要望・ご提案</option>
+          <option value="corp_small">法人プラン申込（スモール〜10名）</option>
+          <option value="corp_standard">法人プラン申込（スタンダード〜30名）</option>
+          <option value="corp_large">法人プラン申込（ラージ〜50名）</option>
+          <option value="corp_enterprise">法人プラン申込（エンタープライズ51名以上）</option>
           <option value="other">その他</option>
         </select>
       </div>
