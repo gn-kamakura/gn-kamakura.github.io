@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>法人管理者マニュアル — AI本質力トレーニング</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--deep:#04201A;--forest:#085041;--primary:#1D9E75;--gold:#E8C87A;--text:#F5F0E8;--muted:rgba(245,240,232,0.55);--border:rgba(200,169,110,0.2);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--deep);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display:flex;align-items:center;justify-content:space-between;background:rgba(4,32,26,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-logo{text-decoration:none;display:flex;align-items:center;gap:10px;}
+.nav-logo-name{font-family:'Noto Sans JP',sans-serif;font-size:0.95rem;font-weight:500;color:var(--text);}
+.nav-back{color:var(--muted);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+.nav-back:hover{color:var(--text);}
+.layout{display:flex;min-height:100vh;padding-top:72px;}
+.toc{position:fixed;top:72px;left:0;width:260px;height:calc(100vh - 72px);overflow-y:auto;padding:2.5rem 1.5rem;border-right:1px solid var(--border);background:rgba(4,32,26,0.97);}
+.toc-title{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--primary);text-transform:uppercase;margin-bottom:1.5rem;}
+.toc a{display:block;font-size:0.8rem;color:var(--muted);text-decoration:none;padding:0.4rem 0.75rem;border-radius:6px;margin-bottom:0.15rem;transition:all 0.15s;border-left:2px solid transparent;}
+.toc a:hover{color:var(--text);background:rgba(29,158,117,0.08);}
+.toc a.active{color:var(--primary);border-left-color:var(--primary);background:rgba(29,158,117,0.08);}
+.toc-section{font-size:0.7rem;color:var(--muted);font-weight:500;margin:1.25rem 0 0.5rem 0.75rem;letter-spacing:0.05em;}
+.page{margin-left:260px;padding:4rem 5rem 6rem;max-width:900px;}
+.page-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;color:var(--primary);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;}
+.page-label::before{content:'';display:block;width:30px;height:1px;background:var(--primary);}
+.page-title{font-family:'Noto Serif JP',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:700;line-height:1.3;margin-bottom:1rem;}
+.page-desc{font-size:0.95rem;color:var(--muted);line-height:2;margin-bottom:1rem;max-width:560px;}
+.updated{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--muted);margin-bottom:3rem;letter-spacing:0.05em;}
+.section{margin-bottom:3rem;scroll-margin-top:100px;}
+.section-label{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--primary);text-transform:uppercase;margin-bottom:0.75rem;}
+.section-title{font-family:'Noto Serif JP',serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:1.5rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);}
+.card{background:rgba(8,80,65,0.2);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:1.25rem;}
+.card-title{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;color:var(--gold);margin-bottom:1rem;}
+.text{font-size:0.88rem;color:var(--muted);line-height:2;}
+.text p{margin-bottom:0.75rem;}.text p:last-child{margin-bottom:0;}
+.text ul{padding-left:1.4em;margin-top:0.5rem;}.text ul li{margin-bottom:0.4rem;}
+.text ol{padding-left:1.4em;margin-top:0.5rem;}.text ol li{margin-bottom:0.6rem;}
+.text a{color:var(--primary);text-decoration:none;}
+.text strong{color:var(--text);font-weight:500;}
+.text table{width:100%;border-collapse:collapse;margin-top:0.5rem;}
+.text table th,.text table td{padding:0.75rem 1rem;border:1px solid var(--border);font-size:0.82rem;text-align:left;vertical-align:top;}
+.text table th{color:var(--text);font-weight:500;background:rgba(8,80,65,0.3);}
+.step{display:flex;gap:1.25rem;margin-bottom:1.25rem;align-items:flex-start;}
+.step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--primary);color:white;font-family:'Space Mono',monospace;font-size:0.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.step-body{flex:1;}
+.step-title{font-size:0.9rem;font-weight:500;color:var(--text);margin-bottom:0.35rem;}
+.step-desc{font-size:0.82rem;color:var(--muted);line-height:1.9;}
+.img-placeholder{background:rgba(8,80,65,0.3);border:1px dashed rgba(200,169,110,0.3);border-radius:10px;padding:3rem;text-align:center;font-size:0.78rem;color:rgba(245,240,232,0.3);margin:1rem 0;font-family:'Space Mono',monospace;letter-spacing:0.05em;}
+.badge{display:inline-block;font-size:0.7rem;padding:0.2rem 0.65rem;border-radius:100px;font-weight:500;margin-left:0.5rem;vertical-align:middle;}
+.badge-green{background:rgba(29,158,117,0.2);color:var(--primary);}
+.badge-gold{background:rgba(232,200,122,0.2);color:var(--gold);}
+.badge-red{background:rgba(232,122,122,0.15);color:#e87a7a;}
+.alert{background:rgba(232,200,122,0.1);border:1px solid rgba(232,200,122,0.3);border-radius:10px;padding:1rem 1.25rem;margin:1rem 0;font-size:0.85rem;color:var(--gold);line-height:1.9;}
+.alert-icon{margin-right:0.5rem;}
+.infobox{background:rgba(4,32,26,0.6);border:1px solid rgba(200,169,110,0.25);border-radius:8px;padding:1.25rem 1.5rem;margin-top:1rem;font-size:0.85rem;color:var(--muted);line-height:2;}
+.infobox strong{color:var(--text);display:block;margin-bottom:0.25rem;}
+.faq-q{font-size:0.9rem;font-weight:500;color:var(--text);margin-bottom:0.5rem;}
+.faq-a{font-size:0.85rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem;padding-left:1rem;border-left:2px solid var(--primary);}
+@media(max-width:900px){.toc{display:none;}.page{margin-left:0;padding:2rem 1.5rem 4rem;}nav{padding:1.25rem 1.5rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/honshitsu/" class="nav-logo">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxyZWN0IHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiIHJ4PSIyMzAiIGZpbGw9IiMwODUwNDEiLz48dGV4dCB4PSI1MTIiIHk9IjMxMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAwIiBmb250LXdlaWdodD0iMzAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjE4Ij5USElOSzwvdGV4dD48dGV4dCB4PSI1MTIiIHk9IjYyMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QUnmnKzos6o8L3RleHQ+PHJlY3QgeD0iMTk2IiB5PSI3MTAiIHdpZHRoPSI2MzIiIGhlaWdodD0iMjAiIHJ4PSIxMCIgZmlsbD0iIzFEOUU3NSIvPjwvc3ZnPg==" alt="AI本質力" style="width:44px;height:44px;border-radius:14px;display:block;flex-shrink:0;">
+    <span class="nav-logo-name">AI本質力トレーニング</span>
+  </a>
+  <a href="/honshitsu/" class="nav-back">← TOPに戻る</a>
+</nav>
+
+<div class="layout">
+  <!-- 目次 -->
+  <aside class="toc">
+    <p class="toc-title">目次</p>
+    <p class="toc-section">はじめに</p>
+    <a href="#overview">サービス概要</a>
+    <a href="#login">ログイン方法</a>
+    <p class="toc-section">ダッシュボード</p>
+    <a href="#dashboard">概要画面</a>
+    <a href="#members">メンバー管理</a>
+    <a href="#stats">学習統計</a>
+    <a href="#billing">請求・プラン</a>
+    <a href="#settings">設定</a>
+    <p class="toc-section">サポート</p>
+    <a href="#faq">よくある質問</a>
+    <a href="#contact">お問い合わせ</a>
+  </aside>
+
+  <!-- メインコンテンツ -->
+  <main class="page">
+    <p class="page-label">CORPORATE ADMIN MANUAL</p>
+    <h1 class="page-title">法人管理者マニュアル</h1>
+    <p class="page-desc">AI本質力トレーニング 法人プランをご契約の管理者様向けのガイドです。ダッシュボードの操作方法からメンバー管理、請求確認まで説明します。</p>
+    <p class="updated">最終更新日：2026年5月26日</p>
+
+    <!-- 1. サービス概要 -->
+    <div class="section" id="overview">
+      <p class="section-label">01 — OVERVIEW</p>
+      <h2 class="section-title">サービス概要</h2>
+      <div class="card">
+        <p class="card-title">AI本質力トレーニングとは</p>
+        <div class="text">
+          <p>AI本質力トレーニングは、AIが生成したニュースを読み、その本質を考える問題に毎日取り組むことで「本質を見抜く力」を鍛えるモバイルアプリです。</p>
+          <p>法人プランでは、チーム全員のアカウントを一括管理し、学習状況をダッシュボードで確認できます。</p>
+          <table>
+            <tr><th>機能</th><th>内容</th></tr>
+            <tr><td>毎日3問のトレーニング</td><td>AIが生成したニュースを題材にした本質把握問題</td></tr>
+            <tr><td>本質力スコア</td><td>回答内容をAIが採点。スコアを蓄積・可視化</td></tr>
+            <tr><td>法人ダッシュボード</td><td>メンバーの招待・削除・学習統計の確認</td></tr>
+            <tr><td>プラン管理</td><td>契約プランの確認・変更・解約申請</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <p class="card-title">法人プラン一覧</p>
+        <div class="text">
+          <table>
+            <tr><th>プラン</th><th>対象人数</th><th>月額（税抜）</th><th>1名あたり</th></tr>
+            <tr><td>スモール</td><td>〜10名</td><td>¥29,800</td><td>¥2,980〜</td></tr>
+            <tr><td>スタンダード</td><td>〜30名</td><td>¥79,800</td><td>¥2,660〜</td></tr>
+            <tr><td>ラージ</td><td>〜50名</td><td>¥124,800</td><td>¥2,496〜</td></tr>
+            <tr><td>エンタープライズ</td><td>51名以上</td><td>要相談</td><td>要相談</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ログイン -->
+    <div class="section" id="login">
+      <p class="section-label">02 — LOGIN</p>
+      <h2 class="section-title">ログイン方法</h2>
+      <div class="card">
+        <p class="card-title">管理者アカウントでログイン</p>
+        <div class="text">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <p class="step-title">ダッシュボードにアクセス</p>
+              <p class="step-desc">ブラウザで <a href="https://honshitsu-corporate.vercel.app">honshitsu-corporate.vercel.app</a> を開きます。PCブラウザでの利用を推奨します。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <p class="step-title">メールアドレスとパスワードを入力</p>
+              <p class="step-desc">契約時に登録した管理者メールアドレスとパスワードを入力し「ログイン」をクリックします。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <p class="step-title">ダッシュボードが表示される</p>
+              <p class="step-desc">ログイン成功後、チームの概要画面が表示されます。左のサイドバーから各機能にアクセスできます。</p>
+            </div>
+          </div>
+          <div class="img-placeholder">📸 ログイン画面のスクリーンショット</div>
+        </div>
+        <div class="alert"><span class="alert-icon">⚠️</span>パスワードを忘れた場合は <a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a> までご連絡ください。</div>
+      </div>
+    </div>
+
+    <!-- 3. ダッシュボード概要 -->
+    <div class="section" id="dashboard">
+      <p class="section-label">03 — DASHBOARD</p>
+      <h2 class="section-title">概要画面</h2>
+      <div class="card">
+        <p class="card-title">ダッシュボードトップの見方</p>
+        <div class="text">
+          <p>ログイン後に表示される概要画面では、チームの学習状況を一目で確認できます。</p>
+          <div class="img-placeholder">📸 ダッシュボード概要画面のスクリーンショット</div>
+          <table>
+            <tr><th>表示項目</th><th>内容</th></tr>
+            <tr><td>総メンバー数</td><td>招待済みのメンバー総数</td></tr>
+            <tr><td>アクティブ</td><td>招待を承認し利用中のメンバー数</td></tr>
+            <tr><td>平均スコア</td><td>チーム全体の本質力スコア平均値（100点満点）</td></tr>
+            <tr><td>総トレーニング数</td><td>チーム全体の累計トレーニング実施回数</td></tr>
+          </table>
+          <p style="margin-top:1rem;">「クイックアクション」からメンバー招待・学習レポートへの直接アクセスが可能です。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. メンバー管理 -->
+    <div class="section" id="members">
+      <p class="section-label">04 — MEMBERS</p>
+      <h2 class="section-title">メンバー管理</h2>
+      <div class="card">
+        <p class="card-title">メンバーを招待する</p>
+        <div class="text">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <p class="step-title">「メンバー管理」を開く</p>
+              <p class="step-desc">左サイドバーの「メンバー管理」をクリックします。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <p class="step-title">メールアドレスを入力</p>
+              <p class="step-desc">招待フォームに招待するメンバーのメールアドレスを入力し「招待する」をクリックします。EnterキーでもOKです。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <p class="step-title">招待完了</p>
+              <p class="step-desc">招待されたメンバーにメールが届きます。メンバーがアカウント登録を完了すると、ステータスが「招待中」から「アクティブ」に変わります。</p>
+            </div>
+          </div>
+          <div class="img-placeholder">📸 メンバー招待フォームのスクリーンショット</div>
+        </div>
+      </div>
+      <div class="card">
+        <p class="card-title">メンバー一覧の見方</p>
+        <div class="text">
+          <table>
+            <tr><th>ステータス</th><th>意味</th></tr>
+            <tr><td><span class="badge badge-green">アクティブ</span></td><td>招待を承認してアプリを利用中</td></tr>
+            <tr><td><span class="badge badge-gold">招待中</span></td><td>招待メールを送信済み・未承認</td></tr>
+          </table>
+          <p style="margin-top:1rem;">「削除」ボタンをクリックするとメンバーをチームから削除できます。削除後、そのメンバーは法人プランの機能が利用できなくなります。</p>
+        </div>
+        <div class="alert"><span class="alert-icon">⚠️</span>招待できる人数は契約プランの上限以内です。上限を超える場合は上位プランへの変更が必要です。</div>
+      </div>
+    </div>
+
+    <!-- 5. 学習統計 -->
+    <div class="section" id="stats">
+      <p class="section-label">05 — STATISTICS</p>
+      <h2 class="section-title">学習統計</h2>
+      <div class="card">
+        <p class="card-title">チームの学習状況を確認する</p>
+        <div class="text">
+          <p>「学習統計」ページでは、チーム全体および個人別の学習状況を確認できます。</p>
+          <div class="img-placeholder">📸 学習統計画面のスクリーンショット</div>
+          <table>
+            <tr><th>項目</th><th>内容</th></tr>
+            <tr><td>チーム平均スコア</td><td>全メンバーの本質力スコア平均値</td></tr>
+            <tr><td>総トレーニング回数</td><td>チーム全体の累計実施回数</td></tr>
+            <tr><td>直近7日アクティブ</td><td>過去7日以内にトレーニングを実施したメンバー数</td></tr>
+          </table>
+          <p style="margin-top:1rem;"><strong>スコアの色の意味：</strong></p>
+          <ul>
+            <li><strong style="color:var(--primary)">緑色（80点以上）</strong>：高いパフォーマンス</li>
+            <li><strong style="color:var(--gold)">金色（60〜79点）</strong>：標準的なパフォーマンス</li>
+            <li>グレー（60点未満）：要改善</li>
+          </ul>
+          <p style="margin-top:1rem;">🔥のアイコンは連続トレーニング日数（ストリーク）を表します。継続的な学習習慣の指標として活用してください。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. 請求・プラン -->
+    <div class="section" id="billing">
+      <p class="section-label">06 — BILLING</p>
+      <h2 class="section-title">請求・プラン</h2>
+      <div class="card">
+        <p class="card-title">現在のプランを確認する</p>
+        <div class="text">
+          <p>「請求・プラン」ページで現在の契約内容と次回請求日を確認できます。</p>
+          <div class="img-placeholder">📸 請求・プラン画面のスクリーンショット</div>
+        </div>
+      </div>
+      <div class="card">
+        <p class="card-title">プランを変更する</p>
+        <div class="text">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <p class="step-title">「請求・プラン」を開く</p>
+              <p class="step-desc">左サイドバーの「請求・プラン」をクリックします。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <p class="step-title">変更したいプランを選択</p>
+              <p class="step-desc">プラン一覧から変更先のプランの「このプランに変更」をクリックします。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <p class="step-title">Stripeの決済画面で支払い情報を入力</p>
+              <p class="step-desc">クレジットカード情報を入力して手続きを完了します。完了後、ダッシュボードに自動的に戻ります。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <p class="card-title">解約する</p>
+        <div class="text">
+          <p>解約をご希望の場合は、「請求・プラン」ページ下部の「解約を申請する」から <a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a> へメールをお送りください。</p>
+          <p>解約後もデータは30日間保持されます。次回課金日の前日までにご連絡ください。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. 設定 -->
+    <div class="section" id="settings">
+      <p class="section-label">07 — SETTINGS</p>
+      <h2 class="section-title">設定</h2>
+      <div class="card">
+        <p class="card-title">チーム名を変更する</p>
+        <div class="text">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <p class="step-title">「設定」を開く</p>
+              <p class="step-desc">左サイドバーの「設定」をクリックします。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <p class="step-title">チーム名を入力して保存</p>
+              <p class="step-desc">「チーム情報」セクションのチーム名フィールドを編集し「変更を保存」をクリックします。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <p class="card-title">管理者メールアドレスの変更</p>
+        <div class="text">
+          <p>管理者メールアドレスの変更は <a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a> までお問い合わせください。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. FAQ -->
+    <div class="section" id="faq">
+      <p class="section-label">08 — FAQ</p>
+      <h2 class="section-title">よくある質問</h2>
+      <div class="card">
+        <div class="text">
+          <p class="faq-q">Q. メンバーが招待メールを受け取れていない場合は？</p>
+          <p class="faq-a">迷惑メールフォルダをご確認ください。それでも届かない場合は一度削除して再招待をお試しください。改善しない場合は <a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a> までご連絡ください。</p>
+
+          <p class="faq-q">Q. メンバーを削除するとそのメンバーのデータはどうなりますか？</p>
+          <p class="faq-a">チームから削除されると法人プランの機能が利用できなくなりますが、そのメンバー個人の学習データは保持されます。再招待すれば再びアクティブになります。</p>
+
+          <p class="faq-q">Q. プランの上限人数を超えてしまった場合は？</p>
+          <p class="faq-a">上位プランへの変更が必要です。「請求・プラン」ページからプラン変更の手続きをしてください。</p>
+
+          <p class="faq-q">Q. 請求日はいつですか？</p>
+          <p class="faq-a">サービス開始日から1ヶ月ごとに自動更新されます。次回請求日は「請求・プラン」ページで確認できます。</p>
+
+          <p class="faq-q">Q. 領収書は発行されますか？</p>
+          <p class="faq-a">Stripeから自動的に領収書メールが送付されます。再発行が必要な場合は <a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a> までお問い合わせください。</p>
+
+          <p class="faq-q">Q. ダッシュボードはスマートフォンで使えますか？</p>
+          <p class="faq-a">ブラウザからアクセス可能ですが、PCでの利用を推奨します。メンバー向けのトレーニング機能はiOSアプリをご利用ください。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. お問い合わせ -->
+    <div class="section" id="contact">
+      <p class="section-label">09 — CONTACT</p>
+      <h2 class="section-title">お問い合わせ</h2>
+      <div class="card">
+        <div class="text">
+          <p>ご不明な点やご要望は以下よりお気軽にご連絡ください。</p>
+          <div class="infobox">
+            <strong>グッドネイバーカマクラ合同会社</strong>
+            Email：<a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a><br>
+            受付時間：平日 10:00〜18:00（土日祝を除く）<br>
+            お問い合わせフォーム：<a href="/honshitsu/contact.html">こちら</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// アクティブな目次リンクをハイライト
+const sections = document.querySelectorAll('.section');
+const tocLinks = document.querySelectorAll('.toc a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+  tocLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+});
+</script>
+</body>
+</html>
