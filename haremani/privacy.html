@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プライバシーポリシー ― はれまに</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Shippori+Mincho+B1:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1E2530; --mist: #B7C4CE; --mist-dim: #8894A0;
+    --paper: #F6F3EC; --paper-dim: #ECE7DA;
+    --clarity: #7FA396; --clarity-deep: #5C8478; --plum: #8B5A6B;
+    --text-dark: #232833; --text-soft: #5B6472;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse 120% 80% at 50% -10%, #F4F6F2 0%, #E9EDE6 55%, #E0E5DD 100%);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    color: var(--text-dark);
+  }
+  a { color: var(--clarity-deep); }
+  .app { max-width: 640px; margin: 0 auto; padding: 40px 20px 90px; }
+
+  .top-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; }
+  .brand { display: flex; align-items: center; gap: 9px; }
+  .brand-name {
+    font-family: 'Shippori Mincho B1', serif; font-size: 18px; font-weight: 600;
+    color: var(--text-dark); letter-spacing: 0.08em;
+  }
+  .back-link { font-size: 12px; color: var(--text-soft); }
+
+  h1 { font-family: 'Shippori Mincho', serif; font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+  .updated { font-size: 11px; color: var(--text-soft); margin-bottom: 40px; }
+
+  .doc-card {
+    background: var(--paper);
+    border-radius: 18px;
+    padding: 32px 28px;
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.3), 0 2px 0 rgba(255,255,255,0.4) inset;
+  }
+
+  .lead-note {
+    background: rgba(127,163,150,0.1);
+    border: 1px solid rgba(127,163,150,0.3);
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--text-dark);
+    margin-bottom: 32px;
+  }
+  .lead-note strong { color: var(--clarity-deep); }
+
+  h2 {
+    font-family: 'Shippori Mincho', serif; font-size: 15px; font-weight: 600;
+    color: var(--clarity-deep); margin: 32px 0 12px;
+  }
+  h2:first-of-type { margin-top: 0; }
+
+  p, li { font-size: 13px; line-height: 2; color: var(--text-soft); }
+  ul { padding-left: 20px; margin-bottom: 8px; }
+  li { margin-bottom: 4px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #DEDCCE; color: var(--text-soft); }
+  th { color: var(--text-dark); font-weight: 700; width: 32%; }
+
+  footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid #DCD5C4; font-size: 10.5px; color: var(--text-soft); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="top-header">
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="19" fill="#232833"/>
+        <path d="M5 27.5 L13.5 17.5 L16.5 20.3 L20 14 L23.5 20.3 L26.5 17.5 L35 27.5 Z" fill="#FFFFFF"/>
+      </svg>
+      <span class="brand-name">はれまに</span>
+    </div>
+    <a href="./index.html" class="back-link">← トップに戻る</a>
+  </div>
+
+  <h1>プライバシーポリシー</h1>
+  <p class="updated">最終改定日：2026年7月16日</p>
+
+  <div class="doc-card">
+    <div class="lead-note">
+      「はれまに」に書いていただいた内容は、<strong>第三者や会社に共有されることはありません</strong>。このページでは、その約束の具体的な扱いを説明します。
+    </div>
+
+    <h2>1. 収集する情報</h2>
+    <table>
+      <tr><th>今日のもやもや（本文）</th><td>入力いただいたテキストは、リフレーミングを生成するためだけに処理されます。運営者を含む第三者が個別に閲覧することはありません。</td></tr>
+      <tr><th>利用状況データ</th><td>投稿回数・利用日など、サービス提供に必要な範囲のデータをお使いの端末上に保存します。</td></tr>
+      <tr><th>決済情報（有料プランの場合）</th><td>クレジットカード情報等は決済代行事業者が管理し、当社は保持しません。</td></tr>
+    </table>
+
+    <h2>2. AIによる処理について</h2>
+    <p>投稿いただいた内容は、リフレーミング・パターン分析の生成のために外部のAIサービス（Anthropic社のClaude）に送信されます。この送信は、応答を生成する目的のみに利用され、当社独自の分析・広告目的での利用は行いません。</p>
+
+    <h2>3. データの保存場所</h2>
+    <p>投稿内容および利用状況データは、お使いのブラウザに紐づく形で保存されます。当社が保有する中央データベースにユーザーごとの投稿内容を蓄積することはありません。</p>
+
+    <h2>4. 第三者提供</h2>
+    <p>当社は、法令に基づく場合を除き、ユーザーの同意なく投稿内容を第三者に提供することはありません。運営者本人であっても、個別のユーザーの投稿内容を閲覧する手段は用意していません。</p>
+
+    <h2>5. データの削除</h2>
+    <p>ブラウザのデータを削除することで、保存された投稿内容・利用状況はすべて消去されます。有料プランをご利用の場合、決済情報の削除については決済代行事業者の規定に従います。</p>
+
+    <h2>6. お問い合わせ</h2>
+    <p>本ポリシーに関するお問い合わせは、<a href="./contact.html">お問い合わせフォーム</a>またはメール（<a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a>）までご連絡ください。</p>
+  </div>
+
+</div>
+</body>
+</html>

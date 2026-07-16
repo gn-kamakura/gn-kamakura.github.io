@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>はれまに ― モヤモヤの合間に、視界が晴れる</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Shippori+Mincho+B1:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1E2530;
+    --ink-soft: #2A3341;
+    --mist: #B7C4CE;
+    --mist-dim: #8894A0;
+    --paper: #F6F3EC;
+    --paper-dim: #ECE7DA;
+    --clarity: #7FA396;
+    --clarity-deep: #5C8478;
+    --plum: #8B5A6B;
+    --text-dark: #232833;
+    --text-soft: #5B6472;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse 120% 80% at 50% -10%, #F4F6F2 0%, #E9EDE6 55%, #E0E5DD 100%);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    color: var(--text-dark);
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before, body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.16;
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::before { width: 420px; height: 420px; background: var(--clarity); top: 8%; left: -12%; }
+  body::after { width: 360px; height: 360px; background: var(--plum); bottom: 5%; right: -10%; opacity: 0.1; }
+
+  a { color: inherit; text-decoration: none; }
+
+  .app {
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 40px 20px 90px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 56px;
+  }
+
+  .brand { display: flex; align-items: center; gap: 9px; }
+  .brand-mark { flex-shrink: 0; filter: drop-shadow(0 2px 4px rgba(92,132,120,0.25)); }
+  .brand-text { display: flex; flex-direction: column; gap: 2px; }
+
+  .brand-name {
+    font-family: 'Shippori Mincho B1', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-dark);
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+
+  .brand-tagline {
+    font-size: 10px;
+    color: var(--text-soft);
+    letter-spacing: 0.02em;
+    opacity: 0.85;
+  }
+
+  .top-cta {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 9px 18px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .hero { text-align: center; margin-bottom: 64px; }
+
+  .hero-mark { width: 56px; height: 56px; margin: 0 auto 20px; filter: drop-shadow(0 3px 8px rgba(92,132,120,0.25)); }
+
+  .hero-word {
+    font-family: 'Shippori Mincho B1', serif;
+    font-size: 34px;
+    font-weight: 600;
+    color: var(--text-dark);
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .hero-tagline {
+    font-size: 13px;
+    color: var(--text-soft);
+    letter-spacing: 0.03em;
+    margin-bottom: 40px;
+  }
+
+  .demo-card {
+    background: var(--paper);
+    border-radius: 18px;
+    padding: 26px 24px 24px;
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.5), 0 2px 0 rgba(255,255,255,0.4) inset;
+    text-align: left;
+    margin-bottom: 32px;
+  }
+
+  .demo-prompt {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+  }
+
+  .demo-input {
+    background: #FFFDF8;
+    border: 1.5px solid #DCD5C4;
+    border-radius: 12px;
+    padding: 13px 16px;
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: var(--text-soft);
+    margin-bottom: 18px;
+  }
+
+  .demo-response {
+    position: relative;
+    border-left: 3px solid var(--clarity);
+    background: #FBFAF5;
+    border-radius: 4px 12px 12px 4px;
+    padding: 16px 18px 17px;
+    overflow: hidden;
+    min-height: 96px;
+  }
+
+  .demo-veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, #FBFAF5 0%, #E4E9E6 45%, #FBFAF5 100%);
+    backdrop-filter: blur(14px);
+    animation: demoVeilLoop 3.2s cubic-bezier(0.22,1,0.36,1) infinite;
+  }
+
+  @keyframes demoVeilLoop {
+    0% { opacity: 1; backdrop-filter: blur(14px); }
+    35% { opacity: 1; backdrop-filter: blur(14px); }
+    75% { opacity: 0; backdrop-filter: blur(0); }
+    100% { opacity: 0; backdrop-filter: blur(0); }
+  }
+
+  .demo-response-label {
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--clarity-deep);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+
+  .demo-response-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13px;
+    line-height: 1.95;
+    color: var(--text-dark);
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 15px 32px;
+    border-radius: 999px;
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+  .hero-cta:hover { background: var(--clarity-deep); transform: translateY(-1px); }
+
+  .hero-cta-note {
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--text-soft);
+    opacity: 0.8;
+  }
+
+  section { margin-bottom: 64px; }
+
+  .eyebrow-block {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: var(--clarity-deep);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.65;
+    color: var(--text-dark);
+    margin-bottom: 14px;
+  }
+
+  .lead {
+    font-size: 13.5px;
+    line-height: 1.95;
+    color: var(--text-soft);
+  }
+
+  .moya-cards { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
+
+  .moya-card {
+    background: rgba(255,253,248,0.7);
+    border: 1px solid #DEDCCE;
+    border-radius: 14px;
+    padding: 16px 18px;
+  }
+
+  .moya-card p {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-dark);
+  }
+
+  .moya-card .tag {
+    display: inline-block;
+    margin-top: 9px;
+    font-size: 10.5px;
+    color: var(--clarity-deep);
+    background: rgba(127,163,150,0.12);
+    padding: 2px 9px;
+    border-radius: 999px;
+  }
+
+  .feature-card {
+    background: var(--paper);
+    border-radius: 18px;
+    padding: 26px 24px 24px;
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.35), 0 2px 0 rgba(255,255,255,0.4) inset;
+    margin-top: 28px;
+  }
+  .feature-card + .feature-card { margin-top: 14px; }
+
+  .feature-num {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 11px;
+    color: var(--clarity-deep);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .feature-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 17px;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+  }
+
+  .feature-desc {
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: var(--text-soft);
+  }
+
+  .feature-mock {
+    margin-top: 18px;
+    background: #FFFDF8;
+    border: 1px solid #DCD5C4;
+    border-radius: 12px;
+    padding: 15px 17px;
+  }
+
+  .feature-mock .q {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 12px;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    line-height: 1.8;
+  }
+
+  .feature-mock .opt {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    border: 1.5px solid #DCD5C4;
+    border-radius: 10px;
+    padding: 9px 12px;
+    margin-bottom: 7px;
+  }
+  .feature-mock .opt.picked {
+    border-color: var(--clarity-deep);
+    background: rgba(127,163,150,0.1);
+    color: var(--text-dark);
+    font-weight: 700;
+  }
+
+  .stance-list { margin-top: 28px; display: flex; flex-direction: column; gap: 20px; }
+  .stance-item { display: flex; gap: 14px; align-items: flex-start; }
+
+  .stance-mark {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--paper-dim);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 12px;
+    color: var(--clarity-deep);
+  }
+
+  .stance-body h3 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+  }
+
+  .stance-body p { font-size: 12px; line-height: 1.85; color: var(--text-soft); }
+
+  .privacy-note {
+    margin-top: 26px;
+    background: var(--paper);
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 12px 30px -14px rgba(0,0,0,0.3);
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: var(--text-dark);
+    text-align: center;
+  }
+  .privacy-note strong { color: var(--clarity-deep); }
+
+  .price-grid { margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
+
+  .price-card {
+    background: var(--paper);
+    border: 1px solid #DEDCCE;
+    border-radius: 16px;
+    padding: 22px 22px 20px;
+    text-align: center;
+  }
+
+  .price-card.plus {
+    background: linear-gradient(160deg, #232B38 0%, var(--ink) 70%);
+    text-align: center;
+  }
+
+  .price-name { font-family: 'Shippori Mincho', serif; font-size: 14px; margin-bottom: 4px; color: var(--text-dark); }
+  .price-card.plus .price-name { color: var(--clarity); font-size: 10.5px; letter-spacing: 0.1em; font-weight: 700; text-transform: uppercase; }
+
+  .price-num { font-family: 'Shippori Mincho', serif; font-size: 24px; margin-bottom: 14px; color: var(--text-dark); }
+  .price-card.plus .price-num { color: var(--paper); font-size: 22px; }
+  .price-num span { font-size: 11px; color: var(--text-soft); font-family: 'Zen Kaku Gothic New', sans-serif; }
+  .price-card.plus .price-num span { color: var(--mist-dim); }
+
+  .price-features { list-style: none; }
+  .price-features li {
+    font-size: 12px;
+    color: var(--text-soft);
+    line-height: 2.1;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 7px;
+  }
+  .price-card.plus .price-features li { color: var(--mist); }
+  .price-features li::before { content: '✓'; color: var(--clarity-deep); font-weight: 700; }
+  .price-card.plus .price-features li::before { color: var(--clarity); }
+
+  button.plus-cta {
+    appearance: none;
+    border: none;
+    background: var(--clarity);
+    color: var(--ink);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 11px 26px;
+    border-radius: 999px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .faq-list { margin-top: 28px; background: var(--paper); border-radius: 16px; padding: 4px 20px; box-shadow: 0 12px 30px -16px rgba(0,0,0,0.3); }
+
+  .faq-item { border-bottom: 1px solid #DEDCCE; }
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-q {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 16px 0;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .faq-q-icon { font-size: 15px; color: var(--clarity-deep); transition: transform 0.25s ease; flex-shrink: 0; margin-left: 12px; }
+  .faq-item.open .faq-q-icon { transform: rotate(45deg); }
+
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .faq-item.open .faq-a { max-height: 240px; }
+  .faq-a p { font-size: 12px; line-height: 1.85; color: var(--text-soft); padding-bottom: 16px; }
+
+  .final-cta {
+    text-align: center;
+    background: linear-gradient(160deg, #232B38 0%, var(--ink) 70%);
+    border-radius: 20px;
+    padding: 40px 28px;
+  }
+  .final-cta h2 { color: var(--paper); margin-bottom: 22px; }
+  .final-cta .hero-cta { background: var(--paper); color: var(--ink); }
+  .final-cta .hero-cta-note { color: var(--mist-dim); }
+
+  footer { margin-top: 72px; padding-top: 28px; border-top: 1px solid #DCD5C4; }
+
+  .footer-text { font-size: 10.5px; line-height: 1.9; color: var(--text-soft); margin-bottom: 16px; }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 10.5px;
+    color: var(--text-soft);
+  }
+
+  .footer-copyright {
+    margin-top: 20px;
+    font-size: 10px;
+    color: var(--text-soft);
+    opacity: 0.7;
+  }
+
+  @media (max-width: 480px) {
+    .hero-word { font-size: 28px; }
+    h2 { font-size: 19px; }
+    .app { padding: 32px 18px 70px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="top-header">
+    <div class="brand">
+      <svg class="brand-mark" width="30" height="30" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="19" fill="#232833"/>
+        <g opacity="0.22" stroke="#FFFFFF" stroke-width="0.6" fill="none"><circle cx="20" cy="5.6" r="4.2"/><circle cx="31.3" cy="11" r="4.2"/><circle cx="34" cy="23.2" r="4.2"/><circle cx="26.2" cy="33" r="4.2"/><circle cx="13.8" cy="33" r="4.2"/><circle cx="6" cy="23.2" r="4.2"/><circle cx="8.7" cy="11" r="4.2"/></g>
+        <g stroke="#FFFFFF" stroke-width="1.1" opacity="0.85" stroke-linecap="round"><line x1="20" y1="15" x2="20" y2="3"/><line x1="20" y1="15" x2="12.5" y2="4.5"/><line x1="20" y1="15" x2="27.5" y2="4.5"/><line x1="20" y1="15" x2="6.5" y2="9"/><line x1="20" y1="15" x2="33.5" y2="9"/></g>
+        <path d="M5 27.5 L13.5 17.5 L16.5 20.3 L20 14 L23.5 20.3 L26.5 17.5 L35 27.5 Z" fill="#FFFFFF"/>
+        <path d="M6 32 Q11 30 15 32 T24 32 T33 32" fill="none" stroke="#FFFFFF" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-text">
+        <span class="brand-name">はれまに</span>
+        <span class="brand-tagline">モヤモヤの合間に、視界が晴れる</span>
+      </div>
+    </div>
+    <a href="./app.html" class="top-cta">晴らしてみる</a>
+  </div>
+
+  <div class="hero">
+    <svg class="hero-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="19" fill="#232833"/>
+      <g opacity="0.22" stroke="#FFFFFF" stroke-width="0.6" fill="none"><circle cx="20" cy="5.6" r="4.2"/><circle cx="31.3" cy="11" r="4.2"/><circle cx="34" cy="23.2" r="4.2"/><circle cx="26.2" cy="33" r="4.2"/><circle cx="13.8" cy="33" r="4.2"/><circle cx="6" cy="23.2" r="4.2"/><circle cx="8.7" cy="11" r="4.2"/></g>
+      <g stroke="#FFFFFF" stroke-width="1.1" opacity="0.85" stroke-linecap="round"><line x1="20" y1="15" x2="20" y2="3"/><line x1="20" y1="15" x2="12.5" y2="4.5"/><line x1="20" y1="15" x2="27.5" y2="4.5"/><line x1="20" y1="15" x2="6.5" y2="9"/><line x1="20" y1="15" x2="33.5" y2="9"/></g>
+      <path d="M5 27.5 L13.5 17.5 L16.5 20.3 L20 14 L23.5 20.3 L26.5 17.5 L35 27.5 Z" fill="#FFFFFF"/>
+      <path d="M6 32 Q11 30 15 32 T24 32 T33 32" fill="none" stroke="#FFFFFF" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/>
+    </svg>
+    <div class="hero-word">誰にも見せない、<br>今日のモヤモヤ帳。</div>
+    <div class="hero-tagline">書くと、AIがそっと霧を晴らしてくれる。</div>
+
+    <div class="demo-card">
+      <p class="demo-prompt">今日、誰かの一言や態度で、少し引っかかったことは？</p>
+      <div class="demo-input">後輩に指摘したら「お互い気をつけましょう」って言われて、なんかモヤッとした…</div>
+      <div class="demo-response">
+        <div class="demo-veil"></div>
+        <div class="demo-response-label">べつの見方</div>
+        <div class="demo-response-text">対等な言い方に聞こえて、少し引っかかったのだと思います。相手には「一緒に改善したい」という意図があった可能性もあります。伝え方と意図が、少しずれていただけかもしれません。</div>
+      </div>
+    </div>
+
+    <a href="./app.html" class="hero-cta">今すぐ晴らしてみる →</a>
+    <div class="hero-cta-note">登録不要・ブラウザですぐに使えます</div>
+  </div>
+
+  <section>
+    <div class="eyebrow-block">こんなことありませんか</div>
+    <h2>言葉にできないまま、<br>その日が終わっていく。</h2>
+    <p class="lead">誰かに話すほどでもない。でも、心のどこかに残っている。<br>そういう小さな引っかかりを、誰にも見せずに整理する場所です。</p>
+
+    <div class="moya-cards">
+      <div class="moya-card">
+        <p>後輩に指摘したら「お互い気をつけましょう」って言われて、なんかモヤッとした…</p>
+        <span class="tag">期待値のズレ</span>
+      </div>
+      <div class="moya-card">
+        <p>親に「本当にそれでいいの？」と繰り返し聞かれて、信じてもらえていない気がした</p>
+        <span class="tag">自己決定への口出し</span>
+      </div>
+      <div class="moya-card">
+        <p>グループでの集まりで、自分だけ知らない話題で盛り上がっていて、少し疎外感を覚えた</p>
+        <span class="tag">疎外感・置いてけぼり</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow-block">できること</div>
+    <h2>2つの方法で、<br>モヤモヤと向き合う。</h2>
+
+    <div class="feature-card">
+      <div class="feature-num">01 ― 今日のもやもや</div>
+      <div class="feature-title">書くと、霧が晴れる。</div>
+      <p class="feature-desc">その日引っかかったことを、思ったまま書くだけ。AIが、責める側にも責められる側にも肩入れせず、心理学的な視点でそっと言い換えてくれます。1日3回まで、誰にも見せない前提で。</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-num">02 ― あなたならどうする</div>
+      <div class="feature-title">選んだ先を、疑似体験する。</div>
+      <p class="feature-desc">職場・家族・友人――よくある場面を題材に、自分ならどう動くかを選んでみる。選択に応じて、その後の展開が枝分かれしていきます。正解も採点もありません。</p>
+      <div class="feature-mock">
+        <div class="q">親に自分の選択について「本当にそれでいいの？」と繰り返し聞かれる。</div>
+        <div class="opt">もう決めたことだからと、話を打ち切る</div>
+        <div class="opt picked">「信じて任せてほしい」と気持ちごと伝える</div>
+        <div class="opt">心配してくれているのだと受け止め、根気強く説明する</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow-block">はれまにが大事にしていること</div>
+    <h2>診断せず、急かさず、<br>ただ寄り添う。</h2>
+
+    <div class="stance-list">
+      <div class="stance-item">
+        <div class="stance-mark">1</div>
+        <div class="stance-body">
+          <h3>ゲーミフィケーションはしない</h3>
+          <p>ポイントも、ランキングも、連続記録の煽りもありません。書くこと自体が目的で、続けさせるための仕掛けは作っていません。</p>
+        </div>
+      </div>
+      <div class="stance-item">
+        <div class="stance-mark">2</div>
+        <div class="stance-body">
+          <h3>診断・断定はしない</h3>
+          <p>「あなたはこういう人です」というラベリングはしません。今の気持ちを、少し違う角度から眺め直すお手伝いだけをします。</p>
+        </div>
+      </div>
+      <div class="stance-item">
+        <div class="stance-mark">3</div>
+        <div class="stance-body">
+          <h3>急かさない</h3>
+          <p>行動を促したり、同意を求めたりする問いかけはしません。選択肢を静かに示すだけに留めます。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="privacy-note">
+      書いた内容は、<strong>誰にも共有されません</strong>。<br>あなただけの記録です。
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow-block">料金</div>
+    <h2>今のところ、<br>すべて無料です。</h2>
+    <p class="lead">登録不要・完全無料でお使いいただけます。</p>
+
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-name">無料プラン</div>
+        <div class="price-num">¥0</div>
+        <ul class="price-features">
+          <li>今日のもやもや：1日3回まで</li>
+          <li>あなたならどうする：1日3テーマまで</li>
+          <li>「近ごろの自分」パターン表示</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow-block">よくある質問</div>
+    <h2>気になること、先に。</h2>
+
+    <div class="faq-list" id="faqList">
+      <div class="faq-item">
+        <button class="faq-q">本当に誰にも見られませんか？<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><p>はい。書いた内容が第三者や会社に共有されることはありません。あなたのための記録として保存されます。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">スマートフォンでも使えますか？<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><p>はい。アプリのインストールは不要で、ブラウザからそのままお使いいただけます。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">無料プランでもずっと使えますか？<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><p>はい。無料プランに期限はありません。1日の上限に達した分だけ、翌日にリセットされます。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">記録はどこに保存されますか？他の端末でも見られますか？<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><p>記録はサーバーではなく、お使いのブラウザに保存されます。そのため、スマートフォンとパソコンなど異なる端末・異なるブラウザ間では記録は共有されません。またブラウザの閲覧履歴やキャッシュを消去すると、記録も一緒に消えてしまいますのでご注意ください。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <h2>今日のモヤモヤを、<br>ここに置いていきませんか。</h2>
+    <a href="./app.html" class="hero-cta">今すぐ晴らしてみる →</a>
+    <div class="hero-cta-note">登録不要・ブラウザですぐに使えます</div>
+  </section>
+
+  <footer>
+    <p class="footer-text">
+      運営：グッドネイバーカマクラ合同会社<br>
+      グッドネイバーカマクラ合同会社は、鎌倉を拠点に、デジタルを通じて会社にも個人にも寄り添う会社です。
+    </p>
+    <div class="footer-links">
+      <a href="./terms.html">利用規約</a>
+      <a href="./privacy.html">プライバシーポリシー</a>
+      <a href="./contact.html">お問い合わせ</a>
+    </div>
+    <p class="footer-copyright">© 2026 グッドネイバーカマクラ合同会社</p>
+  </footer>
+
+</div>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+
+</body>
+</html>

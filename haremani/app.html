@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>はれまに</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Shippori+Mincho+B1:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1E2530;
+    --ink-soft: #2A3341;
+    --mist: #B7C4CE;
+    --mist-dim: #8894A0;
+    --paper: #F6F3EC;
+    --paper-dim: #ECE7DA;
+    --clarity: #7FA396;
+    --clarity-deep: #5C8478;
+    --plum: #8B5A6B;
+    --text-dark: #232833;
+    --text-soft: #5B6472;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse 120% 80% at 50% -10%, #F4F6F2 0%, #E9EDE6 55%, #E0E5DD 100%);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    color: var(--text-dark);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 48px 20px 80px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ambient mist */
+  body::before, body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.16;
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::before {
+    width: 420px; height: 420px;
+    background: var(--clarity);
+    top: 8%; left: -12%;
+  }
+  body::after {
+    width: 360px; height: 360px;
+    background: var(--plum);
+    bottom: 5%; right: -10%;
+    opacity: 0.1;
+  }
+
+  .app {
+    width: 100%;
+    max-width: 540px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding: 0 4px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .brand-mark {
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(92,132,120,0.25));
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .eyebrow-label {
+    font-family: 'Shippori Mincho B1', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-dark);
+    letter-spacing: 0.1em;
+    line-height: 1;
+  }
+
+  .eyebrow-tagline {
+    font-size: 10.5px;
+    color: var(--text-soft);
+    letter-spacing: 0.03em;
+    opacity: 0.85;
+  }
+
+  .eyebrow-date {
+    font-size: 12px;
+    color: var(--text-soft);
+    letter-spacing: 0.05em;
+    padding-top: 4px;
+  }
+
+  /* --- section switch tabs --- */
+  .nav-tabs {
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+    display: flex;
+    gap: 6px;
+    background: rgba(246,243,236,0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid #DEDCCE;
+    border-radius: 999px;
+    padding: 4px;
+    margin-bottom: 24px;
+  }
+
+  .nav-tab {
+    appearance: none;
+    border: none;
+    background: none;
+    flex: 1;
+    text-align: center;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-soft);
+    padding: 9px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .nav-tab.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .card {
+    background: var(--paper);
+    border-radius: 18px;
+    padding: 32px 30px 28px;
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.5), 0 2px 0 rgba(255,255,255,0.4) inset;
+    position: relative;
+  }
+
+  .prompt {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 16px;
+    line-height: 1.9;
+    color: var(--text-dark);
+    margin-bottom: 18px;
+  }
+
+  .prompt-sub {
+    display: block;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 12.5px;
+    color: var(--text-soft);
+    margin-top: 4px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 110px;
+    resize: vertical;
+    border: 1.5px solid #DCD5C4;
+    border-radius: 12px;
+    background: #FFFDF8;
+    padding: 16px 18px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 14.5px;
+    line-height: 1.8;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  textarea:focus {
+    border-color: var(--clarity);
+  }
+
+  textarea::placeholder {
+    color: #A8A190;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+
+  .char-count {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    letter-spacing: 0.02em;
+  }
+
+  .actions-left {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .daily-limit-note {
+    font-size: 10.5px;
+    color: var(--text-soft);
+    opacity: 0.75;
+    letter-spacing: 0.02em;
+  }
+
+  .daily-limit-note.reached {
+    color: var(--plum);
+    font-weight: 700;
+  }
+
+  /* --- プランバッジ --- */
+  .plan-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .plan-badge {
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: var(--mist-dim);
+    background: rgba(246,243,236,0.08);
+    border: 1px solid rgba(183,196,206,0.2);
+    padding: 3px 11px;
+    border-radius: 999px;
+  }
+
+  .plan-badge.premium {
+    color: var(--clarity);
+    background: rgba(127,163,150,0.14);
+    border-color: rgba(127,163,150,0.4);
+    font-weight: 700;
+  }
+
+  .plan-demo-toggle {
+    appearance: none;
+    background: none;
+    border: none;
+    font-size: 10px;
+    color: var(--mist-dim);
+    text-decoration: underline;
+    cursor: pointer;
+    opacity: 0.6;
+  }
+
+  /* --- ペイウォール --- */
+  .paywall-card {
+    background: linear-gradient(160deg, #232B38 0%, var(--ink) 70%);
+    border-radius: 16px;
+    padding: 22px 22px 20px;
+    margin-top: 14px;
+    text-align: center;
+  }
+
+  .paywall-eyebrow {
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--clarity);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .paywall-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 16px;
+    color: var(--paper);
+    margin-bottom: 6px;
+  }
+
+  .paywall-desc {
+    font-size: 12px;
+    color: var(--mist);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .paywall-price {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 22px;
+    color: var(--paper);
+    margin-bottom: 2px;
+  }
+
+  .paywall-price span {
+    font-size: 11px;
+    color: var(--mist-dim);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+
+  .paywall-features {
+    text-align: left;
+    font-size: 11.5px;
+    color: var(--mist);
+    line-height: 2;
+    margin: 14px 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .paywall-features li::before {
+    content: '✓ ';
+    color: var(--clarity);
+    font-weight: 700;
+  }
+
+  button.paywall-cta {
+    appearance: none;
+    border: none;
+    background: var(--clarity);
+    color: var(--ink);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 11px 28px;
+    border-radius: 999px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .paywall-note {
+    font-size: 9.5px;
+    color: var(--mist-dim);
+    margin-top: 10px;
+    opacity: 0.7;
+  }
+
+  .simple-locked {
+    background: var(--paper-dim);
+    border-radius: 14px;
+    padding: 20px 22px;
+    text-align: center;
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: var(--text-soft);
+  }
+
+  button.submit {
+    appearance: none;
+    border: none;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 12px 24px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+
+  button.submit:hover:not(:disabled) {
+    background: var(--clarity-deep);
+    transform: translateY(-1px);
+  }
+
+  button.submit:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  /* --- response area: the "mist clearing" signature --- */
+  .response-wrap {
+    margin-top: 22px;
+    display: none;
+  }
+
+  .response-wrap.show {
+    display: block;
+  }
+
+  .response-card {
+    position: relative;
+    border-left: 3px solid var(--clarity);
+    background: #FBFAF5;
+    border-radius: 4px 12px 12px 4px;
+    padding: 18px 22px 20px;
+    overflow: hidden;
+  }
+
+  .response-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--clarity-deep);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .glint {
+    opacity: 0;
+    transform: scale(0.4) rotate(-15deg);
+    animation: glintIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.1s forwards;
+  }
+
+  @keyframes glintIn {
+    0% { opacity: 0; transform: scale(0.3) rotate(-20deg); }
+    60% { opacity: 1; transform: scale(1.15) rotate(5deg); }
+    100% { opacity: 0.9; transform: scale(1) rotate(0deg); }
+  }
+
+  /* --- urgent / crisis mode: sober, no playful animation --- */
+  .response-card.urgent {
+    border-left: 3px solid var(--plum);
+    background: #FBF8F7;
+  }
+
+  .response-card.urgent .response-label {
+    color: var(--plum);
+  }
+
+  .crisis-resources {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(139,90,107,0.2);
+  }
+
+  .crisis-resources.show {
+    display: block;
+  }
+
+  .crisis-resources-lead {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .crisis-resource-item {
+    font-size: 12.5px;
+    line-height: 1.7;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .crisis-resource-name {
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+
+  .crisis-resource-detail {
+    color: var(--text-soft);
+    display: block;
+    font-size: 11.5px;
+  }
+
+  .crisis-resource-contact {
+    color: var(--plum);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+
+  .response-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--text-dark);
+    white-space: pre-wrap;
+  }
+
+  .mist-veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, #FBFAF5 0%, #E4E9E6 45%, #FBFAF5 100%);
+    backdrop-filter: blur(14px);
+    opacity: 1;
+    transition: opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1), filter 1.4s ease;
+  }
+
+  .mist-veil.clear {
+    opacity: 0;
+    filter: blur(0);
+    pointer-events: none;
+  }
+
+  .loading-text {
+    font-size: 13px;
+    color: var(--text-soft);
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .loading-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--clarity);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.25; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+
+  /* history */
+  .history {
+    margin-top: 16px;
+  }
+
+  .history-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px 10px;
+  }
+
+  .history-title {
+    font-size: 12px;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+  }
+
+  .history-count {
+    font-size: 11px;
+    color: var(--text-soft);
+    opacity: 0.8;
+  }
+
+  .history-item {
+    background: #FFFFFF;
+    border: 1px solid #DEDCCE;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(35,40,51,0.04);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .history-item:hover {
+    background: #FBFAF5;
+    box-shadow: 0 5px 16px rgba(35,40,51,0.07);
+  }
+
+  .history-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .history-date {
+    font-size: 10.5px;
+    color: var(--text-soft);
+    white-space: nowrap;
+  }
+
+  .history-preview {
+    font-size: 13px;
+    color: var(--text-dark);
+    opacity: 0.85;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+
+  .history-detail {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #E6E2D2;
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: var(--text-soft);
+    display: none;
+  }
+
+  .history-detail.open {
+    display: block;
+  }
+
+  .history-detail .tag {
+    font-size: 10px;
+    color: var(--clarity-deep);
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 4px;
+    margin-top: 8px;
+    font-weight: 700;
+  }
+
+  .empty-history {
+    font-size: 12px;
+    color: var(--text-soft);
+    opacity: 0.7;
+    padding: 8px 4px;
+  }
+
+  .error-msg {
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: #C97B7B;
+    display: none;
+  }
+
+  .history-tag {
+    font-size: 10px;
+    color: var(--ink);
+    background: var(--clarity);
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    opacity: 0.85;
+    font-weight: 700;
+  }
+
+  /* --- 近ごろの自分 (pattern mirror) --- */
+  .pattern {
+    margin-top: 16px;
+    display: none;
+  }
+
+  .pattern.show {
+    display: block;
+  }
+
+  .pattern-card {
+    background: #FFFFFF;
+    border: 1px solid #DEDCCE;
+    border-radius: 16px;
+    padding: 22px 24px 20px;
+    box-shadow: 0 3px 10px rgba(35,40,51,0.04);
+  }
+
+  .pattern-head {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14.5px;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+
+  .pattern-sub {
+    font-size: 11px;
+    color: var(--text-soft);
+    margin-bottom: 16px;
+  }
+
+  .pattern-row {
+    margin-bottom: 11px;
+  }
+
+  .pattern-row-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .pattern-tag {
+    font-size: 12px;
+    color: var(--text-dark);
+    opacity: 0.8;
+  }
+
+  .pattern-num {
+    font-size: 11px;
+    color: var(--text-soft);
+  }
+
+  .pattern-bar-track {
+    height: 5px;
+    background: #E9E5D8;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .pattern-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--clarity-deep), var(--clarity));
+    border-radius: 999px;
+    width: 0%;
+    transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pattern-locked {
+    font-size: 12px;
+    color: var(--text-soft);
+    line-height: 1.8;
+    opacity: 0.85;
+  }
+
+  /* --- 週次パターンレポート（PLUS限定） --- */
+  .weekly-report-card {
+    background: linear-gradient(160deg, #232B38 0%, var(--ink) 70%);
+    border-radius: 16px;
+    padding: 22px 24px 20px;
+    margin-top: 12px;
+  }
+
+  .weekly-report-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .weekly-report-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14.5px;
+    color: var(--paper);
+  }
+
+  .weekly-plus-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--clarity);
+    border: 1px solid rgba(127,163,150,0.5);
+    padding: 1px 7px;
+    border-radius: 999px;
+  }
+
+  .weekly-report-insight {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13.5px;
+    line-height: 2;
+    color: var(--mist);
+    margin-bottom: 16px;
+    white-space: pre-wrap;
+  }
+
+  .weekly-report-empty {
+    font-size: 12px;
+    color: var(--mist-dim);
+    line-height: 1.8;
+  }
+
+  .weekly-report-row {
+    margin-bottom: 10px;
+  }
+
+  .weekly-report-row-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    font-size: 11.5px;
+  }
+
+  .weekly-report-row-top .tag { color: var(--paper); opacity: 0.9; }
+  .weekly-report-row-top .num { color: var(--mist-dim); }
+
+  .weekly-report-bar-track {
+    height: 5px;
+    background: rgba(183,196,206,0.15);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .weekly-report-bar-fill {
+    height: 100%;
+    background: var(--clarity);
+    border-radius: 999px;
+  }
+
+  .weekly-report-loading {
+    font-size: 12px;
+    color: var(--mist-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* --- 週次パターンレポート・無料版ティザー --- */
+  .weekly-teaser {
+    margin-top: 12px;
+    background: #FBFAF5;
+    border: 1px dashed #DCD5C4;
+    border-radius: 14px;
+    padding: 15px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .weekly-teaser-text {
+    font-size: 11.5px;
+    line-height: 1.8;
+    color: var(--text-soft);
+  }
+
+  .weekly-teaser-text strong {
+    color: var(--text-dark);
+    font-weight: 700;
+  }
+
+  button.weekly-teaser-cta {
+    appearance: none;
+    border: none;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* --- 「あなたならどうする」ケーススタディ --- */
+  .case-section {
+    margin-top: 30px;
+  }
+
+  .case-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0 4px 10px;
+  }
+
+  .case-title {
+    font-size: 12px;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+  }
+
+  .case-progress {
+    font-size: 11px;
+    color: var(--text-soft);
+    opacity: 0.8;
+  }
+
+  .case-card {
+    background: #FFFFFF;
+    border: 1px solid #DEDCCE;
+    border-radius: 16px;
+    padding: 24px 24px 22px;
+    box-shadow: 0 3px 10px rgba(35,40,51,0.04);
+  }
+
+  .case-scenario {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+  }
+
+  .case-scenario-label {
+    display: block;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    color: var(--clarity-deep);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .case-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .case-option {
+    appearance: none;
+    text-align: left;
+    border: 1.5px solid #DCD5C4;
+    background: #FBFAF5;
+    border-radius: 12px;
+    padding: 13px 16px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .case-option:hover:not(:disabled) {
+    border-color: var(--clarity);
+    background: #FFFFFF;
+  }
+
+  .case-option:disabled {
+    cursor: default;
+    opacity: 0.55;
+  }
+
+  .case-option.chosen {
+    border-color: var(--clarity-deep);
+    background: rgba(127,163,150,0.1);
+    opacity: 1;
+  }
+
+  .case-feedback-wrap {
+    margin-top: 18px;
+    display: none;
+  }
+
+  .case-feedback-wrap.show { display: block; }
+
+  .case-feedback-card {
+    position: relative;
+    border-left: 3px solid var(--clarity);
+    background: #FBFAF5;
+    border-radius: 4px 12px 12px 4px;
+    padding: 16px 20px 18px;
+    overflow: hidden;
+  }
+
+  .case-feedback-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--clarity-deep);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .case-feedback-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14px;
+    line-height: 1.95;
+    color: var(--text-dark);
+    white-space: pre-wrap;
+  }
+
+  .case-next {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+
+  button.case-next-btn {
+    appearance: none;
+    border: none;
+    background: none;
+    color: var(--clarity-deep);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    padding: 6px 4px;
+    display: none;
+  }
+
+  button.case-next-btn.show { display: inline-flex; }
+
+  /* --- always-available help footer (defense in depth, independent of AI judgement) --- */
+  .footer-help {
+    margin-top: 26px;
+    text-align: center;
+  }
+
+  .footer-help-toggle {
+    appearance: none;
+    border: none;
+    background: none;
+    color: var(--text-soft);
+    font-size: 11.5px;
+    letter-spacing: 0.03em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    opacity: 0.75;
+    padding: 6px;
+  }
+
+  .footer-help-toggle:hover {
+    opacity: 1;
+    color: var(--plum);
+  }
+
+  .footer-help-panel {
+    display: none;
+    margin-top: 10px;
+    background: #FFFFFF;
+    border: 1px solid #DEDCCE;
+    border-radius: 12px;
+    padding: 16px 18px;
+    text-align: left;
+  }
+
+  .footer-help-panel.show {
+    display: block;
+  }
+
+  /* --- onboarding --- */
+  .onboarding {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: radial-gradient(ellipse 120% 80% at 50% -10%, #F4F6F2 0%, #E9EDE6 55%, #E0E5DD 100%);
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+
+  .onboarding.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .onboarding-card {
+    max-width: 380px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .onboarding-mark {
+    margin-bottom: 22px;
+  }
+
+  .onboarding-word {
+    font-family: 'Shippori Mincho B1', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-dark);
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+  }
+
+  .onboarding-tagline {
+    font-size: 13px;
+    color: var(--clarity-deep);
+    letter-spacing: 0.04em;
+    margin-bottom: 26px;
+    font-weight: 700;
+  }
+
+  .onboarding-desc {
+    font-size: 13.5px;
+    line-height: 2;
+    color: var(--text-soft);
+    margin-bottom: 8px;
+  }
+
+  .onboarding-privacy {
+    font-size: 12px;
+    line-height: 1.9;
+    color: var(--text-soft);
+    background: rgba(127,163,150,0.12);
+    border: 1px solid rgba(127,163,150,0.3);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 18px 0 28px;
+  }
+
+  .onboarding-privacy strong {
+    color: var(--clarity-deep);
+  }
+
+  button.onboarding-start {
+    appearance: none;
+    border: none;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 13px 36px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+
+  button.onboarding-start:hover {
+    background: var(--clarity-deep);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 32px 14px 60px; }
+    .card, .case-card, .pattern-card { padding: 22px 18px 20px; }
+    .response-card, .case-feedback-card { padding: 14px 16px 16px; }
+    .onboarding-card { max-width: 100%; }
+    .onboarding-word { font-size: 27px; }
+    button.submit, button.case-next-btn { font-size: 13px; }
+    .history-preview { max-width: 60vw; }
+  }
+</style>
+</head>
+<body>
+
+<div class="onboarding" id="onboarding">
+  <div class="onboarding-card">
+    <svg class="onboarding-mark" width="84" height="84" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="19" fill="#232833"/>
+      <g opacity="0.22" stroke="#FFFFFF" stroke-width="0.6" fill="none">
+        <circle cx="20" cy="5.6" r="4.2"/>
+        <circle cx="31.3" cy="11" r="4.2"/>
+        <circle cx="34" cy="23.2" r="4.2"/>
+        <circle cx="26.2" cy="33" r="4.2"/>
+        <circle cx="13.8" cy="33" r="4.2"/>
+        <circle cx="6" cy="23.2" r="4.2"/>
+        <circle cx="8.7" cy="11" r="4.2"/>
+      </g>
+      <g stroke="#FFFFFF" stroke-width="1.1" opacity="0.85" stroke-linecap="round">
+        <line x1="20" y1="15" x2="20" y2="3"/>
+        <line x1="20" y1="15" x2="12.5" y2="4.5"/>
+        <line x1="20" y1="15" x2="27.5" y2="4.5"/>
+        <line x1="20" y1="15" x2="6.5" y2="9"/>
+        <line x1="20" y1="15" x2="33.5" y2="9"/>
+      </g>
+      <path d="M5 27.5 L13.5 17.5 L16.5 20.3 L20 14 L23.5 20.3 L26.5 17.5 L35 27.5 Z" fill="#FFFFFF"/>
+      <path d="M6 32 Q11 30 15 32 T24 32 T33 32" fill="none" stroke="#FFFFFF" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/>
+    </svg>
+    <div class="onboarding-word">はれまに</div>
+    <div class="onboarding-tagline">モヤモヤの合間に、視界が晴れる</div>
+    <p class="onboarding-desc">
+      今日、誰かの一言や態度で引っかかったこと。<br>
+      その場では言葉にできなかったモヤモヤを、<br>
+      少しだけ、ここで整理してみませんか。
+    </p>
+    <div class="onboarding-privacy">
+      書いた内容は、<strong>誰にも共有されません</strong>。<br>
+      あなただけの記録です。
+    </div>
+    <button class="onboarding-start" id="onboardingStart">はじめる</button>
+  </div>
+</div>
+
+<div class="app">
+  <div class="eyebrow">
+    <div class="brand">
+      <svg class="brand-mark" width="30" height="30" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="19" fill="#232833"/>
+        <!-- subtle round lattice ring (七宝つなぎ, kept faint at this size) -->
+        <g opacity="0.22" stroke="#FFFFFF" stroke-width="0.6" fill="none">
+          <circle cx="20" cy="5.6" r="4.2"/>
+          <circle cx="31.3" cy="11" r="4.2"/>
+          <circle cx="34" cy="23.2" r="4.2"/>
+          <circle cx="26.2" cy="33" r="4.2"/>
+          <circle cx="13.8" cy="33" r="4.2"/>
+          <circle cx="6" cy="23.2" r="4.2"/>
+          <circle cx="8.7" cy="11" r="4.2"/>
+        </g>
+        <!-- sun rays -->
+        <g stroke="#FFFFFF" stroke-width="1.1" opacity="0.85" stroke-linecap="round">
+          <line x1="20" y1="15" x2="20" y2="3"/>
+          <line x1="20" y1="15" x2="12.5" y2="4.5"/>
+          <line x1="20" y1="15" x2="27.5" y2="4.5"/>
+          <line x1="20" y1="15" x2="6.5" y2="9"/>
+          <line x1="20" y1="15" x2="33.5" y2="9"/>
+        </g>
+        <!-- mt. fuji silhouette -->
+        <path d="M5 27.5 L13.5 17.5 L16.5 20.3 L20 14 L23.5 20.3 L26.5 17.5 L35 27.5 Z" fill="#FFFFFF"/>
+        <!-- single calm wave line, quiet nod to settling turmoil -->
+        <path d="M6 32 Q11 30 15 32 T24 32 T33 32" fill="none" stroke="#FFFFFF" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-text">
+        <span class="eyebrow-label">はれまに</span>
+        <span class="eyebrow-tagline">モヤモヤの合間に、視界が晴れる</span>
+      </div>
+    </div>
+    <span class="eyebrow-date" id="todayDate"></span>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" id="tabJournal">今日のもやもや</button>
+    <button class="nav-tab" id="tabCase">あなたならどうする</button>
+  </div>
+
+  <div class="plan-bar">
+    <span class="plan-badge" id="planBadge">無料プラン</span>
+    <button class="plan-demo-toggle" id="planDemoToggle">（デモ）プラン切替</button>
+  </div>
+
+  <div id="journalSection">
+  <div class="card">
+    <p class="prompt">
+      今日、誰かの一言や態度で、少し引っかかったことは？
+      <span class="prompt-sub">誰にも見せない前提で、思ったまま書いてみてください。</span>
+    </p>
+
+    <textarea id="entryInput" placeholder="例）後輩に指摘したら「お互い気をつけましょう」って言われて、なんかモヤッとした…"></textarea>
+
+    <div class="actions">
+      <div class="actions-left">
+        <span class="char-count" id="charCount">0文字</span>
+        <span class="daily-limit-note" id="journalLimitNote">本日 0 / 3</span>
+      </div>
+      <button class="submit" id="submitBtn">晴らしてみる</button>
+    </div>
+
+    <div class="paywall-card" id="journalPaywall" style="display:none">
+      <div class="paywall-eyebrow">HAREMANI PLUS</div>
+      <div class="paywall-title">今日はもう少し、話したい気分ですか</div>
+      <div class="paywall-desc">無料プランは1日3回まで。<br>はれまにプラスなら、書きたいだけ書けます。</div>
+      <div class="paywall-price">¥600<span> /月（税込）</span></div>
+      <ul class="paywall-features">
+        <li>ジャーナル・ケーススタディともに無制限</li>
+        <li>「近ごろの自分」の週次パターンレポート</li>
+      </ul>
+      <button class="paywall-cta" id="journalPaywallCta">はれまにプラスにアップグレード</button>
+      <div class="paywall-note">※ このプロトタイプでは実際の決済は発生しません</div>
+    </div>
+
+    <div class="error-msg" id="errorMsg">うまく送れませんでした。もう一度試してください。</div>
+
+    <div class="response-wrap" id="responseWrap">
+      <div class="response-card" id="responseCard">
+        <div class="mist-veil" id="mistVeil"></div>
+        <span class="response-label" id="responseLabel"><svg class="glint" width="11" height="11" viewBox="0 0 11 11" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 0 L6.7 4.3 L11 5.5 L6.7 6.7 L5.5 11 L4.3 6.7 L0 5.5 L4.3 4.3 Z" fill="#7FA396"/></svg> べつの見方</span>
+        <div class="response-text" id="responseText"></div>
+        <div class="crisis-resources" id="crisisResources"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="history">
+    <div class="history-head">
+      <span class="history-title">これまでのモヤモヤ</span>
+      <span class="history-count" id="historyCount"></span>
+    </div>
+    <div id="historyList">
+      <div class="empty-history" id="emptyHistory">まだ記録はありません。最初の一つを書いてみましょう。</div>
+    </div>
+  </div>
+
+  <div class="pattern" id="patternSection">
+    <div class="pattern-card">
+      <div class="pattern-head">近ごろの自分</div>
+      <div class="pattern-sub" id="patternSub">書いてきたモヤモヤの傾向</div>
+      <div id="patternBody"></div>
+    </div>
+
+    <div class="weekly-report-card" id="weeklyReportCard" style="display:none">
+      <div class="weekly-report-head">
+        <span class="weekly-report-title">今週のパターン</span>
+        <span class="weekly-plus-badge">PLUS</span>
+      </div>
+      <div id="weeklyReportBody"></div>
+    </div>
+
+    <div class="weekly-teaser" id="weeklyTeaser" style="display:none">
+      <div class="weekly-teaser-text">
+        <strong>週次パターンレポート</strong><br>
+        はれまにプラスで、今週の傾向をAIがやさしく言語化します
+      </div>
+      <button class="weekly-teaser-cta" id="weeklyTeaserCta">アップグレード</button>
+    </div>
+  </div>
+  </div><!-- /journalSection -->
+
+  <div id="caseView">
+  <div class="case-section" id="caseSection">
+    <div class="case-head">
+      <span class="case-title">あなたならどうする</span>
+      <span class="case-progress" id="caseProgress"></span>
+    </div>
+    <div class="case-card" id="caseCard">
+      <div class="case-scenario">
+        <span class="case-scenario-label">シチュエーション</span>
+        <span id="caseScenarioText"></span>
+      </div>
+      <div class="case-options" id="caseOptions"></div>
+      <div class="case-feedback-wrap" id="caseFeedbackWrap">
+        <div class="case-feedback-card" id="caseFeedbackCard">
+          <div class="mist-veil" id="caseMistVeil"></div>
+          <div class="case-feedback-label">こういう見方もできます</div>
+          <div class="case-feedback-text" id="caseFeedbackText"></div>
+        </div>
+      </div>
+      <div class="case-next">
+        <button class="case-next-btn" id="caseNextBtn">次のケースへ →</button>
+      </div>
+    </div>
+
+    <div class="paywall-card" id="casePaywall" style="display:none">
+      <div class="paywall-eyebrow">HAREMANI PLUS</div>
+      <div class="paywall-title">今日のケーススタディは3つ、見終えました</div>
+      <div class="paywall-desc">無料プランは1日3テーマまで。<br>はれまにプラスなら、テーマを気にせず試せます。</div>
+      <div class="paywall-price">¥600<span> /月（税込）</span></div>
+      <ul class="paywall-features">
+        <li>ジャーナル・ケーススタディともに無制限</li>
+        <li>「近ごろの自分」の週次パターンレポート</li>
+      </ul>
+      <button class="paywall-cta" id="casePaywallCta">はれまにプラスにアップグレード</button>
+      <div class="paywall-note">※ このプロトタイプでは実際の決済は発生しません</div>
+    </div>
+
+    <div class="simple-locked" id="caseSimpleLocked" style="display:none">
+      本日のケーススタディ（3テーマ）は使い切りました。また明日、新しい場面で試してみてください。
+    </div>
+  </div>
+  </div><!-- /caseView -->
+
+  <div class="footer-help">
+    <button class="footer-help-toggle" id="footerHelpToggle">つらいときは、いつでもこちら</button>
+    <div class="footer-help-panel" id="footerHelpPanel"></div>
+  </div>
+</div>
+
+<script>
+  /* ───────── 永続化ストレージ（本番用: localStorageベース） ─────────
+     プロトタイプ検証時はこの環境専用のwindow.storage APIを使っていたが、
+     本番の静的サイトでは動作しないため、標準のlocalStorageに置き換え。
+     window.storageと同じ {get(key)->{value}, set(key,value)} インターフェースを維持し、
+     呼び出し側のコードは変更していない。 */
+  /* ───────── AI呼び出し（本番用: Supabase Edge Function経由） ───────── */
+  const AI_PROXY_URL = 'https://idjbnrohrthqsabqmfjk.supabase.co/functions/v1/ai-proxy';
+  const AI_PROXY_KEY = 'sb_publishable_-g-Z8a5ut8zSdp16BNFUhQ_UvTUEwRY';
+
+  // 決済実装まではfalse。trueに戻すだけでペイウォール・アップグレード導線を再有効化できる
+  const MONETIZATION_ENABLED = false;
+
+  const storage = {
+    async get(key) {
+      const raw = localStorage.getItem(key);
+      if (raw === null) throw new Error('key not found: ' + key);
+      return { key, value: raw };
+    },
+    async set(key, value) {
+      localStorage.setItem(key, value);
+      return { key, value };
+    }
+  };
+
+  let entries = []; // {id, date, text, reframe, tag, urgent} — 永続化: localStorage 'journalEntries'
+  let dailyUsage = { date: '', journalCount: 0, themeCount: 0, usedSeeds: [] };
+
+  function todayKey() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  async function saveEntries() {
+    try {
+      await storage.set('journalEntries', JSON.stringify(entries));
+    } catch (e) {
+      console.warn('記録の保存に失敗しました:', e);
+    }
+  }
+
+  async function saveDailyUsage() {
+    try {
+      await storage.set('dailyUsage', JSON.stringify(dailyUsage));
+    } catch (e) {
+      console.warn('利用状況の保存に失敗しました:', e);
+    }
+  }
+
+  async function loadPersistedState() {
+    try {
+      const result = await storage.get('journalEntries');
+      if (result && result.value) entries = JSON.parse(result.value);
+    } catch (e) {
+      entries = [];
+    }
+    try {
+      const result = await storage.get('dailyUsage');
+      if (result && result.value) dailyUsage = JSON.parse(result.value);
+    } catch (e) {
+      dailyUsage = { date: '', journalCount: 0, themeCount: 0, usedSeeds: [] };
+    }
+    const today = todayKey();
+    if (dailyUsage.date !== today) {
+      dailyUsage = { date: today, journalCount: 0, themeCount: 0, usedSeeds: [] };
+      await saveDailyUsage();
+    }
+  }
+
+  document.getElementById('onboardingStart').addEventListener('click', () => {
+    document.getElementById('onboarding').classList.add('hide');
+  });
+
+  const footerHelpToggle = document.getElementById('footerHelpToggle');
+  const footerHelpPanel = document.getElementById('footerHelpPanel');
+  footerHelpToggle.addEventListener('click', () => {
+    if (!footerHelpPanel.classList.contains('show')) {
+      footerHelpPanel.innerHTML = renderCrisisResourcesHTML('必要なときは、こちらの窓口も頼ってみてください。');
+    }
+    footerHelpPanel.classList.toggle('show');
+  });
+
+  const todayDate = document.getElementById('todayDate');
+  const entryInput = document.getElementById('entryInput');
+  const charCount = document.getElementById('charCount');
+  const submitBtn = document.getElementById('submitBtn');
+  const responseWrap = document.getElementById('responseWrap');
+  const mistVeil = document.getElementById('mistVeil');
+  const responseText = document.getElementById('responseText');
+  const errorMsg = document.getElementById('errorMsg');
+  const historyList = document.getElementById('historyList');
+  const historyCount = document.getElementById('historyCount');
+  const emptyHistory = document.getElementById('emptyHistory');
+
+  todayDate.textContent = new Date().toLocaleDateString('ja-JP', { month: 'long', day: 'numeric', weekday: 'short' });
+
+  entryInput.addEventListener('input', () => {
+    charCount.textContent = entryInput.value.length + '文字';
+  });
+
+  const TAGS = [
+    "期待値のズレ",
+    "言葉遣い・伝え方",
+    "誤解・すれ違い",
+    "フィードバック・指摘の受け止め方",
+    "承認・評価のされ方",
+    "距離感・干渉",
+    "疎外感・置いてけぼり",
+    "役割・負担のかたより",
+    "世代・価値観の違い",
+    "自己決定への口出し",
+    "責任の所在",
+    "その他"
+  ];
+
+  const SYSTEM_PROMPT = `あなたは、心に引っかかった出来事や対人関係のモヤモヤの言語化を手伝う、心理学の視点を持った聞き役です。
+以下のルールを厳密に守ってください。
+
+- ユーザーが書いた内容がどんな文脈（職場、プライベート、友人関係、日常のちょっとした出来事など）であっても、内容の妥当性を判断したり対応を拒否したりせず、必ず受け止める。「これは職場の話ではないので対応できません」のような拒否は絶対にしない
+
+【最優先の分岐：深刻な内容かどうかの判定】
+以下に該当する場合は urgent を true にし、通常の軽いリフレーミングは行わない：
+- 自傷・希死念慮・「消えたい」「死にたい」など命に関わる示唆がある
+- 深刻なハラスメント、暴力、虐待、脅迫など、安全に関わる訴えがある
+- 「もう限界」「耐えられない」など、強い切迫感・追い詰められた様子がある
+
+urgent が true の場合のreframeは、次の方針で書く：
+- 心理学的な「構造の言い換え」は一切せず、まず気持ちを受け止める短い言葉を置く（例：「それはとてもつらい状況ですね」）
+- 「一人で抱え込まず、専門の窓口に相談してほしい」という趣旨を、押し付けがましくなく伝える
+- 具体的な行動を急かしたり、根掘り葉掘り質問したりしない
+- 文末を疑問形にしない（「〜できそうですか？」のような、行動を尋ねたり同意を求めたりする問いかけは禁止。選択肢を提示するだけに留め、断定的な文で終える）
+- 分量は2〜3文、シンプルに
+- 診断や断定は絶対にしない
+
+urgent が false（通常時）の場合のreframeは、次の方針で書く：
+- 責める側にも責められる側にも肩入れせず、心理学的な構造（防衛反応、期待値のズレ、コミュニケーションスタイルの違い、自責の強さなど）で優しく言い換える
+- 「あなたが悪い」「相手が悪い」という断定はしない。どちらの立場にも理由がありうる、という視点を提示する
+- 説教調・上から目線を避け、対等な立場で「こう見ることもできますよ」と提案するトーン
+- 分量は3〜5文程度、簡潔に
+- 最後に、押し付けがましくない範囲で、軽い問いかけを一つ添えてもよい（任意）
+
+共通ルール：
+- 診断や断定的なラベリング（「あなたはHSPです」等）は絶対にしない
+- 敬体（です・ます調）だが柔らかい言葉遣いで書く
+- tagは次の候補から最も近いものを一つだけ選ぶ: ${TAGS.join(" / ")}。職場・家族・友人・パートナーなど、関係の種類ではなく「何が引っかかったか」という構造で選ぶこと。判断に迷う場合の目安：
+  - 「期待値のズレ」：相手にしてほしかったことと、実際の言動が違った
+  - 「言葉遣い・伝え方」：内容よりも、言い方・トーンが引っかかった
+  - 「誤解・すれ違い」：お互いの認識や記憶が食い違っていた
+  - 「フィードバック・指摘の受け止め方」：指摘・注意・批判をどう受け止めるかで悩んだ
+  - 「承認・評価のされ方」：頑張りや存在が正しく認められていない、比較された
+  - 「距離感・干渉」：踏み込まれすぎた、または遠すぎた
+  - 「疎外感・置いてけぼり」：輪に入れなかった、置いていかれた感覚があった
+  - 「役割・負担のかたより」：仕事や家事などの分担が偏っていた
+  - 「世代・価値観の違い」：年齢や立場、価値観の違いに起因していた
+  - 「自己決定への口出し」：自分で決めたい・決めたことに口を出された
+  - 「責任の所在」：誰の責任かがはっきりしないまま終わった
+  - どれにも当てはまらなければ「その他」
+  urgentがtrueの場合もこのルールに従って分類してよい
+
+出力は必ず以下のJSON形式のみで返してください。前置きや説明、Markdownのコードブロック記号は一切つけないでください。
+{"reframe": "ここに本文", "tag": "ここにタグ", "urgent": true または false}`;
+
+  const CRISIS_RESOURCES = [
+    { name: "よりそいホットライン", detail: "24時間・無料・匿名で相談可能", contact: "0120-279-338" },
+    { name: "いのちの電話", detail: "電話相談（つながりにくい場合あり）", contact: "0570-783-556" },
+    { name: "厚生労働省 総合労働相談コーナー", detail: "ハラスメント・労働問題の相談窓口", contact: "0570-001-004" }
+  ];
+
+  function renderCrisisResourcesHTML(leadText) {
+    return `
+      <div class="crisis-resources-lead">${escapeHtml(leadText)}</div>
+      ${CRISIS_RESOURCES.map(r => `
+        <div class="crisis-resource-item">
+          <span class="crisis-resource-name">${escapeHtml(r.name)}</span>
+          <span class="crisis-resource-detail">${escapeHtml(r.detail)}</span>
+          <span class="crisis-resource-contact">${escapeHtml(r.contact)}</span>
+        </div>
+      `).join('')}
+    `;
+  }
+
+  async function getReframe(userText) {
+    const response = await fetch(AI_PROXY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "apikey": AI_PROXY_KEY, "Authorization": "Bearer " + AI_PROXY_KEY },
+      body: JSON.stringify({
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        message: userText
+      })
+    });
+    if (!response.ok) throw new Error("API error: " + response.status);
+    const data = await response.json();
+    const textBlock = data.content.find(b => b.type === "text");
+    if (!textBlock) return { reframe: "うまく言葉にできませんでした。", tag: "その他", urgent: false };
+    const cleaned = textBlock.text.replace(/```json|```/g, "").trim();
+    try {
+      const parsed = JSON.parse(cleaned);
+      return {
+        reframe: parsed.reframe || "うまく言葉にできませんでした。",
+        tag: TAGS.includes(parsed.tag) ? parsed.tag : "その他",
+        urgent: parsed.urgent === true
+      };
+    } catch (e) {
+      return { reframe: cleaned, tag: "その他", urgent: false };
+    }
+  }
+
+  function renderHistory() {
+    if (entries.length === 0) {
+      historyList.innerHTML = '';
+      historyList.appendChild(emptyHistory);
+      historyCount.textContent = '';
+      return;
+    }
+    historyCount.textContent = entries.length + '件';
+    historyList.innerHTML = '';
+    [...entries].reverse().forEach(entry => {
+      const item = document.createElement('div');
+      item.className = 'history-item';
+      item.innerHTML = `
+        <div class="history-item-top">
+          <span class="history-preview">${escapeHtml(entry.text)}</span>
+          <span class="history-date">${entry.date}</span>
+        </div>
+        <div class="history-detail">
+          <span class="tag">${entry.urgent ? 'ひとことだけ' : 'べつの見方'}</span>
+          ${escapeHtml(entry.reframe)}
+          ${entry.tag ? `<span class="tag" style="margin-top:10px;">傾向</span><span class="history-tag">${escapeHtml(entry.tag)}</span>` : ''}
+        </div>
+      `;
+      item.addEventListener('click', () => {
+        item.querySelector('.history-detail').classList.toggle('open');
+      });
+      historyList.appendChild(item);
+    });
+  }
+
+  function renderPattern() {
+    const section = document.getElementById('patternSection');
+    const body = document.getElementById('patternBody');
+    const sub = document.getElementById('patternSub');
+    const MIN_TO_UNLOCK = 3;
+
+    if (entries.length === 0) {
+      section.classList.remove('show');
+      return;
+    }
+    section.classList.add('show');
+
+    if (entries.length < MIN_TO_UNLOCK) {
+      sub.textContent = 'まだ見えてきません';
+      const remaining = MIN_TO_UNLOCK - entries.length;
+      body.innerHTML = `<div class="pattern-locked">あと${remaining}回ほど書くと、あなたのモヤモヤの傾向が見えてきます。今はまだ、材料を集めている段階です。</div>`;
+      return;
+    }
+
+    sub.textContent = '書いてきたモヤモヤの傾向';
+    const counts = {};
+    entries.filter(e => !e.urgent).forEach(e => {
+      counts[e.tag] = (counts[e.tag] || 0) + 1;
+    });
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 4);
+    const max = sorted[0][1];
+
+    body.innerHTML = sorted.map(([tag, count]) => `
+      <div class="pattern-row">
+        <div class="pattern-row-top">
+          <span class="pattern-tag">${escapeHtml(tag)}</span>
+          <span class="pattern-num">${count}回</span>
+        </div>
+        <div class="pattern-bar-track">
+          <div class="pattern-bar-fill" style="width:${Math.round((count / max) * 100)}%"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  /* ───────── 週次パターンレポート（はれまにプラス限定） ───────── */
+  function getWeekStart() {
+    const d = new Date();
+    const day = d.getDay(); // 0=日 ... 6=土
+    const diffToMonday = day === 0 ? 6 : day - 1;
+    const monday = new Date(d.getFullYear(), d.getMonth(), d.getDate() - diffToMonday);
+    monday.setHours(0, 0, 0, 0);
+    return monday;
+  }
+
+  function weekKey() {
+    const m = getWeekStart();
+    return m.getFullYear() + '-' + String(m.getMonth() + 1).padStart(2, '0') + '-' + String(m.getDate()).padStart(2, '0');
+  }
+
+  function getThisWeekEntries() {
+    const start = getWeekStart().getTime();
+    return entries.filter(e => !e.urgent && e.id >= start);
+  }
+
+  const WEEKLY_INSIGHT_SYSTEM_PROMPT = `あなたは、日々の対人関係のモヤモヤを記録した日記を読み、一週間分の傾向をやさしく言語化する聞き役です。
+
+ユーザーが今週書いた複数の「モヤモヤ」の要約（タグと短い内容）が渡されます。
+以下のルールを守ってください：
+- 説教や助言を主目的にしない。まず「今週、こういう傾向があったようですね」という観察を届ける
+- 決めつけず、やわらかい言い方をする（「〜かもしれません」「〜のようです」）
+- 分量は3〜4文程度、敬体（です・ます調）
+- 診断・断定的なラベリングはしない
+- 出力は必ず以下のJSON形式のみ。前置き・説明・Markdownのコードブロック記号は一切つけない
+{"insight": "ここに本文"}`;
+
+  async function getWeeklyInsight(weekEntries) {
+    const summary = weekEntries.map((e, i) => `${i + 1}. [${e.tag}] ${e.text.slice(0, 60)}`).join('\n');
+    const response = await fetch(AI_PROXY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "apikey": AI_PROXY_KEY, "Authorization": "Bearer " + AI_PROXY_KEY },
+      body: JSON.stringify({
+        max_tokens: 500,
+        system: WEEKLY_INSIGHT_SYSTEM_PROMPT,
+        message: summary
+      })
+    });
+    if (!response.ok) throw new Error("API error: " + response.status);
+    const data = await response.json();
+    const textBlock = data.content.find(b => b.type === "text");
+    if (!textBlock) return "うまく言葉にできませんでした。";
+    const cleaned = textBlock.text.replace(/```json|```/g, "").trim();
+    try {
+      const parsed = JSON.parse(cleaned);
+      return parsed.insight || "うまく言葉にできませんでした。";
+    } catch (e) {
+      return cleaned;
+    }
+  }
+
+  function renderWeeklyBody(body, insight, weekEntries) {
+    const counts = {};
+    weekEntries.forEach(e => { counts[e.tag] = (counts[e.tag] || 0) + 1; });
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 3);
+    const max = sorted.length ? sorted[0][1] : 1;
+
+    const bars = sorted.map(([tag, count]) => `
+      <div class="weekly-report-row">
+        <div class="weekly-report-row-top">
+          <span class="tag">${escapeHtml(tag)}</span>
+          <span class="num">${count}回</span>
+        </div>
+        <div class="weekly-report-bar-track">
+          <div class="weekly-report-bar-fill" style="width:${Math.round((count / max) * 100)}%"></div>
+        </div>
+      </div>
+    `).join('');
+
+    body.innerHTML = `<div class="weekly-report-insight">${escapeHtml(insight)}</div>${bars}`;
+  }
+
+  async function renderWeeklyReport() {
+    const card = document.getElementById('weeklyReportCard');
+    const teaser = document.getElementById('weeklyTeaser');
+    const body = document.getElementById('weeklyReportBody');
+
+    if (!isPremium) {
+      card.style.display = 'none';
+      teaser.style.display = (MONETIZATION_ENABLED && entries.length > 0) ? 'flex' : 'none';
+      return;
+    }
+    teaser.style.display = 'none';
+    card.style.display = '';
+
+    const weekEntries = getThisWeekEntries();
+    if (weekEntries.length === 0) {
+      body.innerHTML = '<div class="weekly-report-empty">今週はまだ記録がありません。書き始めると、ここに今週の傾向が表示されます。</div>';
+      return;
+    }
+
+    const cacheKey = 'weeklyInsight:' + weekKey();
+    let cached = null;
+    try {
+      const result = await storage.get(cacheKey);
+      if (result && result.value) cached = JSON.parse(result.value);
+    } catch (e) {
+      cached = null;
+    }
+
+    // キャッシュが今週分の件数と一致していれば再利用、増えていれば作り直す
+    if (cached && cached.count === weekEntries.length) {
+      renderWeeklyBody(body, cached.insight, weekEntries);
+      return;
+    }
+
+    body.innerHTML = '<span class="loading-text"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span>今週の傾向を整理しています…</span>';
+
+    try {
+      const insight = await getWeeklyInsight(weekEntries);
+      try {
+        await storage.set(cacheKey, JSON.stringify({ insight, count: weekEntries.length }));
+      } catch (e) {
+        console.warn('週次レポートの保存に失敗しました:', e);
+      }
+      renderWeeklyBody(body, insight, weekEntries);
+    } catch (e) {
+      console.error(e);
+      body.innerHTML = '<div class="weekly-report-empty">今週の傾向をうまくまとめられませんでした。時間をおいてもう一度お試しください。</div>';
+    }
+  }
+
+  const JOURNAL_DAILY_LIMIT = 3;
+  let journalCountToday = 0;
+  let isPremium = false;
+  const journalLimitNote = document.getElementById('journalLimitNote');
+  const journalPaywall = document.getElementById('journalPaywall');
+  const planBadge = document.getElementById('planBadge');
+
+  async function setPremium(value) {
+    isPremium = value;
+    try {
+      await storage.set('isPremium', value ? 'true' : 'false');
+    } catch (e) {
+      console.warn('プラン状態の保存に失敗しました:', e);
+    }
+    updatePlanBadge();
+    updateJournalLimitUI();
+    renderWeeklyReport();
+    if (casePaywall && casePaywall.style.display !== 'none') {
+      // 制限中だった場合は再描画してロックを解除
+      renderCase();
+    }
+  }
+
+  function updatePlanBadge() {
+    if (!MONETIZATION_ENABLED) {
+      document.querySelector('.plan-bar').style.display = 'none';
+      return;
+    }
+    if (isPremium) {
+      planBadge.textContent = 'はれまにプラス';
+      planBadge.classList.add('premium');
+    } else {
+      planBadge.textContent = '無料プラン';
+      planBadge.classList.remove('premium');
+    }
+  }
+
+  document.getElementById('planDemoToggle').addEventListener('click', () => setPremium(!isPremium));
+  document.getElementById('journalPaywallCta').addEventListener('click', () => setPremium(true));
+  document.getElementById('weeklyTeaserCta').addEventListener('click', () => setPremium(true));
+
+  function updateJournalLimitUI() {
+    const remaining = JOURNAL_DAILY_LIMIT - journalCountToday;
+    if (!isPremium && remaining <= 0) {
+      journalLimitNote.textContent = '本日の上限（' + JOURNAL_DAILY_LIMIT + '回）に達しました';
+      journalLimitNote.classList.add('reached');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'また明日、話しかけてください';
+      entryInput.disabled = true;
+      journalPaywall.style.display = MONETIZATION_ENABLED ? '' : 'none';
+    } else if (isPremium) {
+      journalLimitNote.textContent = 'はれまにプラス：回数無制限';
+      journalLimitNote.classList.remove('reached');
+      submitBtn.disabled = false;
+      submitBtn.textContent = '晴らしてみる';
+      entryInput.disabled = false;
+      journalPaywall.style.display = 'none';
+    } else {
+      journalLimitNote.textContent = '本日 ' + journalCountToday + ' / ' + JOURNAL_DAILY_LIMIT;
+      journalLimitNote.classList.remove('reached');
+      journalPaywall.style.display = 'none';
+    }
+  }
+
+  submitBtn.addEventListener('click', async () => {
+    if (!isPremium && journalCountToday >= JOURNAL_DAILY_LIMIT) return;
+    const text = entryInput.value.trim();
+    if (!text) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'すこし考えています…';
+    errorMsg.style.display = 'none';
+    responseWrap.classList.remove('show');
+    mistVeil.classList.remove('clear');
+
+    try {
+      const { reframe, tag, urgent } = await getReframe(text);
+
+      responseText.textContent = reframe;
+      responseWrap.classList.add('show');
+
+      const responseCard = document.getElementById('responseCard');
+      const responseLabel = document.getElementById('responseLabel');
+      const crisisResources = document.getElementById('crisisResources');
+
+      if (urgent) {
+        responseCard.classList.add('urgent');
+        responseLabel.innerHTML = 'ひとことだけ';
+        crisisResources.innerHTML = renderCrisisResourcesHTML('一人で抱え込まず、こちらも頼ってみてください。');
+        crisisResources.classList.add('show');
+        // no playful mist animation for urgent content — reveal calmly and immediately
+        mistVeil.classList.add('clear');
+      } else {
+        responseCard.classList.remove('urgent');
+        responseLabel.innerHTML = '<svg class="glint" width="11" height="11" viewBox="0 0 11 11" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 0 L6.7 4.3 L11 5.5 L6.7 6.7 L5.5 11 L4.3 6.7 L0 5.5 L4.3 4.3 Z" fill="#7FA396"/></svg> べつの見方';
+        crisisResources.classList.remove('show');
+        crisisResources.innerHTML = '';
+        // signature moment: mist clears to reveal the reframe
+        requestAnimationFrame(() => {
+          setTimeout(() => mistVeil.classList.add('clear'), 150);
+        });
+      }
+
+      entries.push({
+        id: Date.now(),
+        date: new Date().toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' }),
+        text,
+        reframe,
+        tag,
+        urgent
+      });
+      await saveEntries();
+      renderHistory();
+      renderPattern();
+      renderWeeklyReport();
+
+      entryInput.value = '';
+      charCount.textContent = '0文字';
+
+      journalCountToday += 1;
+      dailyUsage.journalCount = journalCountToday;
+      await saveDailyUsage();
+      updateJournalLimitUI();
+    } catch (err) {
+      console.error(err);
+      errorMsg.style.display = 'block';
+    } finally {
+      submitBtn.disabled = journalCountToday >= JOURNAL_DAILY_LIMIT;
+      submitBtn.textContent = journalCountToday >= JOURNAL_DAILY_LIMIT ? 'また明日、話しかけてください' : '晴らしてみる';
+    }
+  });
+
+  /* 初期描画は末尾の init() でまとめて行う（永続化データの読み込み待ちのため） */
+
+  const CASE_SCENARIOS = [
+    {
+      scenario: "友人に相談したら「それは考えすぎだよ」と軽く流された。悪気はなさそうだけど、なんとなく話す気が失せた。",
+      options: [
+        "「そんなつもりじゃなかった」と伝わるまで説明する",
+        "「そうだね」と流して、それ以上は話さない",
+        "「ちゃんと聞いてほしかった」と正直に言ってみる"
+      ]
+    },
+    {
+      scenario: "親に自分の選択（進路・仕事・住まいなど）について「本当にそれでいいの？」と繰り返し聞かれる。",
+      options: [
+        "もう決めたことだからと、話を打ち切る",
+        "心配してくれているのだと受け止め、根気強く説明する",
+        "「信じて任せてほしい」と気持ちごと伝える"
+      ]
+    },
+    {
+      scenario: "パートナーや同居人に家事や約束のことで「言ったよね？」と言われたが、自分にはその記憶がない。",
+      options: [
+        "自分の記憶違いだと考え、とりあえず謝る",
+        "「聞いていない」とはっきり伝える",
+        "「認識がズレていたかも」とまず状況をすり合わせる"
+      ]
+    },
+    {
+      scenario: "グループでの集まりで、自分だけ知らない話題で盛り上がっていて、少し疎外感を覚えた。",
+      options: [
+        "気にしていないふりをして、話に無理やり入る",
+        "後で気心の知れた一人にだけそっと話してみる",
+        "その場では黙って、輪から少し距離を置く"
+      ]
+    },
+    {
+      scenario: "久しぶりに会った知人に、こちらが変わったつもりでいた部分を「相変わらずだね」と言われた。",
+      options: [
+        "相手の捉え方の癖だと割り切り、気にしないようにする",
+        "「実は変わろうとしている」と伝えてみる",
+        "褒め言葉として受け取り直してみる"
+      ]
+    },
+    {
+      scenario: "職場の後輩に「この資料、来週の会議までにお願い」と頼んだら、期限前日になって「すみません、他の仕事が立て込んでいて…」と言われた。",
+      options: [
+        "なぜもっと早く言わなかったのか、その場で伝える",
+        "「大丈夫、こちらで巻き取るね」と引き取る",
+        "「今どこまでできてる？」とまず状況だけ聞く"
+      ]
+    },
+    {
+      scenario: "上司に相談したら「それは自分で考えて」とだけ言われ、それ以上の説明はなかった。",
+      options: [
+        "自分の考え方が浅いのだと受け止め、一人で抱える",
+        "もう一度、具体的に何を聞きたいのか整理してから聞き直す",
+        "上司はそういう人だと割り切り、他の人に聞く"
+      ]
+    }
+  ];
+
+  let caseIndex = 0;
+  let chainDepth = 0; // 同じ流れが続いた回数。一定数で新しいテーマに切り替える
+  const CHAIN_LIMIT = 3;
+  let pendingNext = null; // AIが生成した次の展開 {scenario, options}
+  const usedSeeds = [];
+  const caseScenarioText = document.getElementById('caseScenarioText');
+  const caseOptions = document.getElementById('caseOptions');
+  const caseProgress = document.getElementById('caseProgress');
+  const caseFeedbackWrap = document.getElementById('caseFeedbackWrap');
+  const caseFeedbackText = document.getElementById('caseFeedbackText');
+  const caseMistVeil = document.getElementById('caseMistVeil');
+  const caseNextBtn = document.getElementById('caseNextBtn');
+  const caseCard = document.getElementById('caseCard');
+  const casePaywall = document.getElementById('casePaywall');
+  const caseSimpleLocked = document.getElementById('caseSimpleLocked');
+  document.getElementById('casePaywallCta').addEventListener('click', () => setPremium(true));
+
+  const CASE_SYSTEM_PROMPT = `あなたは、人間関係での判断について、心理学的な視点からやさしく解説する聞き役です。
+ユーザーには日常のワンシーン（職場・家族・友人など）と、それに対する「選んだ対応」が与えられています。
+
+以下のルールを厳密に守ってください：
+- ユーザーが選んだ対応を「正解/不正解」で採点しない。どんな選択にも、その人なりの合理性があるという前提に立つ
+- 選んだ対応が引き起こしやすい相手の反応・場の空気の変化を、心理学的な構造（期待値のズレ、心理的安全性、防衛反応など）で説明する
+- その上で、他にもありうる見方や対応を1つだけ、押し付けがましくなく添える
+- 説教調・上から目線を避け、「こう転びやすい」という観察として伝える
+- 診断や断定的なラベリングはしない
+- feedbackは敬体（です・ます調）、分量は3〜5文程度
+
+さらに、ユーザーが選んだ対応をとった「その後」に自然に起こりそうな続きの場面を1つ作ってください：
+- next_scenarioは、今回のシチュエーションと選択を踏まえた続きの状況（1〜2文）。相手の反応や、次に発生する小さな判断の分かれ目を描く
+- next_optionsは、その続きの場面に対する対応の選択肢を2〜3個。それぞれ短く、具体的な行動や言い方の違いが分かるものにする
+- 深刻すぎる展開（暴力・ハラスメントの重大化など）にはしない。日常の範囲に収める
+
+出力は必ず以下のJSON形式のみ。前置き・説明・Markdownのコードブロック記号は一切つけない：
+{"feedback": "本文", "next_scenario": "続きの場面", "next_options": ["選択肢1", "選択肢2", "選択肢3"]}`;
+
+  async function getCaseFeedback(scenario, choice) {
+    const userContent = `シチュエーション：${scenario}\n選んだ対応：${choice}`;
+    const response = await fetch(AI_PROXY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "apikey": AI_PROXY_KEY, "Authorization": "Bearer " + AI_PROXY_KEY },
+      body: JSON.stringify({
+        max_tokens: 1000,
+        system: CASE_SYSTEM_PROMPT,
+        message: userContent
+      })
+    });
+    if (!response.ok) throw new Error("API error: " + response.status);
+    const data = await response.json();
+    const textBlock = data.content.find(b => b.type === "text");
+    if (!textBlock) return { feedback: "うまく言葉にできませんでした。", next: null };
+    const cleaned = textBlock.text.replace(/```json|```/g, "").trim();
+    try {
+      const parsed = JSON.parse(cleaned);
+      const next = (parsed.next_scenario && Array.isArray(parsed.next_options) && parsed.next_options.length >= 2)
+        ? { scenario: parsed.next_scenario, options: parsed.next_options }
+        : null;
+      return { feedback: parsed.feedback || "うまく言葉にできませんでした。", next };
+    } catch (e) {
+      return { feedback: cleaned, next: null };
+    }
+  }
+
+  const CASE_DAILY_THEME_LIMIT = 3;
+  let themeCountToday = 0;
+  let caseLockedForToday = false;
+
+  function pickNewSeed() {
+    if (usedSeeds.length >= CASE_SCENARIOS.length) usedSeeds.length = 0;
+    let idx;
+    do {
+      idx = Math.floor(Math.random() * CASE_SCENARIOS.length);
+    } while (usedSeeds.includes(idx) && usedSeeds.length < CASE_SCENARIOS.length);
+    usedSeeds.push(idx);
+    caseIndex = idx;
+    return CASE_SCENARIOS[idx];
+  }
+
+  function renderCaseLocked() {
+    caseLockedForToday = true;
+    caseCard.style.display = 'none';
+    if (MONETIZATION_ENABLED) {
+      casePaywall.style.display = '';
+      caseSimpleLocked.style.display = 'none';
+    } else {
+      casePaywall.style.display = 'none';
+      caseSimpleLocked.style.display = '';
+    }
+  }
+
+  function renderCase(sceneOverride) {
+    caseCard.style.display = '';
+    casePaywall.style.display = 'none';
+    caseSimpleLocked.style.display = 'none';
+    if (!sceneOverride) {
+      if (!isPremium && themeCountToday >= CASE_DAILY_THEME_LIMIT) {
+        renderCaseLocked();
+        return;
+      }
+      themeCountToday += 1;
+      dailyUsage.themeCount = themeCountToday;
+      dailyUsage.usedSeeds = usedSeeds.slice();
+      saveDailyUsage();
+    }
+    const c = sceneOverride || pickNewSeed();
+    if (!sceneOverride) chainDepth = 0;
+    caseScenarioText.textContent = c.scenario;
+    caseProgress.textContent = sceneOverride
+      ? '場面が続いています'
+      : (isPremium ? 'はれまにプラス：テーマ無制限' : ('テーマ ' + themeCountToday + ' / ' + CASE_DAILY_THEME_LIMIT));
+    caseFeedbackWrap.classList.remove('show');
+    caseMistVeil.classList.remove('clear');
+    caseNextBtn.classList.remove('show');
+    pendingNext = null;
+
+    caseOptions.innerHTML = '';
+    c.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'case-option';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => handleCaseChoice(btn, c.scenario, opt));
+      caseOptions.appendChild(btn);
+    });
+  }
+
+  async function handleCaseChoice(chosenBtn, scenario, choice) {
+    const allBtns = caseOptions.querySelectorAll('.case-option');
+    allBtns.forEach(b => { b.disabled = true; });
+    chosenBtn.classList.add('chosen');
+
+    caseFeedbackWrap.classList.add('show');
+    caseMistVeil.classList.add('clear');
+    caseFeedbackText.innerHTML = '<span class="loading-text"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span>すこし考えています…</span>';
+    caseNextBtn.textContent = '次のケースへ →';
+
+    try {
+      const result = await getCaseFeedback(scenario, choice);
+      caseMistVeil.classList.remove('clear');
+      caseFeedbackText.textContent = result.feedback;
+      requestAnimationFrame(() => {
+        setTimeout(() => caseMistVeil.classList.add('clear'), 150);
+      });
+
+      if (result.next && chainDepth < CHAIN_LIMIT - 1) {
+        pendingNext = result.next;
+        chainDepth += 1;
+        caseNextBtn.textContent = 'この続きを見る →';
+      } else {
+        pendingNext = null;
+        caseNextBtn.textContent = '次のケースへ →';
+      }
+      caseNextBtn.classList.add('show');
+    } catch (err) {
+      console.error(err);
+      caseMistVeil.classList.remove('clear');
+      caseFeedbackText.textContent = 'うまく言葉にできませんでした。もう一度試してください。';
+      pendingNext = null;
+      caseNextBtn.textContent = '次のケースへ →';
+      caseNextBtn.classList.add('show');
+    }
+  }
+
+  caseNextBtn.addEventListener('click', () => {
+    if (pendingNext) {
+      renderCase(pendingNext);
+    } else {
+      renderCase();
+    }
+  });
+
+  /* 初期描画は末尾の init() でまとめて行う */
+
+  const tabJournal = document.getElementById('tabJournal');
+  const tabCase = document.getElementById('tabCase');
+  const journalSection = document.getElementById('journalSection');
+  const caseViewEl = document.getElementById('caseView');
+
+  function showJournal() {
+    journalSection.style.display = '';
+    caseViewEl.style.display = 'none';
+    tabJournal.classList.add('active');
+    tabCase.classList.remove('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showCase() {
+    journalSection.style.display = 'none';
+    caseViewEl.style.display = '';
+    tabCase.classList.add('active');
+    tabJournal.classList.remove('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  tabJournal.addEventListener('click', showJournal);
+  tabCase.addEventListener('click', showCase);
+
+  /* ───────── 統一初期化：永続化データを読み込んでから描画 ───────── */
+  (async () => {
+    await loadPersistedState();
+    journalCountToday = dailyUsage.journalCount;
+    themeCountToday = dailyUsage.themeCount;
+    usedSeeds.length = 0;
+    (dailyUsage.usedSeeds || []).forEach(i => usedSeeds.push(i));
+
+    try {
+      const result = await storage.get('isPremium');
+      isPremium = !!(result && result.value === 'true');
+    } catch (e) {
+      isPremium = false;
+    }
+    updatePlanBadge();
+
+    showJournal();
+    updateJournalLimitUI();
+    renderHistory();
+    renderPattern();
+    renderWeeklyReport();
+    renderCase();
+  })();
+</script>
+
+</body>
+</html>
