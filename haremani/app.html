@@ -2017,11 +2017,14 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     }
   }
 
-  function renderCase(sceneOverride) {
+  function renderCase(sceneOverride, isRestore) {
     caseCard.style.display = '';
     casePaywall.style.display = 'none';
     caseSimpleLocked.style.display = 'none';
     if (!sceneOverride) {
+      // 本当に新しいテーマを引く場合のみ、上限チェックとカウント消費を行う。
+      // ページ再読み込み時は isRestore=true で当日分の既存テーマを引数に渡し、
+      // ここを通らないようにする（再読み込みだけで枠を消費しないため）。
       if (!isPremium && themeCountToday >= CASE_DAILY_THEME_LIMIT) {
         renderCaseLocked();
         return;
@@ -2029,12 +2032,15 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       themeCountToday += 1;
       dailyUsage.themeCount = themeCountToday;
       dailyUsage.usedSeeds = usedSeeds.slice();
-      saveDailyUsage();
     }
     const c = sceneOverride || pickNewSeed();
-    if (!sceneOverride) chainDepth = 0;
+    if (!sceneOverride) {
+      chainDepth = 0;
+      dailyUsage.currentScenario = c;
+    }
+    saveDailyUsage();
     caseScenarioText.textContent = c.scenario;
-    caseProgress.textContent = sceneOverride
+    caseProgress.textContent = (sceneOverride && !isRestore)
       ? '場面が続いています'
       : (isPremium ? 'はれまにプラス：テーマ無制限' : ('テーマ ' + themeCountToday + ' / ' + CASE_DAILY_THEME_LIMIT));
     caseFeedbackWrap.classList.remove('show');
@@ -2144,7 +2150,13 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     renderHistory();
     renderPattern();
     renderWeeklyReport();
-    renderCase();
+    // 当日すでにテーマを引いていれば、それを復元表示するだけにして
+    // ページ再読み込みのたびに新規テーマを消費しないようにする
+    if (dailyUsage.currentScenario) {
+      renderCase(dailyUsage.currentScenario, true);
+    } else {
+      renderCase();
+    }
   })();
 </script>
 
