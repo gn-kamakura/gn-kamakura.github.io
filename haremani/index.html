@@ -2,6 +2,10 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="./favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>はれまに ― モヤモヤの合間に、視界が晴れる</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -408,6 +412,12 @@
     margin-top: 16px;
   }
 
+  button.plus-cta:disabled {
+    background: rgba(183,196,206,0.18);
+    color: var(--mist-dim);
+    cursor: default;
+  }
+
   .faq-list { margin-top: 28px; background: var(--paper); border-radius: 16px; padding: 4px 20px; box-shadow: 0 12px 30px -16px rgba(0,0,0,0.3); }
 
   .faq-item { border-bottom: 1px solid #DEDCCE; }
@@ -597,8 +607,8 @@
 
   <section>
     <div class="eyebrow-block">料金</div>
-    <h2>今のところ、<br>すべて無料です。</h2>
-    <p class="lead">登録不要・完全無料でお使いいただけます。</p>
+    <h2>今はすべて無料。<br>もっと使いたい人のために。</h2>
+    <p class="lead">今は登録不要・完全無料でお使いいただけます。</p>
 
     <div class="price-grid">
       <div class="price-card">
@@ -609,6 +619,16 @@
           <li>あなたならどうする：1日3テーマまで</li>
           <li>「近ごろの自分」パターン表示</li>
         </ul>
+      </div>
+      <div class="price-card plus">
+        <div class="price-name">HAREMANI PLUS</div>
+        <div class="price-num">¥600<span> /月（税込）</span></div>
+        <ul class="price-features">
+          <li>今日のもやもや：無制限</li>
+          <li>あなたならどうする：無制限</li>
+          <li>「近ごろの自分」の週次パターンレポート</li>
+        </ul>
+        <button class="plus-cta" disabled>近日リリース</button>
       </div>
     </div>
   </section>
