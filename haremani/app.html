@@ -855,6 +855,127 @@
     white-space: pre-wrap;
   }
 
+  /* ───── 手紙のアーカイブ ───── */
+  .archive {
+    margin-top: 12px;
+    background: var(--paper);
+    border-radius: 16px;
+    padding: 20px 22px;
+    box-shadow: 0 14px 34px -20px rgba(35,40,51,0.25);
+  }
+
+  .archive-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .archive-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14px;
+    color: var(--text-dark);
+  }
+
+  .archive-count {
+    font-size: 10.5px;
+    color: var(--text-soft);
+  }
+
+  .archive-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .archive-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 62px;
+    cursor: pointer;
+  }
+
+  .archive-item:hover .archive-crest svg { transform: scale(1.06); }
+
+  .archive-crest svg {
+    filter: drop-shadow(0 4px 10px rgba(35,40,51,0.2));
+    transition: transform 0.15s ease;
+  }
+
+  .archive-label {
+    font-size: 9.5px;
+    color: var(--text-soft);
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .archive-milestone {
+    display: block;
+    font-size: 8px;
+    color: #A9813F;
+    font-weight: 700;
+  }
+
+  .archive-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(30,37,48,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 100;
+  }
+
+  .archive-modal-card {
+    position: relative;
+    background: var(--paper);
+    border-radius: 18px;
+    padding: 30px 26px 26px;
+    max-width: 420px;
+    width: 100%;
+    max-height: 82vh;
+    overflow-y: auto;
+    box-shadow: 0 30px 70px -20px rgba(0,0,0,0.5);
+  }
+
+  .archive-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    appearance: none;
+    border: none;
+    background: none;
+    font-size: 20px;
+    color: var(--text-soft);
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .archive-modal-crest {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .archive-modal-label {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14px;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .archive-modal-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13.5px;
+    line-height: 2.05;
+    color: var(--text-dark);
+    white-space: pre-wrap;
+  }
+
   /* --- 週次パターンレポート・無料版ティザー --- */
   .weekly-teaser {
     margin-top: 12px;
@@ -1341,8 +1462,25 @@
       <div class="monthly-crest-row" id="monthlyCrestRow"></div>
       <div class="monthly-retro-insight" id="monthlyRetroInsight"></div>
     </div>
+
+    <div class="archive" id="archiveSection" style="display:none">
+      <div class="archive-head">
+        <span class="archive-title">手紙のアーカイブ</span>
+        <span class="archive-count" id="archiveCount"></span>
+      </div>
+      <div class="archive-grid" id="archiveList"></div>
+    </div>
   </div>
   </div><!-- /journalSection -->
+
+  <div class="archive-modal" id="archiveModal" style="display:none">
+    <div class="archive-modal-card">
+      <button class="archive-modal-close" id="archiveModalClose">×</button>
+      <div class="archive-modal-crest" id="archiveModalCrest"></div>
+      <div class="archive-modal-label" id="archiveModalLabel"></div>
+      <div class="archive-modal-text" id="archiveModalText"></div>
+    </div>
+  </div>
 
   <div id="caseView">
   <div class="case-section" id="caseSection">
@@ -1415,6 +1553,14 @@
     async set(key, value) {
       localStorage.setItem(key, value);
       return { key, value };
+    },
+    list(prefix) {
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.indexOf(prefix) === 0) keys.push(k);
+      }
+      return keys;
     }
   };
 
@@ -1925,7 +2071,11 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   }
 
   async function checkMonthlyRetro() {
-    if (!isPremium) return;
+    if (!isPremium) {
+      document.getElementById('monthlyRetroCard').style.display = 'none';
+      renderLetterArchive();
+      return;
+    }
     const card = document.getElementById('monthlyRetroCard');
     const titleEl = document.getElementById('monthlyRetroTitle');
     const crestRow = document.getElementById('monthlyCrestRow');
@@ -1935,6 +2085,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     const monthEntries = entries.filter(e => !e.urgent && e.id >= start && e.id < end);
     if (monthEntries.length === 0) {
       card.style.display = 'none';
+      renderLetterArchive();
       return;
     }
 
@@ -1973,7 +2124,104 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       console.error(e);
       insightEl.textContent = '先月の振り返りをうまくまとめられませんでした。時間をおいてもう一度お試しください。';
     }
+
+    renderLetterArchive();
   }
+
+  /* ───────── 手紙のアーカイブ ─────────
+     週次・月次それぞれのキャッシュ済みキー（weeklyInsight:*, monthlyRetro:*）を
+     localStorageから直接列挙し、対応する期間のentriesを再集計して紋章を作り直す。
+     紋章そのものは保存していない（毎回entriesから同じロジックで再現できるため）。 */
+  function parseWeekKeyToRange(weekKeyStr) {
+    const [y, m, d] = weekKeyStr.split('-').map(Number);
+    const start = new Date(y, m - 1, d).getTime();
+    return { start, end: start + 7 * 24 * 60 * 60 * 1000 };
+  }
+
+  function parseMonthKeyToRange(monthKeyStr) {
+    const [y, m] = monthKeyStr.split('-').map(Number);
+    const start = new Date(y, m - 1, 1).getTime();
+    return { start, end: new Date(y, m, 1).getTime() };
+  }
+
+  function formatWeekLabel(weekKeyStr) {
+    const [, m, d] = weekKeyStr.split('-').map(Number);
+    return m + '月' + d + '日の週';
+  }
+
+  function formatMonthLabel(monthKeyStr) {
+    const [y, m] = monthKeyStr.split('-').map(Number);
+    return y + '年' + m + '月';
+  }
+
+  let archiveItemsCache = [];
+
+  async function renderLetterArchive() {
+    const section = document.getElementById('archiveSection');
+    const listEl = document.getElementById('archiveList');
+    const countEl = document.getElementById('archiveCount');
+    if (!isPremium) { section.style.display = 'none'; return; }
+
+    const items = [];
+
+    for (const k of storage.list('weeklyInsight:')) {
+      try {
+        const result = await storage.get(k);
+        const data = JSON.parse(result.value);
+        const wk = k.slice('weeklyInsight:'.length);
+        const { start, end } = parseWeekKeyToRange(wk);
+        const periodEntries = entries.filter(e => !e.urgent && e.id >= start && e.id < end);
+        if (periodEntries.length === 0) continue;
+        items.push({ type: 'weekly', dateSort: start, label: formatWeekLabel(wk), insight: data.insight, crestBig: buildWeeklyCrest(periodEntries, 80), crestSmall: buildWeeklyCrest(periodEntries, 52) });
+      } catch (e) { /* 壊れたキャッシュはスキップ */ }
+    }
+
+    for (const k of storage.list('monthlyRetro:')) {
+      try {
+        const result = await storage.get(k);
+        const data = JSON.parse(result.value);
+        const mk = k.slice('monthlyRetro:'.length);
+        const { start, end } = parseMonthKeyToRange(mk);
+        const periodEntries = entries.filter(e => !e.urgent && e.id >= start && e.id < end);
+        if (periodEntries.length === 0) continue;
+        items.push({ type: 'monthly', dateSort: start, label: formatMonthLabel(mk) + 'のあなたへ', insight: data.insight, crestBig: buildWeeklyCrest(periodEntries, 80), crestSmall: buildWeeklyCrest(periodEntries, 52) });
+      } catch (e) { /* 壊れたキャッシュはスキップ */ }
+    }
+
+    items.sort((a, b) => b.dateSort - a.dateSort);
+    archiveItemsCache = items;
+
+    if (items.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = '';
+    countEl.textContent = items.length + '通';
+    listEl.innerHTML = items.map((item, i) => `
+      <div class="archive-item" data-idx="${i}">
+        <div class="archive-crest">${item.crestSmall}</div>
+        <div class="archive-label">${escapeHtml(item.label)}${item.type === 'monthly' ? '<span class="archive-milestone">節目</span>' : ''}</div>
+      </div>
+    `).join('');
+
+    listEl.querySelectorAll('.archive-item').forEach((el) => {
+      el.addEventListener('click', () => {
+        const item = archiveItemsCache[Number(el.dataset.idx)];
+        document.getElementById('archiveModalCrest').innerHTML = item.crestBig;
+        document.getElementById('archiveModalLabel').textContent = item.label;
+        document.getElementById('archiveModalText').textContent = item.insight;
+        document.getElementById('archiveModal').style.display = 'flex';
+      });
+    });
+  }
+
+  document.getElementById('archiveModalClose').addEventListener('click', () => {
+    document.getElementById('archiveModal').style.display = 'none';
+  });
+  document.getElementById('archiveModal').addEventListener('click', (e) => {
+    if (e.target.id === 'archiveModal') e.target.style.display = 'none';
+  });
 
   const JOURNAL_DAILY_LIMIT = 3;
   const JOURNAL_PLUS_LIMIT = 10;
