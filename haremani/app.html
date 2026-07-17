@@ -568,6 +568,25 @@
     box-shadow: 0 5px 16px rgba(35,40,51,0.07);
   }
 
+  .history-more-btn {
+    display: block;
+    width: 100%;
+    appearance: none;
+    background: none;
+    border: 1px dashed #DCD5C4;
+    border-radius: 12px;
+    padding: 10px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 11.5px;
+    color: var(--text-soft);
+    cursor: pointer;
+    margin-top: 2px;
+  }
+
+  .history-more-btn:hover {
+    background: #FBFAF5;
+  }
+
   .history-item-top {
     display: flex;
     justify-content: space-between;
@@ -1747,6 +1766,9 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     }
   }
 
+  const HISTORY_COLLAPSED_COUNT = 5;
+  let historyExpanded = false;
+
   function renderHistory() {
     if (entries.length === 0) {
       historyList.innerHTML = '';
@@ -1756,7 +1778,9 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     }
     historyCount.textContent = entries.length + '件';
     historyList.innerHTML = '';
-    [...entries].reverse().forEach(entry => {
+    const reversed = [...entries].reverse();
+    const shown = historyExpanded ? reversed : reversed.slice(0, HISTORY_COLLAPSED_COUNT);
+    shown.forEach(entry => {
       const item = document.createElement('div');
       item.className = 'history-item';
       item.innerHTML = `
@@ -1775,6 +1799,17 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       });
       historyList.appendChild(item);
     });
+
+    if (reversed.length > HISTORY_COLLAPSED_COUNT) {
+      const moreBtn = document.createElement('button');
+      moreBtn.className = 'history-more-btn';
+      moreBtn.textContent = historyExpanded ? '閉じる' : 'もっと見る（残り' + (reversed.length - HISTORY_COLLAPSED_COUNT) + '件）';
+      moreBtn.addEventListener('click', () => {
+        historyExpanded = !historyExpanded;
+        renderHistory();
+      });
+      historyList.appendChild(moreBtn);
+    }
   }
 
   function renderPattern() {
@@ -2155,6 +2190,8 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   }
 
   let archiveItemsCache = [];
+  const ARCHIVE_COLLAPSED_COUNT = 8;
+  let archiveExpanded = false;
 
   async function renderLetterArchive() {
     const section = document.getElementById('archiveSection');
@@ -2198,12 +2235,27 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
 
     section.style.display = '';
     countEl.textContent = items.length + '通';
-    listEl.innerHTML = items.map((item, i) => `
+    const shown = archiveExpanded ? items : items.slice(0, ARCHIVE_COLLAPSED_COUNT);
+    listEl.innerHTML = shown.map((item, i) => `
       <div class="archive-item" data-idx="${i}">
         <div class="archive-crest">${item.crestSmall}</div>
         <div class="archive-label">${escapeHtml(item.label)}${item.type === 'monthly' ? '<span class="archive-milestone">節目</span>' : ''}</div>
       </div>
     `).join('');
+
+    const existingMoreBtn = section.querySelector('.history-more-btn');
+    if (existingMoreBtn) existingMoreBtn.remove();
+    if (items.length > ARCHIVE_COLLAPSED_COUNT) {
+      const moreBtn = document.createElement('button');
+      moreBtn.className = 'history-more-btn';
+      moreBtn.style.marginTop = '12px';
+      moreBtn.textContent = archiveExpanded ? '閉じる' : 'もっと見る（残り' + (items.length - ARCHIVE_COLLAPSED_COUNT) + '通）';
+      moreBtn.addEventListener('click', () => {
+        archiveExpanded = !archiveExpanded;
+        renderLetterArchive();
+      });
+      listEl.parentElement.appendChild(moreBtn);
+    }
 
     listEl.querySelectorAll('.archive-item').forEach((el) => {
       el.addEventListener('click', () => {
