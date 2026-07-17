@@ -885,9 +885,34 @@
 
   .archive-head {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
-    margin-bottom: 14px;
+    width: 100%;
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-bottom: 0;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .archive.open .archive-head { margin-bottom: 14px; }
+
+  .archive-head-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .archive-chevron {
+    font-size: 11px;
+    color: var(--text-soft);
+    transition: transform 0.2s ease;
+  }
+
+  .archive.open .archive-chevron {
+    transform: rotate(90deg);
   }
 
   .archive-title {
@@ -1483,11 +1508,14 @@
     </div>
 
     <div class="archive" id="archiveSection" style="display:none">
-      <div class="archive-head">
+      <button class="archive-head" id="archiveToggle" type="button">
         <span class="archive-title">手紙のアーカイブ</span>
-        <span class="archive-count" id="archiveCount"></span>
-      </div>
-      <div class="archive-grid" id="archiveList"></div>
+        <span class="archive-head-right">
+          <span class="archive-count" id="archiveCount"></span>
+          <span class="archive-chevron" id="archiveChevron">▸</span>
+        </span>
+      </button>
+      <div class="archive-grid" id="archiveList" style="display:none"></div>
     </div>
   </div>
   </div><!-- /journalSection -->
@@ -2273,6 +2301,15 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   });
   document.getElementById('archiveModal').addEventListener('click', (e) => {
     if (e.target.id === 'archiveModal') e.target.style.display = 'none';
+  });
+
+  let archiveOpen = false;
+  document.getElementById('archiveToggle').addEventListener('click', () => {
+    archiveOpen = !archiveOpen;
+    const section = document.getElementById('archiveSection');
+    const list = document.getElementById('archiveList');
+    section.classList.toggle('open', archiveOpen);
+    list.style.display = archiveOpen ? 'flex' : 'none';
   });
 
   const JOURNAL_DAILY_LIMIT = 3;
