@@ -459,6 +459,28 @@
     text-align: left;
   }
 
+  .plus-benefit-list {
+    margin-top: 14px;
+    list-style: none;
+    text-align: left;
+  }
+
+  .plus-benefit-list li {
+    font-size: 11px;
+    color: var(--mist);
+    line-height: 1.9;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .plus-benefit-list li::before {
+    content: '·';
+    position: absolute;
+    left: 3px;
+    color: var(--clarity);
+    font-weight: 700;
+  }
+
   button.plus-cta:disabled {
     background: rgba(183,196,206,0.18);
     color: var(--mist-dim);
@@ -701,6 +723,12 @@
           </div>
           <p class="plus-demo-text">今週のあなたへ、後輩とのやり取りで、少し引っかかることが多かったようですね。誰かとの距離感に、そっと気を配っていた一週間だったのかもしれません……</p>
         </div>
+
+        <ul class="plus-benefit-list">
+          <li>書きっぱなしで終わらず、一週間の自分を振り返るきっかけになる</li>
+          <li>自分では気づきにくい変化に、後から気づける</li>
+          <li>紋章は毎週すべて違う形。積み重なる記録そのものが、続けてきた証になる</li>
+        </ul>
 
         <button class="plus-cta" disabled>近日リリース予定</button>
       </div>
