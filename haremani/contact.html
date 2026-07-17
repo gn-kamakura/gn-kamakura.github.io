@@ -166,15 +166,30 @@
     submitBtn.textContent = '送信しています…';
     statusMsg.className = 'status-msg';
 
+    const fd = new FormData(form);
+
     try {
       const res = await fetch(form.action, {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
-        body: new FormData(form)
+        body: fd
       });
       if (res.ok) {
         statusMsg.textContent = 'お問い合わせを送信しました。ありがとうございます。';
         statusMsg.classList.add('show', 'success');
+
+        // Notionのお問い合わせ管理データベースにも記録（失敗しても送信自体は成功扱い）
+        fetch('https://idjbnrohrthqsabqmfjk.supabase.co/functions/v1/log-inquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            service: 'はれまに',
+            name: fd.get('name'),
+            email: fd.get('email'),
+            message: fd.get('message')
+          })
+        }).catch(() => {});
+
         form.reset();
         submitBtn.textContent = '送信しました';
       } else {

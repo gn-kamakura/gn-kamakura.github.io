@@ -121,9 +121,25 @@ document.getElementById('contactForm').addEventListener('submit', async function
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
   btn.disabled = true; btn.textContent = '送信中...';
+  const fd = new FormData(this);
   try {
-    const res = await fetch(this.action, {method:'POST',body:new FormData(this),headers:{'Accept':'application/json'}});
-    if (res.ok) { this.style.display='none'; document.getElementById('successMsg').classList.add('show'); }
+    const res = await fetch(this.action, {method:'POST',body:fd,headers:{'Accept':'application/json'}});
+    if (res.ok) {
+      this.style.display='none'; document.getElementById('successMsg').classList.add('show');
+
+      // Notionのお問い合わせ管理データベースにも記録（失敗しても送信自体は成功扱い）
+      const deviceInfo = fd.get('device') ? '\n端末: ' + fd.get('device') : '';
+      fetch('https://idjbnrohrthqsabqmfjk.supabase.co/functions/v1/log-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service: 'AI本質力トレーニング',
+          name: fd.get('name'),
+          email: fd.get('email'),
+          message: '[' + fd.get('type') + '] ' + fd.get('message') + deviceInfo
+        })
+      }).catch(() => {});
+    }
     else { throw new Error(); }
   } catch { btn.disabled=false; btn.textContent='送信する →'; alert('送信に失敗しました。恐れ入りますが info@gn-kamakura.com までご連絡ください。'); }
 });
