@@ -1992,6 +1992,51 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     </svg>`;
   }
 
+  /* 月次は「節目」として、週次と見分けがつく専用の紋章を1つだけ生成する。
+     週ごとに紋章を並べるのはやめ、月全体のデータを1つの紋章に集約する
+     （個々の紋章を並べる"積み重ね"の見せ方は、手紙のアーカイブ側に任せる）。 */
+  function buildMonthlyCrest(monthEntries, size) {
+    size = size || 96;
+    const tagCounts = {};
+    monthEntries.forEach(e => { tagCounts[e.tag] = (tagCounts[e.tag] || 0) + 1; });
+    const entryCount = monthEntries.length;
+    const uniqueTags = Object.keys(tagCounts).length;
+    const sorted = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+    const dominant = sorted.length ? sorted[0][0] : '';
+
+    const CLARITY_TAGS = ['言葉遣い・伝え方', '誤解・すれ違い', 'フィードバック・指摘の受け止め方'];
+    const PLUM_TAGS = ['距離感・干渉', '疎外感・置いてけぼり', '自己決定への口出し'];
+    let accent = '#C9A66B';
+    if (CLARITY_TAGS.includes(dominant)) accent = '#7FA396';
+    else if (PLUM_TAGS.includes(dominant)) accent = '#8B5A6B';
+
+    const rayCount = Math.max(4, Math.min(9, Math.round(entryCount / 2) + 3));
+    const ringOpacity = Math.min(0.45, 0.15 + (entryCount / 30) * 0.3);
+    const waveAmp = Math.min(3.5, 1 + (uniqueTags / Math.max(1, entryCount)) * 4);
+
+    const rays = [];
+    for (let i = 0; i < rayCount; i++) {
+      const angle = (-90 + (i - (rayCount - 1) / 2) * (80 / Math.max(1, rayCount - 1))) * Math.PI / 180;
+      const x2 = (20 + Math.sin(angle) * 13).toFixed(1);
+      const y2 = (15 - Math.cos(angle) * 13).toFixed(1);
+      rays.push(`<line x1="20" y1="15" x2="${x2}" y2="${y2}"/>`);
+    }
+
+    return `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
+      <circle cx="20" cy="20" r="19.5" fill="#1E2530" stroke="#C9A66B" stroke-width="0.4"/>
+      <circle cx="20" cy="20" r="17" fill="none" stroke="#C9A66B" stroke-width="0.3" opacity="0.4"/>
+      <g opacity="${ringOpacity.toFixed(2)}" stroke="${accent}" stroke-width="0.7" fill="none">
+        <circle cx="20" cy="5.6" r="4.2"/><circle cx="31.3" cy="11" r="4.2"/>
+        <circle cx="34" cy="23.2" r="4.2"/><circle cx="26.2" cy="33" r="4.2"/>
+        <circle cx="13.8" cy="33" r="4.2"/><circle cx="6" cy="23.2" r="4.2"/>
+        <circle cx="8.7" cy="11" r="4.2"/>
+      </g>
+      <g stroke="${accent}" stroke-width="1" opacity="0.85" stroke-linecap="round">${rays.join('')}</g>
+      <path d="M5 27.5 L13.5 17.5 L16.5 20.3 L20 14 L23.5 20.3 L26.5 17.5 L35 27.5 Z" fill="#F6F3EC"/>
+      <path d="M4 33 Q9 ${(33 - waveAmp * 1.3).toFixed(1)} 15 32 T24 32 T35 33" fill="none" stroke="${accent}" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+    </svg>`;
+  }
+
   function renderWeeklyBody(body, insight, weekEntries) {
     const counts = {};
     weekEntries.forEach(e => { counts[e.tag] = (counts[e.tag] || 0) + 1; });
@@ -2096,26 +2141,28 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   }
 
   const MONTHLY_RETRO_SYSTEM_PROMPT = `あなたは「はれまに」というアプリの中にいる、静かな聞き役です。
-ユーザーが先月一ヶ月分書きためた対人関係のモヤモヤを読み、「先月のあなたへ」という手紙を書きます。
+ユーザーが先月一ヶ月分書きためた対人関係のモヤモヤを読み、「先月のあなたへ」という、一ヶ月の節目にふさわしい、心を込めた手紙を書きます。
+
+このアプリの一番大切な役割は、ユーザーが「自分は少しずつ変わってきている」という実感を持てるようにすることです。月次の手紙は、その実感を届ける最も重要な瞬間です。週次の手紙よりも、時間をかけて丁寧に、しっかりと書いてください。
 
 以下のルールを厳密に守ってください：
 - 必ず「先月のあなたへ、」から書き始める。語りかける二人称の手紙として書く
-- 一週間単位の手紙とは違い、一ヶ月という節目にふさわしく、月を通しての傾向や変化に触れる。可能であれば「月の前半」と「月の後半」で何か違いが見えるかにも触れてよい（無理に見つけなくてよい）
-- 具体的な出来事にも触れながら、丁寧に言葉を尽くして書く。テンプレート的な言い回しに逃げない
+- 一週間単位の手紙とは違い、一ヶ月という節目にふさわしく、月を通しての傾向や変化にしっかりと目を向ける。月の前半と後半で違いが見えるか、同じ種類の引っかかりが減ってきていないか、書き方や捉え方そのものに変化が見えないかを、実際にデータから読み取れる範囲で具体的に書く（無理に成長を作り出したり、事実にない変化を捏造したりしない。変化がはっきり見えない月は、それはそれとして丁寧に受け止める）
+- 具体的な出来事に複数回触れながら、丁寧に言葉を尽くして書く。テンプレート的な言い回しや一般論に逃げない
 - 説教・助言・行動提案をしない。断定せず、やわらかい言い方をする
 - 診断・断定的なラベリングは絶対にしない
-- 分量は9〜12文程度。段落を1〜2箇所で区切ってよい（改行は\\nで表現する）。敬体（です・ます調）
-- 最後は、一ヶ月書き続けたこと自体をねぎらう一文で締めくくる
+- 分量は14〜18文程度としっかり長めに書く。3つ程度の段落に分けてよい（改行は\\nで表現する）。敬体（です・ます調）
+- 最後の段落は、一ヶ月間、書き続けてきたこと自体を、心からねぎらう言葉で締めくくる
 - 出力は必ず以下のJSON形式のみ。前置き・説明・Markdownのコードブロック記号は一切つけない
 {"insight": "ここに手紙本文（先月のあなたへ、から始める）"}`;
 
   async function getMonthlyInsight(monthEntries) {
-    const summary = monthEntries.map((e, i) => `${i + 1}. [${e.tag}] ${e.text.slice(0, 120)}`).join('\n');
+    const summary = monthEntries.map((e, i) => `${i + 1}. [${e.tag}] ${e.text.slice(0, 150)}`).join('\n');
     const response = await fetch(AI_PROXY_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json", "apikey": AI_PROXY_KEY, "Authorization": "Bearer " + AI_PROXY_KEY },
       body: JSON.stringify({
-        max_tokens: 1000,
+        max_tokens: 1500,
         system: MONTHLY_RETRO_SYSTEM_PROMPT,
         message: summary
       })
@@ -2161,10 +2208,9 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       cached = null;
     }
 
-    const weekBuckets = splitEntriesIntoWeeks(monthEntries);
     const [labelYear, labelMonth] = label.split('-');
     titleEl.textContent = labelYear + '年' + parseInt(labelMonth, 10) + '月のあなたへ';
-    crestRow.innerHTML = weekBuckets.map(wk => buildWeeklyCrest(wk, 46)).join('');
+    crestRow.innerHTML = buildMonthlyCrest(monthEntries, 96);
 
     if (cached && cached.count === monthEntries.length) {
       insightEl.textContent = cached.insight;
@@ -2249,7 +2295,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
         const { start, end } = parseMonthKeyToRange(mk);
         const periodEntries = entries.filter(e => !e.urgent && e.id >= start && e.id < end);
         if (periodEntries.length === 0) continue;
-        items.push({ type: 'monthly', dateSort: start, label: formatMonthLabel(mk) + 'のあなたへ', insight: data.insight, crestBig: buildWeeklyCrest(periodEntries, 80), crestSmall: buildWeeklyCrest(periodEntries, 52) });
+        items.push({ type: 'monthly', dateSort: start, label: formatMonthLabel(mk) + 'のあなたへ', insight: data.insight, crestBig: buildMonthlyCrest(periodEntries, 80), crestSmall: buildMonthlyCrest(periodEntries, 52) });
       } catch (e) { /* 壊れたキャッシュはスキップ */ }
     }
 
