@@ -745,6 +745,13 @@
     border-radius: 999px;
   }
 
+  .weekly-crest {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.35));
+  }
+
   .weekly-report-insight {
     font-family: 'Shippori Mincho', serif;
     font-size: 13.5px;
@@ -1221,7 +1228,7 @@
       <div class="paywall-desc">無料プランは1日3回まで。<br>はれまにプラスなら、書きたいだけ書けます。</div>
       <div class="paywall-price">¥600<span> /月（税込）</span></div>
       <ul class="paywall-features">
-        <li>ジャーナル・ケーススタディともに無制限</li>
+        <li>ジャーナル・ケーススタディともに1日10回まで</li>
         <li>「近ごろの自分」の週次パターンレポート</li>
       </ul>
       <button class="paywall-cta" id="journalPaywallCta">はれまにプラスにアップグレード</button>
@@ -1259,7 +1266,7 @@
 
     <div class="weekly-report-card" id="weeklyReportCard" style="display:none">
       <div class="weekly-report-head">
-        <span class="weekly-report-title">今週のパターン</span>
+        <span class="weekly-report-title">今週のあなたへ</span>
         <span class="weekly-plus-badge">PLUS</span>
       </div>
       <div id="weeklyReportBody"></div>
@@ -1267,8 +1274,8 @@
 
     <div class="weekly-teaser" id="weeklyTeaser" style="display:none">
       <div class="weekly-teaser-text">
-        <strong>週次パターンレポート</strong><br>
-        はれまにプラスで、今週の傾向をAIがやさしく言語化します
+        <strong>今週のあなたへ、手紙が届きます</strong><br>
+        はれまにプラスで、一週間分のモヤモヤから、あなただけの紋章と手紙が届きます
       </div>
       <button class="weekly-teaser-cta" id="weeklyTeaserCta">アップグレード</button>
     </div>
@@ -1305,7 +1312,7 @@
       <div class="paywall-desc">無料プランは1日3テーマまで。<br>はれまにプラスなら、テーマを気にせず試せます。</div>
       <div class="paywall-price">¥600<span> /月（税込）</span></div>
       <ul class="paywall-features">
-        <li>ジャーナル・ケーススタディともに無制限</li>
+        <li>ジャーナル・ケーススタディともに1日10回まで</li>
         <li>「近ごろの自分」の週次パターンレポート</li>
       </ul>
       <button class="paywall-cta" id="casePaywallCta">はれまにプラスにアップグレード</button>
@@ -1628,16 +1635,18 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     return entries.filter(e => !e.urgent && e.id >= start);
   }
 
-  const WEEKLY_INSIGHT_SYSTEM_PROMPT = `あなたは、日々の対人関係のモヤモヤを記録した日記を読み、一週間分の傾向をやさしく言語化する聞き役です。
+  const WEEKLY_INSIGHT_SYSTEM_PROMPT = `あなたは「はれまに」というアプリの中にいる、静かな聞き役です。
+ユーザーが一週間書きためた対人関係のモヤモヤを読み、「今週のあなたへ」という短い手紙を書きます。
 
 ユーザーが今週書いた複数の「モヤモヤ」の要約（タグと短い内容）が渡されます。
-以下のルールを守ってください：
-- 説教や助言を主目的にしない。まず「今週、こういう傾向があったようですね」という観察を届ける
-- 決めつけず、やわらかい言い方をする（「〜かもしれません」「〜のようです」）
-- 分量は3〜4文程度、敬体（です・ます調）
-- 診断・断定的なラベリングはしない
+以下のルールを厳密に守ってください：
+- 必ず「今週のあなたへ、」から書き始める、一人称（わたし・私）ではなく、語りかける二人称の手紙として書く
+- 分析やアドバイスが主目的ではない。「今週、こういうことがあったんですね」と、そっと寄り添う手紙にする
+- 説教・助言・行動提案をしない。断定せず、やわらかい言い方をする（「〜かもしれません」「〜のようですね」）
+- 診断・断定的なラベリングは絶対にしない
+- 分量は4〜5文程度、敬体（です・ます調）。手紙らしく、最後は一文で静かに締めくくる（「今週も、よく書きましたね。」のような一言でよい）
 - 出力は必ず以下のJSON形式のみ。前置き・説明・Markdownのコードブロック記号は一切つけない
-{"insight": "ここに本文"}`;
+{"insight": "ここに手紙本文（今週のあなたへ、から始める）"}`;
 
   async function getWeeklyInsight(weekEntries) {
     const summary = weekEntries.map((e, i) => `${i + 1}. [${e.tag}] ${e.text.slice(0, 60)}`).join('\n');
@@ -1663,6 +1672,52 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     }
   }
 
+  /* 週のタグ傾向から、ロゴと同じ視覚言語で「今週の紋章」をその場で生成する。
+     AI画像生成は使わず、SVGをコードで組み立てるだけなのでコストはかからない。
+     - 光線の本数：今週の記録数（多いほど本数が増える）
+     - 七宝つなぎの濃さ：今週の記録数
+     - 波線の揺れ幅：タグの多様性（いろんな種類のモヤモヤがあった週ほど揺れる）
+     - アクセント色：今週いちばん多かったタグの系統 */
+  function buildWeeklyCrest(weekEntries) {
+    const tagCounts = {};
+    weekEntries.forEach(e => { tagCounts[e.tag] = (tagCounts[e.tag] || 0) + 1; });
+    const entryCount = weekEntries.length;
+    const uniqueTags = Object.keys(tagCounts).length;
+    const sorted = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+    const dominant = sorted.length ? sorted[0][0] : '';
+
+    const CLARITY_TAGS = ['言葉遣い・伝え方', '誤解・すれ違い', 'フィードバック・指摘の受け止め方'];
+    const PLUM_TAGS = ['距離感・干渉', '疎外感・置いてけぼり', '自己決定への口出し'];
+    let accent = '#C9A66B';
+    if (CLARITY_TAGS.includes(dominant)) accent = '#7FA396';
+    else if (PLUM_TAGS.includes(dominant)) accent = '#8B5A6B';
+
+    const rayCount = Math.max(3, Math.min(7, entryCount + 2));
+    const ringOpacity = Math.min(0.42, 0.12 + (entryCount / 10) * 0.3);
+    const waveAmp = Math.min(3.5, 1 + (uniqueTags / Math.max(1, entryCount)) * 4);
+
+    const rays = [];
+    for (let i = 0; i < rayCount; i++) {
+      const angle = (-90 + (i - (rayCount - 1) / 2) * (70 / Math.max(1, rayCount - 1))) * Math.PI / 180;
+      const x2 = (20 + Math.sin(angle) * 12).toFixed(1);
+      const y2 = (15 - Math.cos(angle) * 12).toFixed(1);
+      rays.push(`<line x1="20" y1="15" x2="${x2}" y2="${y2}"/>`);
+    }
+
+    return `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="88" height="88">
+      <circle cx="20" cy="20" r="19" fill="#1E2530"/>
+      <g opacity="${ringOpacity.toFixed(2)}" stroke="${accent}" stroke-width="0.7" fill="none">
+        <circle cx="20" cy="5.6" r="4.2"/><circle cx="31.3" cy="11" r="4.2"/>
+        <circle cx="34" cy="23.2" r="4.2"/><circle cx="26.2" cy="33" r="4.2"/>
+        <circle cx="13.8" cy="33" r="4.2"/><circle cx="6" cy="23.2" r="4.2"/>
+        <circle cx="8.7" cy="11" r="4.2"/>
+      </g>
+      <g stroke="${accent}" stroke-width="1.1" opacity="0.9" stroke-linecap="round">${rays.join('')}</g>
+      <path d="M5 27.5 L13.5 17.5 L16.5 20.3 L20 14 L23.5 20.3 L26.5 17.5 L35 27.5 Z" fill="#F6F3EC"/>
+      <path d="M6 32 Q11 ${(32 - waveAmp).toFixed(1)} 15 32 T24 32 T33 32" fill="none" stroke="${accent}" stroke-width="1.1" opacity="0.6" stroke-linecap="round"/>
+    </svg>`;
+  }
+
   function renderWeeklyBody(body, insight, weekEntries) {
     const counts = {};
     weekEntries.forEach(e => { counts[e.tag] = (counts[e.tag] || 0) + 1; });
@@ -1681,7 +1736,9 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       </div>
     `).join('');
 
-    body.innerHTML = `<div class="weekly-report-insight">${escapeHtml(insight)}</div>${bars}`;
+    const crest = buildWeeklyCrest(weekEntries);
+
+    body.innerHTML = `<div class="weekly-crest">${crest}</div><div class="weekly-report-insight">${escapeHtml(insight)}</div>${bars}`;
   }
 
   async function renderWeeklyReport() {
@@ -1735,6 +1792,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   }
 
   const JOURNAL_DAILY_LIMIT = 3;
+  const JOURNAL_PLUS_LIMIT = 10;
   let journalCountToday = 0;
   let isPremium = false;
   const journalLimitNote = document.getElementById('journalLimitNote');
@@ -1776,30 +1834,30 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   document.getElementById('weeklyTeaserCta').addEventListener('click', () => setPremium(true));
 
   function updateJournalLimitUI() {
-    const remaining = JOURNAL_DAILY_LIMIT - journalCountToday;
-    if (!isPremium && remaining <= 0) {
-      journalLimitNote.textContent = '本日の上限（' + JOURNAL_DAILY_LIMIT + '回）に達しました';
+    const limit = isPremium ? JOURNAL_PLUS_LIMIT : JOURNAL_DAILY_LIMIT;
+    const remaining = limit - journalCountToday;
+    if (remaining <= 0) {
+      journalLimitNote.textContent = isPremium
+        ? '本日の上限（' + limit + '回）に達しました'
+        : '本日の上限（' + limit + '回）に達しました';
       journalLimitNote.classList.add('reached');
       submitBtn.disabled = true;
       submitBtn.textContent = 'また明日、話しかけてください';
       entryInput.disabled = true;
-      journalPaywall.style.display = MONETIZATION_ENABLED ? '' : 'none';
-    } else if (isPremium) {
-      journalLimitNote.textContent = 'はれまにプラス：回数無制限';
+      journalPaywall.style.display = (!isPremium && MONETIZATION_ENABLED) ? '' : 'none';
+    } else {
+      journalLimitNote.textContent = '本日 ' + journalCountToday + ' / ' + limit;
       journalLimitNote.classList.remove('reached');
       submitBtn.disabled = false;
       submitBtn.textContent = '晴らしてみる';
       entryInput.disabled = false;
       journalPaywall.style.display = 'none';
-    } else {
-      journalLimitNote.textContent = '本日 ' + journalCountToday + ' / ' + JOURNAL_DAILY_LIMIT;
-      journalLimitNote.classList.remove('reached');
-      journalPaywall.style.display = 'none';
     }
   }
 
   submitBtn.addEventListener('click', async () => {
-    if (!isPremium && journalCountToday >= JOURNAL_DAILY_LIMIT) return;
+    const limit = isPremium ? JOURNAL_PLUS_LIMIT : JOURNAL_DAILY_LIMIT;
+    if (journalCountToday >= limit) return;
     const text = entryInput.value.trim();
     if (!text) return;
 
@@ -1861,8 +1919,9 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       console.error(err);
       errorMsg.style.display = 'block';
     } finally {
-      submitBtn.disabled = journalCountToday >= JOURNAL_DAILY_LIMIT;
-      submitBtn.textContent = journalCountToday >= JOURNAL_DAILY_LIMIT ? 'また明日、話しかけてください' : '晴らしてみる';
+      const limit2 = isPremium ? JOURNAL_PLUS_LIMIT : JOURNAL_DAILY_LIMIT;
+      submitBtn.disabled = journalCountToday >= limit2;
+      submitBtn.textContent = journalCountToday >= limit2 ? 'また明日、話しかけてください' : '晴らしてみる';
     }
   });
 
@@ -1991,6 +2050,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   }
 
   const CASE_DAILY_THEME_LIMIT = 3;
+  const CASE_PLUS_LIMIT = 10;
   let themeCountToday = 0;
   let caseLockedForToday = false;
 
@@ -2008,7 +2068,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   function renderCaseLocked() {
     caseLockedForToday = true;
     caseCard.style.display = 'none';
-    if (MONETIZATION_ENABLED) {
+    if (!isPremium && MONETIZATION_ENABLED) {
       casePaywall.style.display = '';
       caseSimpleLocked.style.display = 'none';
     } else {
@@ -2025,7 +2085,8 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       // 本当に新しいテーマを引く場合のみ、上限チェックとカウント消費を行う。
       // ページ再読み込み時は isRestore=true で当日分の既存テーマを引数に渡し、
       // ここを通らないようにする（再読み込みだけで枠を消費しないため）。
-      if (!isPremium && themeCountToday >= CASE_DAILY_THEME_LIMIT) {
+      const caseLimit = isPremium ? CASE_PLUS_LIMIT : CASE_DAILY_THEME_LIMIT;
+      if (themeCountToday >= caseLimit) {
         renderCaseLocked();
         return;
       }
@@ -2042,7 +2103,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     caseScenarioText.textContent = c.scenario;
     caseProgress.textContent = (sceneOverride && !isRestore)
       ? '場面が続いています'
-      : (isPremium ? 'はれまにプラス：テーマ無制限' : ('テーマ ' + themeCountToday + ' / ' + CASE_DAILY_THEME_LIMIT));
+      : ('テーマ ' + themeCountToday + ' / ' + (isPremium ? CASE_PLUS_LIMIT : CASE_DAILY_THEME_LIMIT));
     caseFeedbackWrap.classList.remove('show');
     caseMistVeil.classList.remove('clear');
     caseNextBtn.classList.remove('show');
