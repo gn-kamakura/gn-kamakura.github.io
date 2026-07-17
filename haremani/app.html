@@ -447,6 +447,57 @@
     border-top: 1px solid rgba(139,90,107,0.2);
   }
 
+  .mood-check {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #E5E0D0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .mood-check-label {
+    font-size: 11px;
+    color: var(--text-soft);
+    margin-right: 2px;
+  }
+
+  .mood-check-btns {
+    display: flex;
+    gap: 8px;
+  }
+
+  button.mood-btn {
+    appearance: none;
+    border: 1px solid #DCD5C4;
+    background: #FFFDF8;
+    color: var(--text-soft);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  button.mood-btn:hover {
+    border-color: var(--clarity);
+    color: var(--clarity-deep);
+  }
+
+  button.mood-btn.selected {
+    background: var(--clarity);
+    border-color: var(--clarity);
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .mood-check-done {
+    font-size: 11px;
+    color: var(--clarity-deep);
+  }
+
   .crisis-resources.show {
     display: block;
   }
@@ -1471,6 +1522,14 @@
         <span class="response-label" id="responseLabel"><svg class="glint" width="11" height="11" viewBox="0 0 11 11" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 0 L6.7 4.3 L11 5.5 L6.7 6.7 L5.5 11 L4.3 6.7 L0 5.5 L4.3 4.3 Z" fill="#7FA396"/></svg> べつの見方</span>
         <div class="response-text" id="responseText"></div>
         <div class="crisis-resources" id="crisisResources"></div>
+        <div class="mood-check" id="moodCheck">
+          <span class="mood-check-label">今の気持ちは</span>
+          <div class="mood-check-btns">
+            <button class="mood-btn" data-mood="cleared">少し晴れた</button>
+            <button class="mood-btn" data-mood="still">まだモヤモヤする</button>
+          </div>
+          <span class="mood-check-done" id="moodCheckDone" style="display:none">教えてくれてありがとうございます</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1559,6 +1618,14 @@
           <div class="mist-veil" id="caseMistVeil"></div>
           <div class="case-feedback-label">こういう見方もできます</div>
           <div class="case-feedback-text" id="caseFeedbackText"></div>
+          <div class="mood-check" id="caseMoodCheck">
+            <span class="mood-check-label">今の気持ちは</span>
+            <div class="mood-check-btns">
+              <button class="mood-btn" data-mood="cleared">少し晴れた</button>
+              <button class="mood-btn" data-mood="still">まだモヤモヤする</button>
+            </div>
+            <span class="mood-check-done" id="caseMoodCheckDone" style="display:none">教えてくれてありがとうございます</span>
+          </div>
         </div>
       </div>
       <div class="case-next">
@@ -2362,6 +2429,48 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     if (e.target.id === 'archiveModal') e.target.style.display = 'none';
   });
 
+  /* ───────── 「少し晴れた／まだモヤモヤする」フィードバック ─────────
+     社内の改善用シグナルとしてのみ使う。外部への「解消率」等の公表はしない
+     （断定・数値化がコンセプトと矛盾するため）。 */
+  function recordMood(mood) {
+    try {
+      let stats = { cleared: 0, still: 0 };
+      const raw = localStorage.getItem('moodStats');
+      if (raw) stats = JSON.parse(raw);
+      stats[mood] = (stats[mood] || 0) + 1;
+      localStorage.setItem('moodStats', JSON.stringify(stats));
+    } catch (e) { /* 記録できなくても体験に影響させない */ }
+  }
+
+  function resetMoodCheck(checkId, doneId) {
+    const check = document.getElementById(checkId);
+    const done = document.getElementById(doneId);
+    if (!check) return;
+    check.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+    const btnsRow = check.querySelector('.mood-check-btns');
+    if (btnsRow) btnsRow.style.display = 'flex';
+    if (done) done.style.display = 'none';
+  }
+
+  function bindMoodCheck(checkId, doneId) {
+    const check = document.getElementById(checkId);
+    if (!check) return;
+    check.querySelectorAll('.mood-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        check.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        recordMood(btn.dataset.mood);
+        const btnsRow = check.querySelector('.mood-check-btns');
+        if (btnsRow) btnsRow.style.display = 'none';
+        const done = document.getElementById(doneId);
+        if (done) done.style.display = '';
+      });
+    });
+  }
+
+  bindMoodCheck('moodCheck', 'moodCheckDone');
+  bindMoodCheck('caseMoodCheck', 'caseMoodCheckDone');
+
   let archiveOpen = false;
   document.getElementById('archiveToggle').addEventListener('click', async () => {
     archiveOpen = !archiveOpen;
@@ -2472,6 +2581,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
 
       responseText.textContent = reframe;
       responseWrap.classList.add('show');
+      resetMoodCheck('moodCheck', 'moodCheckDone');
 
       const responseCard = document.getElementById('responseCard');
       const responseLabel = document.getElementById('responseLabel');
@@ -2654,13 +2764,19 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   let themeCountToday = 0;
   let caseLockedForToday = false;
 
+  const CASE_RECENT_WINDOW = 4; // 全7件中、直近4件を除外して選ぶ（間隔を空けるため）
+
   function pickNewSeed() {
-    if (usedSeeds.length >= CASE_SCENARIOS.length) usedSeeds.length = 0;
+    const available = CASE_SCENARIOS.map((_, i) => i).filter(i => !usedSeeds.includes(i));
     let idx;
-    do {
+    if (available.length > 0) {
+      idx = available[Math.floor(Math.random() * available.length)];
+    } else {
+      // 万一全滅した場合のフォールバック（通常は到達しない）
       idx = Math.floor(Math.random() * CASE_SCENARIOS.length);
-    } while (usedSeeds.includes(idx) && usedSeeds.length < CASE_SCENARIOS.length);
+    }
     usedSeeds.push(idx);
+    if (usedSeeds.length > CASE_RECENT_WINDOW) usedSeeds.shift();
     caseIndex = idx;
     return CASE_SCENARIOS[idx];
   }
@@ -2726,6 +2842,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
 
     caseFeedbackWrap.classList.add('show');
     caseMistVeil.classList.add('clear');
+    resetMoodCheck('caseMoodCheck', 'caseMoodCheckDone');
     caseFeedbackText.innerHTML = '<span class="loading-text"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span>すこし考えています</span>';
     caseNextBtn.textContent = '次のケースへ →';
 
