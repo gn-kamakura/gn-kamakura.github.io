@@ -716,10 +716,11 @@
 
   /* --- 週次パターンレポート（PLUS限定） --- */
   .weekly-report-card {
-    background: linear-gradient(160deg, #232B38 0%, var(--ink) 70%);
+    background: var(--paper);
     border-radius: 16px;
     padding: 22px 24px 20px;
     margin-top: 12px;
+    box-shadow: 0 14px 34px -20px rgba(35,40,51,0.25);
   }
 
   .weekly-report-head {
@@ -732,14 +733,14 @@
   .weekly-report-title {
     font-family: 'Shippori Mincho', serif;
     font-size: 14.5px;
-    color: var(--paper);
+    color: var(--text-dark);
   }
 
   .weekly-plus-badge {
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 0.06em;
-    color: var(--clarity);
+    color: var(--clarity-deep);
     border: 1px solid rgba(127,163,150,0.5);
     padding: 1px 7px;
     border-radius: 999px;
@@ -749,21 +750,21 @@
     display: flex;
     justify-content: center;
     margin-bottom: 14px;
-    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.35));
+    filter: drop-shadow(0 6px 14px rgba(35,40,51,0.25));
   }
 
   .weekly-report-insight {
     font-family: 'Shippori Mincho', serif;
     font-size: 13.5px;
-    line-height: 2;
-    color: var(--mist);
+    line-height: 2.05;
+    color: var(--text-dark);
     margin-bottom: 16px;
     white-space: pre-wrap;
   }
 
   .weekly-report-empty {
     font-size: 12px;
-    color: var(--mist-dim);
+    color: var(--text-soft);
     line-height: 1.8;
   }
 
@@ -778,12 +779,12 @@
     font-size: 11.5px;
   }
 
-  .weekly-report-row-top .tag { color: var(--paper); opacity: 0.9; }
-  .weekly-report-row-top .num { color: var(--mist-dim); }
+  .weekly-report-row-top .tag { color: var(--text-dark); opacity: 0.85; }
+  .weekly-report-row-top .num { color: var(--text-soft); }
 
   .weekly-report-bar-track {
     height: 5px;
-    background: rgba(183,196,206,0.15);
+    background: var(--paper-dim);
     border-radius: 999px;
     overflow: hidden;
   }
@@ -796,10 +797,62 @@
 
   .weekly-report-loading {
     font-size: 12px;
-    color: var(--mist-dim);
+    color: var(--text-soft);
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+
+  /* ───── 月次の振り返り（節目カード） ───── */
+  .monthly-retro-card {
+    background: linear-gradient(160deg, #FBF6EC 0%, var(--paper) 70%);
+    border: 1px solid rgba(201,166,107,0.35);
+    border-radius: 16px;
+    padding: 22px 24px 20px;
+    margin-top: 12px;
+  }
+
+  .monthly-retro-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .monthly-retro-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 14.5px;
+    color: var(--text-dark);
+  }
+
+  .monthly-retro-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #A9813F;
+    border: 1px solid rgba(201,166,107,0.55);
+    padding: 1px 7px;
+    border-radius: 999px;
+  }
+
+  .monthly-crest-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .monthly-crest-row svg {
+    filter: drop-shadow(0 4px 10px rgba(35,40,51,0.2));
+  }
+
+  .monthly-retro-insight {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13.5px;
+    line-height: 2.1;
+    color: var(--text-dark);
+    white-space: pre-wrap;
   }
 
   /* --- 週次パターンレポート・無料版ティザー --- */
@@ -1279,6 +1332,15 @@
       </div>
       <button class="weekly-teaser-cta" id="weeklyTeaserCta">アップグレード</button>
     </div>
+
+    <div class="monthly-retro-card" id="monthlyRetroCard" style="display:none">
+      <div class="monthly-retro-head">
+        <span class="monthly-retro-title" id="monthlyRetroTitle">先月のあなたへ</span>
+        <span class="monthly-retro-badge">MILESTONE</span>
+      </div>
+      <div class="monthly-crest-row" id="monthlyCrestRow"></div>
+      <div class="monthly-retro-insight" id="monthlyRetroInsight"></div>
+    </div>
   </div>
   </div><!-- /journalSection -->
 
@@ -1636,25 +1698,27 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   }
 
   const WEEKLY_INSIGHT_SYSTEM_PROMPT = `あなたは「はれまに」というアプリの中にいる、静かな聞き役です。
-ユーザーが一週間書きためた対人関係のモヤモヤを読み、「今週のあなたへ」という短い手紙を書きます。
+ユーザーが一週間書きためた対人関係のモヤモヤを読み、「今週のあなたへ」という手紙を書きます。
 
 ユーザーが今週書いた複数の「モヤモヤ」の要約（タグと短い内容）が渡されます。
 以下のルールを厳密に守ってください：
-- 必ず「今週のあなたへ、」から書き始める、一人称（わたし・私）ではなく、語りかける二人称の手紙として書く
-- 分析やアドバイスが主目的ではない。「今週、こういうことがあったんですね」と、そっと寄り添う手紙にする
+- 必ず「今週のあなたへ、」から書き始める。一人称（わたし・私）ではなく、語りかける二人称の手紙として書く
+- 分析やアドバイスが主目的ではない。今週あった一つひとつの出来事に、ちゃんと目を通した上で、丁寧に言葉を尽くして書く。一言二言で終わらせず、しっかりと寄り添う手紙にする
+- 具体的な出来事に触れながら書く（すべての出来事に触れなくてよいが、印象的だったものは具体的に言及する）。一般論やテンプレート的な言い回しに逃げない
 - 説教・助言・行動提案をしない。断定せず、やわらかい言い方をする（「〜かもしれません」「〜のようですね」）
 - 診断・断定的なラベリングは絶対にしない
-- 分量は4〜5文程度、敬体（です・ます調）。手紙らしく、最後は一文で静かに締めくくる（「今週も、よく書きましたね。」のような一言でよい）
+- 分量は8〜11文程度。段落を1〜2箇所で区切ってよい（改行は\\nで表現する）。敬体（です・ます調）
+- 手紙らしく、最後は一文で静かに締めくくる（「今週も、よく書きましたね。」のような一言でよい）
 - 出力は必ず以下のJSON形式のみ。前置き・説明・Markdownのコードブロック記号は一切つけない
 {"insight": "ここに手紙本文（今週のあなたへ、から始める）"}`;
 
   async function getWeeklyInsight(weekEntries) {
-    const summary = weekEntries.map((e, i) => `${i + 1}. [${e.tag}] ${e.text.slice(0, 60)}`).join('\n');
+    const summary = weekEntries.map((e, i) => `${i + 1}. [${e.tag}] ${e.text.slice(0, 120)}`).join('\n');
     const response = await fetch(AI_PROXY_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json", "apikey": AI_PROXY_KEY, "Authorization": "Bearer " + AI_PROXY_KEY },
       body: JSON.stringify({
-        max_tokens: 500,
+        max_tokens: 900,
         system: WEEKLY_INSIGHT_SYSTEM_PROMPT,
         message: summary
       })
@@ -1678,7 +1742,8 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
      - 七宝つなぎの濃さ：今週の記録数
      - 波線の揺れ幅：タグの多様性（いろんな種類のモヤモヤがあった週ほど揺れる）
      - アクセント色：今週いちばん多かったタグの系統 */
-  function buildWeeklyCrest(weekEntries) {
+  function buildWeeklyCrest(weekEntries, size) {
+    size = size || 88;
     const tagCounts = {};
     weekEntries.forEach(e => { tagCounts[e.tag] = (tagCounts[e.tag] || 0) + 1; });
     const entryCount = weekEntries.length;
@@ -1704,7 +1769,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       rays.push(`<line x1="20" y1="15" x2="${x2}" y2="${y2}"/>`);
     }
 
-    return `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="88" height="88">
+    return `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
       <circle cx="20" cy="20" r="19" fill="#1E2530"/>
       <g opacity="${ringOpacity.toFixed(2)}" stroke="${accent}" stroke-width="0.7" fill="none">
         <circle cx="20" cy="5.6" r="4.2"/><circle cx="31.3" cy="11" r="4.2"/>
@@ -1791,6 +1856,125 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     }
   }
 
+  /* ───────── 月次の振り返り（先月のあなたへ） ─────────
+     生成タイミングは「月が変わった瞬間」ではなく、月が変わった後に
+     ユーザーが次にアプリを開いた時。先月分の記録があれば、その場で
+     一度だけ生成し、以降はキャッシュを使い回す（同じ手紙が届き続ける）。 */
+  function getMonthKey(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  }
+
+  function getPreviousMonthRange() {
+    const now = new Date();
+    const firstOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const firstOfPrevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    return { start: firstOfPrevMonth.getTime(), end: firstOfThisMonth.getTime(), label: getMonthKey(firstOfPrevMonth) };
+  }
+
+  // 月内のエントリを月曜始まりの週ごとに束ね、週ごとに紋章を作る（積み重ね表示用）
+  function splitEntriesIntoWeeks(monthEntries) {
+    const buckets = {};
+    monthEntries.forEach(e => {
+      const d = new Date(e.id);
+      const day = d.getDay();
+      const diffToMonday = day === 0 ? 6 : day - 1;
+      const monday = new Date(d.getFullYear(), d.getMonth(), d.getDate() - diffToMonday);
+      const key = monday.getTime();
+      if (!buckets[key]) buckets[key] = [];
+      buckets[key].push(e);
+    });
+    return Object.keys(buckets).sort((a, b) => a - b).map(k => buckets[k]);
+  }
+
+  const MONTHLY_RETRO_SYSTEM_PROMPT = `あなたは「はれまに」というアプリの中にいる、静かな聞き役です。
+ユーザーが先月一ヶ月分書きためた対人関係のモヤモヤを読み、「先月のあなたへ」という手紙を書きます。
+
+以下のルールを厳密に守ってください：
+- 必ず「先月のあなたへ、」から書き始める。語りかける二人称の手紙として書く
+- 一週間単位の手紙とは違い、一ヶ月という節目にふさわしく、月を通しての傾向や変化に触れる。可能であれば「月の前半」と「月の後半」で何か違いが見えるかにも触れてよい（無理に見つけなくてよい）
+- 具体的な出来事にも触れながら、丁寧に言葉を尽くして書く。テンプレート的な言い回しに逃げない
+- 説教・助言・行動提案をしない。断定せず、やわらかい言い方をする
+- 診断・断定的なラベリングは絶対にしない
+- 分量は9〜12文程度。段落を1〜2箇所で区切ってよい（改行は\\nで表現する）。敬体（です・ます調）
+- 最後は、一ヶ月書き続けたこと自体をねぎらう一文で締めくくる
+- 出力は必ず以下のJSON形式のみ。前置き・説明・Markdownのコードブロック記号は一切つけない
+{"insight": "ここに手紙本文（先月のあなたへ、から始める）"}`;
+
+  async function getMonthlyInsight(monthEntries) {
+    const summary = monthEntries.map((e, i) => `${i + 1}. [${e.tag}] ${e.text.slice(0, 120)}`).join('\n');
+    const response = await fetch(AI_PROXY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "apikey": AI_PROXY_KEY, "Authorization": "Bearer " + AI_PROXY_KEY },
+      body: JSON.stringify({
+        max_tokens: 1000,
+        system: MONTHLY_RETRO_SYSTEM_PROMPT,
+        message: summary
+      })
+    });
+    if (!response.ok) throw new Error("API error: " + response.status);
+    const data = await response.json();
+    const textBlock = data.content.find(b => b.type === "text");
+    if (!textBlock) return "うまく言葉にできませんでした。";
+    const cleaned = textBlock.text.replace(/```json|```/g, "").trim();
+    try {
+      const parsed = JSON.parse(cleaned);
+      return parsed.insight || "うまく言葉にできませんでした。";
+    } catch (e) {
+      return cleaned;
+    }
+  }
+
+  async function checkMonthlyRetro() {
+    if (!isPremium) return;
+    const card = document.getElementById('monthlyRetroCard');
+    const titleEl = document.getElementById('monthlyRetroTitle');
+    const crestRow = document.getElementById('monthlyCrestRow');
+    const insightEl = document.getElementById('monthlyRetroInsight');
+
+    const { start, end, label } = getPreviousMonthRange();
+    const monthEntries = entries.filter(e => !e.urgent && e.id >= start && e.id < end);
+    if (monthEntries.length === 0) {
+      card.style.display = 'none';
+      return;
+    }
+
+    const cacheKey = 'monthlyRetro:' + label;
+    let cached = null;
+    try {
+      const result = await storage.get(cacheKey);
+      if (result && result.value) cached = JSON.parse(result.value);
+    } catch (e) {
+      cached = null;
+    }
+
+    const weekBuckets = splitEntriesIntoWeeks(monthEntries);
+    const [labelYear, labelMonth] = label.split('-');
+    titleEl.textContent = labelYear + '年' + parseInt(labelMonth, 10) + '月のあなたへ';
+    crestRow.innerHTML = weekBuckets.map(wk => buildWeeklyCrest(wk, 46)).join('');
+
+    if (cached && cached.count === monthEntries.length) {
+      insightEl.textContent = cached.insight;
+      card.style.display = '';
+      return;
+    }
+
+    insightEl.innerHTML = '<span class="loading-text"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span>先月の記録を読み返しています…</span>';
+    card.style.display = '';
+
+    try {
+      const insight = await getMonthlyInsight(monthEntries);
+      try {
+        await storage.set(cacheKey, JSON.stringify({ insight, count: monthEntries.length }));
+      } catch (e) {
+        console.warn('月次振り返りの保存に失敗しました:', e);
+      }
+      insightEl.textContent = insight;
+    } catch (e) {
+      console.error(e);
+      insightEl.textContent = '先月の振り返りをうまくまとめられませんでした。時間をおいてもう一度お試しください。';
+    }
+  }
+
   const JOURNAL_DAILY_LIMIT = 3;
   const JOURNAL_PLUS_LIMIT = 10;
   let journalCountToday = 0;
@@ -1809,6 +1993,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     updatePlanBadge();
     updateJournalLimitUI();
     renderWeeklyReport();
+    checkMonthlyRetro();
     if (casePaywall && casePaywall.style.display !== 'none') {
       // 制限中だった場合は再描画してロックを解除
       renderCase();
@@ -2211,6 +2396,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     renderHistory();
     renderPattern();
     renderWeeklyReport();
+    checkMonthlyRetro();
     // 当日すでにテーマを引いていれば、それを復元表示するだけにして
     // ページ再読み込みのたびに新規テーマを消費しないようにする
     if (dailyUsage.currentScenario) {
