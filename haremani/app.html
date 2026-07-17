@@ -926,6 +926,16 @@
     color: var(--text-soft);
   }
 
+  .archive-note {
+    font-size: 10.5px;
+    line-height: 1.7;
+    color: var(--text-soft);
+    background: var(--paper-dim);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+
   .archive-grid {
     display: flex;
     flex-wrap: wrap;
@@ -1515,6 +1525,9 @@
           <span class="archive-chevron" id="archiveChevron">▸</span>
         </span>
       </button>
+      <div class="archive-note" id="archiveNote" style="display:none">
+        色は、その週・月にいちばん多かった気持ちの種類。光線の数は、書いた回数を表しています。
+      </div>
       <div class="archive-grid" id="archiveList" style="display:none"></div>
     </div>
   </div>
@@ -2350,12 +2363,31 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   });
 
   let archiveOpen = false;
-  document.getElementById('archiveToggle').addEventListener('click', () => {
+  document.getElementById('archiveToggle').addEventListener('click', async () => {
     archiveOpen = !archiveOpen;
     const section = document.getElementById('archiveSection');
     const list = document.getElementById('archiveList');
+    const note = document.getElementById('archiveNote');
     section.classList.toggle('open', archiveOpen);
     list.style.display = archiveOpen ? 'flex' : 'none';
+
+    if (archiveOpen) {
+      let alreadySeen = false;
+      try {
+        const result = await storage.get('archiveNoteShown');
+        alreadySeen = !!(result && result.value === 'true');
+      } catch (e) {
+        alreadySeen = false;
+      }
+      if (!alreadySeen) {
+        note.style.display = '';
+        try { await storage.set('archiveNoteShown', 'true'); } catch (e) {}
+      } else {
+        note.style.display = 'none';
+      }
+    } else {
+      note.style.display = 'none';
+    }
   });
 
   const JOURNAL_DAILY_LIMIT = 3;
