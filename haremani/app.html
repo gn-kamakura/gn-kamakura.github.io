@@ -1668,6 +1668,16 @@
   const AI_PROXY_URL = 'https://idjbnrohrthqsabqmfjk.supabase.co/functions/v1/ai-proxy';
   const AI_PROXY_KEY = 'sb_publishable_-g-Z8a5ut8zSdp16BNFUhQ_UvTUEwRY';
 
+  // 匿名の週次利用集計（個人・端末を特定できる情報は一切送らない、合計件数のみ）
+  const LOG_ACTIVITY_URL = 'https://idjbnrohrthqsabqmfjk.supabase.co/functions/v1/log-activity';
+  function logActivity(type) {
+    fetch(LOG_ACTIVITY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': AI_PROXY_KEY, 'Authorization': 'Bearer ' + AI_PROXY_KEY },
+      body: JSON.stringify({ type })
+    }).catch(() => {});
+  }
+
   // 決済実装まではfalse。trueに戻すだけでペイウォール・アップグレード導線を再有効化できる
   const MONETIZATION_ENABLED = false;
 
@@ -2624,6 +2634,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       journalCountToday += 1;
       dailyUsage.journalCount = journalCountToday;
       await saveDailyUsage();
+      logActivity('journal');
       updateJournalLimitUI();
     } catch (err) {
       console.error(err);
@@ -2809,6 +2820,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       themeCountToday += 1;
       dailyUsage.themeCount = themeCountToday;
       dailyUsage.usedSeeds = usedSeeds.slice();
+      logActivity('case');
     }
     const c = sceneOverride || pickNewSeed();
     if (!sceneOverride) {
