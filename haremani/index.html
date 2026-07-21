@@ -540,6 +540,38 @@
 
   .footer-text { font-size: 10.5px; line-height: 1.9; color: var(--text-soft); margin-bottom: 16px; }
 
+  .footer-social {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .footer-social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(35,40,51,0.05);
+    border: 1px solid #DEDCCE;
+    color: var(--text-dark);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .footer-social-btn:hover {
+    background: rgba(35,40,51,0.09);
+    border-color: #C9C4AE;
+  }
+
+  .footer-social-btn svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
   .footer-links {
     display: flex;
     flex-wrap: wrap;
@@ -779,12 +811,25 @@
       運営：グッドネイバーカマクラ合同会社<br>
       グッドネイバーカマクラ合同会社は、鎌倉を拠点に、デジタルを通じて「人・企業・街」のすべてに寄り添う会社です。
     </p>
+    <div class="footer-social">
+      <a href="https://x.com/haremani_app" target="_blank" rel="noopener" class="footer-social-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.855L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+        X
+      </a>
+      <a href="https://note.com/haremani_app" target="_blank" rel="noopener" class="footer-social-btn">
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect width="24" height="24" rx="5" fill="currentColor" opacity="0.15"/>
+          <text x="5.5" y="17.5" font-family="Georgia,serif" font-size="14" font-weight="700" fill="currentColor">n</text>
+        </svg>
+        note
+      </a>
+    </div>
     <div class="footer-links">
       <a href="./terms.html">利用規約</a>
       <a href="./privacy.html">プライバシーポリシー</a>
       <a href="./contact.html">お問い合わせ</a>
-      <a href="https://x.com/haremani_app" target="_blank" rel="noopener">X</a>
-      <a href="https://note.com/haremani_app" target="_blank" rel="noopener">note</a>
     </div>
     <p class="footer-copyright">© 2026 グッドネイバーカマクラ合同会社</p>
   </footer>
