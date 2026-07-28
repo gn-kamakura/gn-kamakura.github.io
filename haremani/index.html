@@ -236,6 +236,20 @@
     color: var(--text-soft);
   }
 
+  .hero-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11.5px;
+    color: var(--clarity-deep);
+    background: rgba(127,163,150,0.12);
+    border: 1px solid rgba(127,163,150,0.3);
+    border-radius: 999px;
+    padding: 7px 16px;
+    margin-bottom: 28px;
+    letter-spacing: 0.02em;
+  }
+
   .moya-cards { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
 
   .moya-card {
@@ -625,6 +639,7 @@
     </svg>
     <div class="hero-word">誰にも見せない、<br>今日のモヤモヤ帳。</div>
     <div class="hero-tagline">書くと、AIがそっと霧を晴らしてくれる。</div>
+    <div class="hero-note">アドバイスや正解は出しません。返ってくるのは、べつの見方。</div>
 
     <div class="demo-card">
       <p class="demo-prompt">今日、誰かの一言や態度で、少し引っかかったことは？</p>
@@ -686,25 +701,33 @@
 
   <section>
     <div class="eyebrow-block">はれまにが大事にしていること</div>
-    <h2>診断せず、急かさず、<br>ただ寄り添う。</h2>
+    <h2>答えを出さず、診断せず、<br>ただ寄り添う。</h2>
+    <p class="lead">ChatGPTに聞けば、それらしい「答え」はすぐに返ってきます。でも、はれまにが返したいのは、正解やアドバイスではありません。今のあなたの気持ちに、そっと寄り添う「べつの見方」です。</p>
 
     <div class="stance-list">
       <div class="stance-item">
         <div class="stance-mark">1</div>
+        <div class="stance-body">
+          <h3>アドバイスや正解は出さない</h3>
+          <p>「こうすればいいですよ」という解決策は提示しません。同じAIでも、ChatGPTのように効率よく答えを出すことより、モヤモヤをそのまま一緒に眺めることを優先しています。</p>
+        </div>
+      </div>
+      <div class="stance-item">
+        <div class="stance-mark">2</div>
         <div class="stance-body">
           <h3>ゲーミフィケーションはしない</h3>
           <p>ポイントも、ランキングも、連続記録の煽りもありません。書くこと自体が目的で、続けさせるための仕掛けは作っていません。</p>
         </div>
       </div>
       <div class="stance-item">
-        <div class="stance-mark">2</div>
+        <div class="stance-mark">3</div>
         <div class="stance-body">
           <h3>診断・断定はしない</h3>
           <p>「あなたはこういう人です」というラベリングはしません。今の気持ちを、少し違う角度から眺め直すお手伝いだけをします。</p>
         </div>
       </div>
       <div class="stance-item">
-        <div class="stance-mark">3</div>
+        <div class="stance-mark">4</div>
         <div class="stance-body">
           <h3>急かさない</h3>
           <p>行動を促したり、同意を求めたりする問いかけはしません。選択肢を静かに示すだけに留めます。</p>
