@@ -606,6 +606,11 @@
     h2 { font-size: 19px; }
     .app { padding: 32px 18px 70px; }
   }
+
+  .pr-video-section{padding:36px 20px 48px;display:flex;flex-direction:column;align-items:center;}
+  .pr-video-title{font-family:'Shippori Mincho',serif;font-weight:600;font-size:19px;color:var(--text-dark);text-align:center;margin-bottom:20px;letter-spacing:0.02em;}
+  .pr-video-wrap{width:100%;max-width:340px;border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(30,37,48,0.18);background:#000;}
+  .pr-video-wrap video{display:block;width:100%;height:auto;background:#000;}
 </style>
 </head>
 <body>
@@ -654,6 +659,15 @@
     <a href="./app.html" class="hero-cta">今すぐ晴らしてみる →</a>
     <div class="hero-cta-note">登録不要・ブラウザですぐに使えます</div>
   </div>
+
+  <section class="pr-video-section">
+    <h2 class="pr-video-title">25秒で寄り添う、はれまに</h2>
+    <div class="pr-video-wrap">
+      <video controls playsinline preload="metadata" poster="/haremani/assets/video/haremani-pr-poster.jpg">
+        <source src="/haremani/assets/video/haremani-pr.mp4" type="video/mp4">
+      </video>
+    </div>
+  </section>
 
   <section>
     <div class="eyebrow-block">こんなことありませんか</div>
