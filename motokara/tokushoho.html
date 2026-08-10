@@ -3,107 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>特定商取引法に基づく表記 ― はれまに</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Shippori+Mincho+B1:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<title>特定商取引法に基づく表記 ― MOTOKARA</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='32%25' cy='28%25' r='75%25'%3E%3Cstop offset='0%25' stop-color='%23FFF6E4'/%3E%3Cstop offset='45%25' stop-color='%23F6C876'/%3E%3Cstop offset='100%25' stop-color='%23F3A98C'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='32' fill='url(%23g)'/%3E%3C/svg%3E">
 <style>
-  :root {
-    --ink: #1E2530; --mist: #B7C4CE; --mist-dim: #8894A0;
-    --paper: #F6F3EC; --paper-dim: #ECE7DA;
-    --clarity: #7FA396; --clarity-deep: #5C8478; --plum: #8B5A6B;
-    --text-dark: #232833; --text-soft: #5B6472;
+  @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;900&display=swap');
+  :root{
+    --paper:#FAF6EC; --paper-deep:#F0E9D6; --card:#FFFFFF;
+    --ink:#3A362C; --ink-soft:#8A8371;
+    --leaf:#4F7942; --coral:#E8896B; --coral-light:#FBE4DA;
+    --sun-soft:#F6C876; --coral-soft:#F3A98C;
+    --radius:20px;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    min-height: 100vh;
-    background: radial-gradient(ellipse 120% 80% at 50% -10%, #F4F6F2 0%, #E9EDE6 55%, #E0E5DD 100%);
-    font-family: 'Zen Kaku Gothic New', sans-serif;
-    color: var(--text-dark);
-  }
-  a { color: var(--clarity-deep); }
-  .app { max-width: 640px; margin: 0 auto; padding: 40px 20px 90px; }
-
-  .top-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; }
-  .brand { display: flex; align-items: center; gap: 9px; }
-  .brand-name {
-    font-family: 'Shippori Mincho B1', serif; font-size: 18px; font-weight: 600;
-    color: var(--text-dark); letter-spacing: 0.08em;
-  }
-  .back-link { font-size: 12px; color: var(--text-soft); }
-
-  h1 { font-family: 'Shippori Mincho', serif; font-size: 24px; font-weight: 600; margin-bottom: 8px; }
-  .updated { font-size: 11px; color: var(--text-soft); margin-bottom: 24px; }
-
-  .warn-note {
-    background: rgba(139,90,107,0.1);
-    border: 1px solid rgba(139,90,107,0.35);
-    border-radius: 12px;
-    padding: 16px 18px;
-    font-size: 12.5px;
-    line-height: 1.85;
-    color: var(--text-dark);
-    margin-bottom: 32px;
-  }
-  .warn-note strong { color: var(--plum); }
-
-  .doc-card {
-    background: var(--paper);
-    border-radius: 18px;
-    padding: 8px 28px;
-    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.3), 0 2px 0 rgba(255,255,255,0.4) inset;
-  }
-
-  table { width: 100%; border-collapse: collapse; }
-  tr { border-bottom: 1px solid #DEDCCE; }
-  tr:last-child { border-bottom: none; }
-  th, td {
-    text-align: left;
-    padding: 16px 0;
-    font-size: 13px;
-    line-height: 1.9;
-    vertical-align: top;
-  }
-  th { width: 34%; color: var(--text-dark); font-weight: 700; padding-right: 12px; }
-  td { color: var(--text-soft); }
-  .placeholder { color: var(--plum); font-weight: 700; }
-
-  footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid #DCD5C4; font-size: 10.5px; color: var(--text-soft); }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'M PLUS Rounded 1c', sans-serif; line-height:1.8; }
+  .wrap{ max-width:600px; margin:0 auto; padding:32px 20px 80px; }
+  header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:32px; }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .mark{ width:32px;height:32px; border-radius:50%; background:radial-gradient(circle at 32% 28%, #FFF6E4, var(--sun-soft) 45%, var(--coral-soft) 100%); }
+  .brand-name{ font-weight:900; font-size:15px; }
+  .back-link{ font-size:12px; color:var(--ink-soft); text-decoration:none; }
+  h1{ font-size:20px; font-weight:900; margin-bottom:6px; }
+  .updated{ font-size:11px; color:var(--ink-soft); margin-bottom:20px; }
+  .card{ background:var(--card); border-radius:var(--radius); padding:8px 22px; box-shadow:0 6px 20px rgba(58,54,44,0.06); }
+  table{ width:100%; border-collapse:collapse; }
+  tr{ border-bottom:1px solid var(--paper-deep); }
+  tr:last-child{ border-bottom:none; }
+  th,td{ text-align:left; padding:14px 0; font-size:13px; line-height:1.9; vertical-align:top; }
+  th{ width:34%; color:var(--ink); font-weight:700; padding-right:12px; }
+  td{ color:var(--ink-soft); }
+  a{ color:var(--coral); }
+  footer{ margin-top:40px; font-size:11px; color:var(--ink-soft); text-align:center; }
 </style>
 </head>
 <body>
-<div class="app">
-
-  <div class="top-header">
-    <div class="brand">
-      <svg width="24" height="24" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="19" fill="#232833"/>
-        <path d="M5 27.5 L13.5 17.5 L16.5 20.3 L20 14 L23.5 20.3 L26.5 17.5 L35 27.5 Z" fill="#FFFFFF"/>
-      </svg>
-      <span class="brand-name">はれまに</span>
-    </div>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="mark"></div><span class="brand-name">MOTOKARA</span></div>
     <a href="./index.html" class="back-link">← トップに戻る</a>
-  </div>
+  </header>
 
   <h1>特定商取引法に基づく表記</h1>
-  <p class="updated">最終改定日：2026年7月16日</p>
+  <p class="updated">最終改定日：2026年8月10日</p>
 
-  <div class="warn-note">
-    <strong>公開前に必ず確認してください：</strong>下表の<span class="placeholder">オレンジ色の項目</span>はプレースホルダーです。正確な所在地・電話番号・受付時間を確認の上、実際の情報に差し替えてから公開してください。所在地・電話番号は特定商取引法上、原則として表記が必須の項目です。
-  </div>
-
-  <div class="doc-card">
+  <div class="card">
     <table>
       <tr><th>販売業者</th><td>グッドネイバーカマクラ合同会社</td></tr>
       <tr><th>代表者</th><td>室井雅光</td></tr>
-      <tr><th>所在地</th><td class="placeholder">〔要記載：法人の所在地を正確に記載してください〕</td></tr>
-      <tr><th>電話番号</th><td class="placeholder">〔要記載：受付可能な電話番号を記載してください〕</td></tr>
-      <tr><th>電話受付時間</th><td class="placeholder">〔要記載：例）平日10:00〜17:00〕</td></tr>
+      <tr><th>所在地</th><td>神奈川県鎌倉市坂ノ下3-7 WITH KAMAKURA内</td></tr>
+      <tr><th>電話番号</th><td>ご請求いただいた場合、遅滞なく開示いたします。<a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a>よりご請求ください。</td></tr>
       <tr><th>メールアドレス</th><td><a href="mailto:info@gn-kamakura.com">info@gn-kamakura.com</a></td></tr>
-      <tr><th>運営統括責任者</th><td>室井雅光</td></tr>
       <tr><th>追加手数料等</th><td>該当なし（インターネット接続料金・通信料はお客様のご負担となります）</td></tr>
-      <tr><th>販売価格</th><td>はれまにプラス：月額600円（税込）<br>※価格は本サービス上の表示に準じます</td></tr>
-      <tr><th>支払方法</th><td>クレジットカード決済</td></tr>
+      <tr><th>販売価格</th><td>MOTOKARA 有料プラン：月額300円（税込）<br>※価格は本サービス上の表示に準じます</td></tr>
+      <tr><th>支払方法</th><td>クレジットカード決済（Stripe）</td></tr>
       <tr><th>支払時期</th><td>ご契約手続き完了時に初回課金、以降は毎月同日に自動課金</td></tr>
       <tr><th>サービス提供時期</th><td>決済完了後、直ちにご利用いただけます</td></tr>
       <tr><th>返品・キャンセルについて</th><td>デジタルサービスの性質上、提供開始後の返金には対応しておりません。解約はいつでも可能で、解約後は次回請求が発生しません（日割り返金は行いません）。</td></tr>
@@ -111,9 +63,7 @@
     </table>
   </div>
 
-  <footer>
-    グッドネイバーカマクラ合同会社
-  </footer>
+  <footer>© 2026 グッドネイバーカマクラ合同会社</footer>
 </div>
 </body>
 </html>

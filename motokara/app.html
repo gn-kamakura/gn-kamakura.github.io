@@ -275,7 +275,7 @@
 
     <form id="checkinForm"></form>
 
-    <button class="save-btn" id="saveBtn" disabled>今日の天気を保存</button>
+    <button class="save-btn" id="saveBtn" disabled><span id="saveBtnLabel">今日の天気を保存</span></button>
     <div class="save-note" id="saveNote">残り5問</div>
   </div>
 
@@ -314,6 +314,11 @@
 
   <footer>
     グッドネイバーカマクラ合同会社は、鎌倉を拠点に、デジタルを通じて「人・企業・街」のすべてに寄り添う会社です。
+    <div style="margin-top:12px; display:flex; gap:14px; justify-content:center; font-size:11px;">
+      <a href="./terms.html" style="color:var(--ink-soft);">利用規約</a>
+      <a href="./privacy.html" style="color:var(--ink-soft);">プライバシーポリシー</a>
+      <a href="./tokushoho.html" style="color:var(--ink-soft);">特定商取引法に基づく表記</a>
+    </div>
     <div style="margin-top:8px;">© 2026 グッドネイバーカマクラ合同会社</div>
   </footer>
 
@@ -374,6 +379,7 @@
       item.options.forEach(opt=>{
         const b = document.createElement('button');
         b.type='button'; b.className='opt'; b.textContent = opt.label;
+        if(draft[item.key] === opt.v) b.classList.add('selected');
         b.addEventListener('click', ()=>{
           draft[item.key] = opt.v;
           [...opts.children].forEach(c=>c.classList.remove('selected'));
@@ -390,8 +396,12 @@
   function updateSaveState(){
     const answered = ITEMS.filter(i => draft[i.key] !== undefined).length;
     const done = answered === ITEMS.length;
+    const alreadyToday = !!entries[todayKey()];
     document.getElementById('saveBtn').disabled = !done;
-    document.getElementById('saveNote').textContent = done ? '' : `残り${ITEMS.length - answered}問`;
+    document.getElementById('saveBtnLabel').textContent = alreadyToday ? '記録を修正する' : '今日の天気を保存';
+    document.getElementById('saveNote').textContent = done
+      ? (alreadyToday ? '今日はすでに記録済みです' : '')
+      : `残り${ITEMS.length - answered}問`;
   }
 
   document.getElementById('saveBtn').addEventListener('click', ()=>{
