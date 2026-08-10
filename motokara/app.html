@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOTOKARA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;900&display=swap');
+
+  :root{
+    --paper:#FAF6EC;
+    --paper-deep:#F0E9D6;
+    --card:#FFFFFF;
+    --ink:#3A362C;
+    --ink-soft:#8A8371;
+    --leaf:#4F7942;
+    --leaf-light:#E4EEDC;
+    --coral:#E8896B;
+    --coral-light:#FBE4DA;
+    --sun-soft:#F6C876;
+    --coral-soft:#F3A98C;
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'M PLUS Rounded 1c', sans-serif;
+    line-height:1.7;
+    min-height:100vh;
+  }
+  .wrap{
+    max-width:520px;
+    margin:0 auto;
+    padding:32px 20px 80px;
+  }
+
+  header{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:28px;
+  }
+  .mark{
+    width:44px;height:44px;
+    border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #FFF6E4, var(--sun-soft) 45%, var(--coral-soft) 100%);
+    flex-shrink:0;
+  }
+  .wordmark{
+    font-weight:900;
+    font-size:22px;
+    letter-spacing:0.02em;
+    color:var(--ink);
+  }
+  .tagline{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:20px;
+    box-shadow:0 6px 20px rgba(58,54,44,0.06);
+    margin-bottom:20px;
+  }
+
+  .sky-label{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:14px;
+  }
+  .sky-label h2{
+    font-size:15px;
+    font-weight:700;
+    margin:0;
+  }
+  .sky-label .count{
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+  .sky-strip{ display:flex; gap:8px; }
+  .day-tile{
+    flex:1;
+    aspect-ratio:1;
+    border-radius:14px;
+    background:var(--paper-deep);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  .day-tile svg{ width:60%; height:60%; }
+  .day-tile .dnum{
+    position:absolute;
+    bottom:-18px;
+    font-size:10px;
+    color:var(--ink-soft);
+  }
+  .day-tile.today{ box-shadow:0 0 0 2px var(--coral); }
+  .day-tile.empty::after{
+    content:"";
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--ink-soft);
+    opacity:0.35;
+  }
+
+  .score-row{ display:flex; gap:12px; margin-bottom:20px; }
+  .score-card{ flex:1; text-align:center; }
+  .score-card .num{ font-size:22px; font-weight:900; color:var(--ink); }
+  .score-card .cap{ font-size:11px; color:var(--ink-soft); margin-top:2px; }
+
+  .section-title{ font-size:16px; font-weight:700; margin-bottom:8px; }
+  .time-badge{
+    display:inline-block;
+    background:var(--coral-light);
+    color:var(--coral);
+    font-weight:700;
+    font-size:12.5px;
+    padding:5px 12px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+  .section-note{ font-size:11.5px; color:var(--ink-soft); margin-bottom:16px; }
+
+  .item{ padding:14px 0; border-bottom:1px solid var(--paper-deep); }
+  .item:last-child{ border-bottom:none; }
+  .item-head{
+    display:flex; align-items:center; gap:6px;
+    margin-bottom:10px; font-size:14px; font-weight:500;
+  }
+  .info-btn{
+    width:18px;height:18px;
+    border-radius:50%;
+    border:1px solid var(--ink-soft);
+    color:var(--ink-soft);
+    font-size:10px;
+    display:inline-flex; align-items:center; justify-content:center;
+    cursor:pointer; background:none; flex-shrink:0;
+    font-family:'M PLUS Rounded 1c', sans-serif;
+  }
+  .info-btn:focus-visible, button:focus-visible, .opt:focus-visible{
+    outline:2px solid var(--coral);
+    outline-offset:2px;
+  }
+  .info-text{
+    display:none;
+    font-size:12px;
+    color:var(--ink);
+    background:var(--leaf-light);
+    border-radius:var(--radius-sm);
+    padding:10px 12px;
+    margin-bottom:10px;
+    border-left:3px solid var(--leaf);
+  }
+  .info-text.open{ display:block; }
+
+  .options{ display:flex; gap:8px; }
+  .opt{
+    flex:1;
+    padding:11px 6px;
+    text-align:center;
+    font-size:13px;
+    background:var(--paper-deep);
+    border:none;
+    border-radius:var(--radius-sm);
+    color:var(--ink-soft);
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .opt.selected{ color:#fff; background:var(--leaf); }
+
+  .save-btn{
+    width:100%;
+    margin-top:22px;
+    padding:16px;
+    background:var(--coral);
+    color:#fff;
+    border:none;
+    border-radius:var(--radius);
+    font-family:'M PLUS Rounded 1c', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+  }
+  .save-btn:disabled{ background:#E3DECF; color:#B4AC98; cursor:not-allowed; }
+  .save-note{ text-align:center; font-size:11.5px; color:var(--ink-soft); margin-top:10px; }
+
+  .insight{ border:1.5px dashed var(--paper-deep); box-shadow:none; }
+  .insight-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .badge{ font-size:10px; color:var(--coral); border:1px solid var(--coral); padding:2px 9px; border-radius:20px; }
+  .badge.free{ color:var(--leaf); border-color:var(--leaf); }
+  .insight p{ font-size:13px; color:var(--ink-soft); margin:0; }
+  .sample-letter{
+    font-size:13px;
+    line-height:1.8;
+    color:var(--ink);
+    background:var(--coral-light);
+    border-radius:var(--radius-sm);
+    padding:14px 16px;
+    margin-bottom:8px;
+  }
+  .sample-caption{ font-size:11px; color:var(--ink-soft); margin:0; }
+
+  .plan-card{ border:1.5px solid var(--coral-light); }
+  .plan-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; }
+  .plan-price{ font-size:18px; font-weight:900; color:var(--coral); }
+  .plan-price span{ font-size:11px; font-weight:500; color:var(--ink-soft); }
+  .plan-features{ list-style:none; margin:0 0 16px; padding:0; }
+  .plan-features li{
+    position:relative;
+    padding-left:24px;
+    margin-bottom:10px;
+    font-size:13.5px;
+  }
+  .plan-features li::before{
+    content:"✓";
+    position:absolute;
+    left:0; top:0;
+    color:var(--leaf);
+    font-weight:900;
+  }
+  .plan-sub-label{ font-size:12px; color:var(--ink-soft); margin-bottom:8px; }
+
+  .disclaimer{ font-size:11px; color:var(--ink-soft); background:var(--paper-deep); padding:14px 16px; border-radius:var(--radius-sm); }
+  footer{ margin-top:32px; font-size:11px; color:var(--ink-soft); text-align:center; }
+
+  @media (prefers-reduced-motion: no-preference){
+    .opt, .day-tile{ transition: all 0.15s ease; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="mark"></div>
+    <div>
+      <div class="wordmark">MOTOKARA</div>
+      <div class="tagline">からだの天気を、30秒で。</div>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="sky-label">
+      <h2>今週のそら</h2>
+      <span class="count" id="totalCount">これまで0回チェック</span>
+    </div>
+    <div class="sky-strip" id="stampStrip"></div>
+  </div>
+
+  <div class="card score-row">
+    <div class="score-card">
+      <div class="num" id="weeklyScore">--</div>
+      <div class="cap">今週の調子（10点中）</div>
+    </div>
+    <div class="score-card">
+      <div class="num" id="streakSafe">0日</div>
+      <div class="cap">今週チェックした日数</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">今日の天気は？</div>
+    <div class="time-badge">⏱ 5つ選んで、1日30秒</div>
+    <div class="section-note">ざっくりでOK。続けることを優先しています。</div>
+
+    <form id="checkinForm"></form>
+
+    <button class="save-btn" id="saveBtn" disabled>今日の天気を保存</button>
+    <div class="save-note" id="saveNote">残り5問</div>
+  </div>
+
+  <div class="card insight">
+    <div class="insight-head">
+      <span class="section-title" style="margin:0;">週の振り返り</span>
+      <span class="badge free">無料</span>
+    </div>
+    <div class="sample-letter">
+      「今週は"くもり"の日が少し多めでした。とくに水曜からお酒が多めの日が続いて、翌日の睡眠の質が下がる傾向が出ています。一方で野菜・発酵食品はしっかり摂れている日が多く、先週から変わらず良い調子です。来週はお酒の量を少し意識してみると、睡眠にも変化が出てくるかもしれません。」
+    </div>
+    <p class="sample-caption">※これはサンプルです。実際の内容は、あなたの記録に応じて毎週変わります。</p>
+  </div>
+
+  <div class="card plan-card">
+    <div class="plan-head">
+      <span class="section-title" style="margin:0;">有料プラン</span>
+      <span class="plan-price">300円<span>/月</span></span>
+    </div>
+    <ul class="plan-features">
+      <li>3ヶ月・半年の「そら」の推移をいつでも見返せる</li>
+      <li>野菜・運動・睡眠など項目別の内訳がわかる</li>
+      <li>月1回、その月の振り返りレターが届く</li>
+      <li>記録をPDF・CSVで書き出せる</li>
+    </ul>
+    <div class="plan-sub-label">月の振り返りレターのサンプル</div>
+    <div class="sample-letter">
+      「8月は、運動の記録が先月より安定してきました。とくに"体を動かせた日"が週の後半に偏る傾向があり、平日前半にお酒が多い日が重なると、その週はスコア全体が下がりやすいようです。野菜・発酵食品は月を通して大きな変化はなく、これはすでに習慣として定着している証拠かもしれません。来月は、週の前半の過ごし方を少し意識してみると、月全体の"晴れ"の日がもう少し増えそうです。」
+    </div>
+    <p class="sample-caption">※これはサンプルです。1ヶ月分の記録がたまるほど、内容はより具体的になります。</p>
+  </div>
+
+  <div class="disclaimer">
+    これは医療アドバイスではありません。記録と傾向の可視化を目的としたツールで、診断・治療・予防効果を示すものではありません。体調に不安があるときは医師にご相談ください。データはこの端末の中にだけ保存され、外部には送られません。
+  </div>
+
+  <footer>
+    グッドネイバーカマクラ合同会社は、鎌倉を拠点に、デジタルを通じて「人・企業・街」のすべてに寄り添う会社です。
+    <div style="margin-top:8px;">© 2026 グッドネイバーカマクラ合同会社</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const ITEMS = [
+    { key:'veg', label:'野菜・発酵食品、摂れた？',
+      info:'野菜、きのこ、海藻、味噌・納豆・ヨーグルトなどの発酵食品のことです。',
+      options:[{v:2,label:'摂れた'},{v:1,label:'ちょっとだけ'},{v:0,label:'あんまり'}] },
+    { key:'processed', label:'加工食品・揚げ物、多かった？',
+      info:'スナック菓子や清涼飲料水、加工肉、揚げ物など加工度の高い食品のことです。',
+      options:[{v:0,label:'多かった'},{v:2,label:'少なかった'}] },
+    { key:'alcohol', label:'お酒はどれくらい？', info:'',
+      options:[{v:2,label:'なし'},{v:1,label:'ほどほど'},{v:0,label:'多め'}] },
+    { key:'exercise', label:'体、動かせた？',
+      info:'階段を早歩きで上るような数分の動きでもOK。自重トレーニングやヨガも含みます。',
+      options:[{v:2,label:'動かせた'},{v:0,label:'動かせてない'}] },
+    { key:'sleep', label:'睡眠の質はどうだった？', info:'',
+      options:[{v:2,label:'よかった'},{v:1,label:'ふつう'},{v:0,label:'いまいち'}] },
+  ];
+
+  const STORAGE_KEY = 'motokara_entries_v1';
+  const todayKey = () => new Date().toISOString().slice(0,10);
+
+  function loadEntries(){
+    try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveEntries(entries){ localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); }
+
+  let entries = loadEntries();
+  let draft = {};
+
+  function renderForm(){
+    const form = document.getElementById('checkinForm');
+    form.innerHTML = '';
+    ITEMS.forEach(item=>{
+      const div = document.createElement('div');
+      div.className = 'item';
+      const head = document.createElement('div');
+      head.className = 'item-head';
+      head.innerHTML = `<span>${item.label}</span>`;
+      div.appendChild(head);
+      if(item.info){
+        const btn = document.createElement('button');
+        btn.type='button'; btn.className='info-btn'; btn.textContent='i';
+        btn.setAttribute('aria-label', item.label + 'の説明を表示');
+        const infoP = document.createElement('div');
+        infoP.className='info-text'; infoP.textContent = item.info;
+        btn.addEventListener('click', ()=> infoP.classList.toggle('open'));
+        head.appendChild(btn);
+        div.appendChild(infoP);
+      }
+      const opts = document.createElement('div');
+      opts.className='options';
+      item.options.forEach(opt=>{
+        const b = document.createElement('button');
+        b.type='button'; b.className='opt'; b.textContent = opt.label;
+        b.addEventListener('click', ()=>{
+          draft[item.key] = opt.v;
+          [...opts.children].forEach(c=>c.classList.remove('selected'));
+          b.classList.add('selected');
+          updateSaveState();
+        });
+        opts.appendChild(b);
+      });
+      div.appendChild(opts);
+      form.appendChild(div);
+    });
+  }
+
+  function updateSaveState(){
+    const answered = ITEMS.filter(i => draft[i.key] !== undefined).length;
+    const done = answered === ITEMS.length;
+    document.getElementById('saveBtn').disabled = !done;
+    document.getElementById('saveNote').textContent = done ? '' : `残り${ITEMS.length - answered}問`;
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', ()=>{
+    const total = ITEMS.reduce((s,i)=> s + draft[i.key], 0);
+    entries[todayKey()] = { ...draft, total };
+    saveEntries(entries);
+    renderAll();
+  });
+
+  function last7Dates(){
+    const arr = [];
+    for(let i=6;i>=0;i--){
+      const d = new Date(); d.setDate(d.getDate()-i);
+      arr.push(d.toISOString().slice(0,10));
+    }
+    return arr;
+  }
+
+  const ICONS = {
+    sun: `<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="#E3A73B"/><g stroke="#E3A73B" stroke-width="2" stroke-linecap="round"><path d="M12 2v3"/><path d="M12 19v3"/><path d="M2 12h3"/><path d="M19 12h3"/><path d="M4.9 4.9l2 2"/><path d="M17 17l2 2"/><path d="M4.9 19l2-2"/><path d="M17 7l2-2"/></g></svg>`,
+    partly: `<svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="9" r="4" fill="#E3A73B"/><path d="M6 18a5 5 0 0 1 1-9.9A6 6 0 0 1 18 12a4 4 0 0 1-1 8H6z" fill="#DCE8CF" stroke="#4F7942" stroke-width="1.4"/></svg>`,
+    cloud: `<svg viewBox="0 0 24 24" fill="none"><path d="M6 18a5 5 0 0 1 1-9.9A6 6 0 0 1 18 12a4 4 0 0 1-1 8H6z" fill="#DCE8CF" stroke="#8A8371" stroke-width="1.4"/></svg>`
+  };
+  function iconFor(total){
+    if(total===undefined) return '';
+    if(total>=7) return ICONS.sun;
+    if(total>=4) return ICONS.partly;
+    return ICONS.cloud;
+  }
+
+  function renderLedger(){
+    const strip = document.getElementById('stampStrip');
+    strip.innerHTML = '';
+    const dates = last7Dates();
+    dates.forEach(dateStr=>{
+      const has = !!entries[dateStr];
+      const t = document.createElement('div');
+      t.className = 'day-tile' + (dateStr===todayKey()?' today':'') + (has?'':' empty');
+      if(has) t.innerHTML = iconFor(entries[dateStr].total);
+      const d = new Date(dateStr);
+      const num = document.createElement('span');
+      num.className='dnum'; num.textContent = d.getDate();
+      t.appendChild(num);
+      strip.appendChild(t);
+    });
+
+    document.getElementById('totalCount').textContent = `これまで${Object.keys(entries).length}回チェック`;
+
+    const weekEntries = dates.filter(d=>entries[d]);
+    const avg = weekEntries.length ? (weekEntries.reduce((s,d)=>s+entries[d].total,0)/weekEntries.length) : null;
+    document.getElementById('weeklyScore').textContent = avg!==null ? avg.toFixed(1) : '--';
+    document.getElementById('streakSafe').textContent = weekEntries.length + '日';
+  }
+
+  function renderAll(){
+    draft = entries[todayKey()] ? {...entries[todayKey()]} : {};
+    delete draft.total;
+    renderForm();
+    updateSaveState();
+    renderLedger();
+  }
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
