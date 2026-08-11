@@ -3025,6 +3025,15 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     updatePlanBadge();
     await checkStripeReturn();
 
+    // LPの「こちらからコードを入力」から来た場合、コード入力欄を自動で開く
+    if (new URLSearchParams(window.location.search).get('unlock') === '1' && !isPremium) {
+      unlockRowEl.style.display = 'flex';
+      document.getElementById('unlockCode').focus();
+      const p = new URLSearchParams(window.location.search);
+      p.delete('unlock');
+      window.history.replaceState({}, '', window.location.pathname + (p.toString() ? '?' + p.toString() : ''));
+    }
+
     // 匿名の間隔ベース再訪ログ（個人・端末を特定できる情報は送らない、経過日数のみ）
     try {
       const lastActive = localStorage.getItem('lastActiveDate');
