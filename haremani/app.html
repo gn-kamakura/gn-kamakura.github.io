@@ -1709,6 +1709,7 @@ gtag('config', 'G-T7MV4EVEH7');
   };
 
   let entries = []; // {id, date, text, reframe, tag, urgent} — 永続化: localStorage 'journalEntries'
+  let currentJournalTag = null; // 直近のジャーナル回答のタグ。気分フィードバックの匿名集計にのみ使用
   let dailyUsage = { date: '', journalCount: 0, themeCount: 0, usedSeeds: [] };
 
   function todayKey() {
@@ -2449,7 +2450,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
   /* ───────── 「少し晴れた／まだモヤモヤする」フィードバック ─────────
      社内の改善用シグナルとしてのみ使う。外部への「解消率」等の公表はしない
      （断定・数値化がコンセプトと矛盾するため）。 */
-  function recordMood(mood) {
+  function recordMood(mood, checkId) {
     try {
       let stats = { cleared: 0, still: 0 };
       const raw = localStorage.getItem('moodStats');
@@ -2457,6 +2458,13 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       stats[mood] = (stats[mood] || 0) + 1;
       localStorage.setItem('moodStats', JSON.stringify(stats));
     } catch (e) { /* 記録できなくても体験に影響させない */ }
+
+    // 匿名の気分フィードバック集計（個人・投稿内容には一切紐付けない）
+    if (checkId === 'moodCheck' && currentJournalTag) {
+      logActivity('mood_' + mood + '_' + currentJournalTag);
+    } else {
+      logActivity('mood_' + mood + '_case');
+    }
   }
 
   function resetMoodCheck(checkId, doneId) {
@@ -2476,7 +2484,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       btn.addEventListener('click', () => {
         check.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
-        recordMood(btn.dataset.mood);
+        recordMood(btn.dataset.mood, checkId);
         const btnsRow = check.querySelector('.mood-check-btns');
         if (btnsRow) btnsRow.style.display = 'none';
         const done = document.getElementById(doneId);
@@ -2630,6 +2638,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
         tag,
         urgent
       });
+      currentJournalTag = tag;
       await saveEntries();
       renderHistory();
       renderPattern();
@@ -2941,6 +2950,17 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       isPremium = false;
     }
     updatePlanBadge();
+
+    // 匿名の間隔ベース再訪ログ（個人・端末を特定できる情報は送らない、経過日数のみ）
+    try {
+      const lastActive = localStorage.getItem('lastActiveDate');
+      const todayStr = new Date().toISOString().slice(0, 10);
+      if (lastActive && lastActive !== todayStr) {
+        const gapDays = Math.round((new Date(todayStr) - new Date(lastActive)) / 86400000);
+        if (gapDays > 0) logActivity('return_gap_' + Math.min(gapDays, 30));
+      }
+      localStorage.setItem('lastActiveDate', todayStr);
+    } catch (e) { /* 記録できなくても体験に影響させない */ }
 
     showJournal();
     updateJournalLimitUI();
