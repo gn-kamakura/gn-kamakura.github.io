@@ -1488,8 +1488,13 @@ gtag('config', 'G-T7MV4EVEH7');
 
   <div class="plan-bar">
     <span class="plan-badge" id="planBadge">無料プラン</span>
-    <button class="plan-demo-toggle" id="planDemoToggle">（デモ）プラン切替</button>
+    <button class="plan-demo-toggle" id="unlockToggle">登録済みの方はこちら</button>
   </div>
+  <div id="unlockRow" style="display:none; gap:8px; margin-bottom:16px;">
+    <input type="text" id="unlockCode" placeholder="登録コードを入力" style="flex:1; padding:10px 12px; border-radius:10px; border:1.5px solid var(--mist, #B7C4CE); font-family:inherit; font-size:14px;">
+    <button type="button" id="unlockSubmit" style="border:none; border-radius:10px; padding:0 16px; font-family:inherit; font-weight:700; font-size:13px; cursor:pointer;">解除する</button>
+  </div>
+  <p id="unlockMsg" style="font-size:11.5px; text-align:center; margin:0 0 16px; display:none;"></p>
 
   <div id="journalSection">
   <div class="card">
@@ -1518,7 +1523,6 @@ gtag('config', 'G-T7MV4EVEH7');
         <li>「近ごろの自分」の週次パターンレポート</li>
       </ul>
       <button class="paywall-cta" id="journalPaywallCta">はれまにプラスにアップグレード</button>
-      <div class="paywall-note">※ このプロトタイプでは実際の決済は発生しません</div>
     </div>
 
     <div class="error-msg" id="errorMsg">うまく送れませんでした。もう一度試してください。</div>
@@ -1681,6 +1685,17 @@ gtag('config', 'G-T7MV4EVEH7');
     fetch(LOG_ACTIVITY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'apikey': AI_PROXY_KEY, 'Authorization': 'Bearer ' + AI_PROXY_KEY },
+      body: JSON.stringify({ type })
+    }).catch(() => {});
+  }
+
+  // activity_counts（journal_count/case_count専用の固定集計テーブル）には入らない
+  // 種類のイベント（気分フィードバックのタグ別、間隔ベース再訪等）はこちらへ
+  const LOG_ENGAGEMENT_URL = 'https://idjbnrohrthqsabqmfjk.supabase.co/functions/v1/log-engagement';
+  function logEngagement(type) {
+    fetch(LOG_ENGAGEMENT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type })
     }).catch(() => {});
   }
@@ -2461,9 +2476,9 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
 
     // 匿名の気分フィードバック集計（個人・投稿内容には一切紐付けない）
     if (checkId === 'moodCheck' && currentJournalTag) {
-      logActivity('mood_' + mood + '_' + currentJournalTag);
+      logEngagement('mood_' + mood + '_' + currentJournalTag);
     } else {
-      logActivity('mood_' + mood + '_case');
+      logEngagement('mood_' + mood + '_case');
     }
   }
 
@@ -2557,15 +2572,73 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
     if (isPremium) {
       planBadge.textContent = 'はれまにプラス';
       planBadge.classList.add('premium');
+      unlockToggle_hideIfExists();
     } else {
       planBadge.textContent = '無料プラン';
       planBadge.classList.remove('premium');
     }
   }
 
-  document.getElementById('planDemoToggle').addEventListener('click', () => setPremium(!isPremium));
-  document.getElementById('journalPaywallCta').addEventListener('click', () => setPremium(true));
-  document.getElementById('weeklyTeaserCta').addEventListener('click', () => setPremium(true));
+  function unlockToggle_hideIfExists(){
+    const t = document.getElementById('unlockToggle');
+    const r = document.getElementById('unlockRow');
+    if (t) t.style.display = 'none';
+    if (r) r.style.display = 'none';
+  }
+
+  const HAREMANI_STRIPE_LINK = 'https://buy.stripe.com/7sYbJ3gjA8PIejlgWbaR202';
+  const UNLOCK_CODE = 'HAREMANI-ARIGATO';
+  const VERIFY_SESSION_ENDPOINT = 'https://idjbnrohrthqsabqmfjk.supabase.co/functions/v1/motokara-verify-session';
+
+  function goToStripe(){
+    window.open(HAREMANI_STRIPE_LINK, '_blank', 'noopener');
+  }
+
+  const unlockToggleBtn = document.getElementById('unlockToggle');
+  const unlockRowEl = document.getElementById('unlockRow');
+  const unlockMsgEl = document.getElementById('unlockMsg');
+
+  unlockToggleBtn.addEventListener('click', () => {
+    unlockRowEl.style.display = unlockRowEl.style.display === 'none' ? 'flex' : 'none';
+  });
+  document.getElementById('unlockSubmit').addEventListener('click', () => {
+    const val = (document.getElementById('unlockCode').value || '').trim().toUpperCase();
+    if (val === UNLOCK_CODE) {
+      setPremium(true);
+      unlockRowEl.style.display = 'none';
+      unlockToggleBtn.style.display = 'none';
+      unlockMsgEl.textContent = 'はれまにプラスが有効になりました。';
+      unlockMsgEl.style.display = 'block';
+    } else {
+      unlockMsgEl.textContent = 'コードが確認できませんでした。ご購入時にお送りしたコードをご確認ください。';
+      unlockMsgEl.style.display = 'block';
+    }
+  });
+
+  async function checkStripeReturn(){
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    if (!sessionId) return;
+    try {
+      const res = await fetch(VERIFY_SESSION_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId })
+      });
+      const data = await res.json();
+      if (data.valid) {
+        setPremium(true);
+        unlockMsgEl.textContent = 'ご登録ありがとうございます。はれまにプラスが有効になりました。';
+        unlockMsgEl.style.display = 'block';
+      }
+    } catch (e) { /* 失敗しても手動コードで解除できるので握りつぶす */ }
+    params.delete('session_id');
+    const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+    window.history.replaceState({}, '', newUrl);
+  }
+
+  document.getElementById('journalPaywallCta').addEventListener('click', goToStripe);
+  document.getElementById('weeklyTeaserCta').addEventListener('click', goToStripe);
 
   function updateJournalLimitUI() {
     const limit = isPremium ? JOURNAL_PLUS_LIMIT : JOURNAL_DAILY_LIMIT;
@@ -2950,6 +3023,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       isPremium = false;
     }
     updatePlanBadge();
+    await checkStripeReturn();
 
     // 匿名の間隔ベース再訪ログ（個人・端末を特定できる情報は送らない、経過日数のみ）
     try {
@@ -2957,7 +3031,7 @@ urgent が false（通常時）の場合のreframeは、次の方針で書く：
       const todayStr = new Date().toISOString().slice(0, 10);
       if (lastActive && lastActive !== todayStr) {
         const gapDays = Math.round((new Date(todayStr) - new Date(lastActive)) / 86400000);
-        if (gapDays > 0) logActivity('return_gap_' + Math.min(gapDays, 30));
+        if (gapDays > 0) logEngagement('return_gap_' + Math.min(gapDays, 30));
       }
       localStorage.setItem('lastActiveDate', todayStr);
     } catch (e) { /* 記録できなくても体験に影響させない */ }
