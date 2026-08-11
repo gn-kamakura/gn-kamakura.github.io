@@ -279,7 +279,7 @@
     <div class="save-note" id="saveNote">残り5問</div>
   </div>
 
-  <div class="card plan-card">
+  <div class="card plan-card" id="planCard">
     <div class="plan-head">
       <span class="section-title" style="margin:0;">有料プラン</span>
       <span class="plan-price">300円<span>/月（税込）</span></span>
@@ -292,18 +292,30 @@
     </ul>
     <p class="sample-caption" style="margin-bottom:16px;">※「＋ もっと記録する」の任意項目（水・便の状態）も、記録があるほど振り返りの内容が具体的になります。気になる人は入力しておくのがおすすめです。</p>
 
-    <div class="plan-sub-label">週の振り返りレターのサンプル</div>
-    <div class="sample-letter">
-      「今週は"くもり"の日が少し多めでした。とくに水曜からお酒が多めの日が続いて、翌日の睡眠の質が下がる傾向が出ています。一方で野菜・発酵食品はしっかり摂れている日が多く、先週から変わらず良い調子です。来週はお酒の量を少し意識してみると、睡眠にも変化が出てくるかもしれません。」
-    </div>
-    <p class="sample-caption">※これはサンプルです。実際の内容は、あなたの記録に応じて毎週変わります。</p>
+    <div id="lettersArea">
+      <div class="plan-sub-label">週の振り返りレターのサンプル</div>
+      <div class="sample-letter">
+        「今週は"くもり"の日が少し多めでした。とくに水曜からお酒が多めの日が続いて、翌日の睡眠の質が下がる傾向が出ています。一方で野菜・発酵食品はしっかり摂れている日が多く、先週から変わらず良い調子です。来週はお酒の量を少し意識してみると、睡眠にも変化が出てくるかもしれません。」
+      </div>
+      <p class="sample-caption">※これはサンプルです。実際の内容は、あなたの記録に応じて毎週変わります。</p>
 
-    <div class="plan-sub-label">月の振り返りレターのサンプル</div>
-    <div class="sample-letter">
-      「8月は、運動の記録が先月より安定してきました。とくに"体を動かせた日"が週の後半に偏る傾向があり、平日前半にお酒が多い日が重なると、その週はスコア全体が下がりやすいようです。野菜・発酵食品は月を通して大きな変化はなく、これはすでに習慣として定着している証拠かもしれません。来月は、週の前半の過ごし方を少し意識してみると、月全体の"晴れ"の日がもう少し増えそうです。」
+      <div class="plan-sub-label">月の振り返りレターのサンプル</div>
+      <div class="sample-letter">
+        「8月は、運動の記録が先月より安定してきました。とくに"体を動かせた日"が週の後半に偏る傾向があり、平日前半にお酒が多い日が重なると、その週はスコア全体が下がりやすいようです。野菜・発酵食品は月を通して大きな変化はなく、これはすでに習慣として定着している証拠かもしれません。来月は、週の前半の過ごし方を少し意識してみると、月全体の"晴れ"の日がもう少し増えそうです。」
+      </div>
+      <p class="sample-caption">※これはサンプルです。1ヶ月分の記録がたまるほど、内容はより具体的になります。</p>
     </div>
-    <p class="sample-caption">※これはサンプルです。1ヶ月分の記録がたまるほど、内容はより具体的になります。</p>
-    <a class="save-btn" style="display:block; text-align:center; text-decoration:none; margin-top:16px;" href="https://buy.stripe.com/4gM7sN1oGc1U7UXgWbaR201" target="_blank" rel="noopener">有料プランに登録する</a>
+
+    <a class="save-btn" style="display:block; text-align:center; text-decoration:none; margin-top:16px;" href="https://buy.stripe.com/4gM7sN1oGc1U7UXgWbaR201" target="_blank" rel="noopener" id="stripeCta">有料プランに登録する</a>
+
+    <div style="text-align:center; margin-top:14px;">
+      <button type="button" id="unlockToggle" style="background:none; border:none; color:var(--ink-soft); font-family:inherit; font-size:11.5px; text-decoration:underline; cursor:pointer;">すでに登録済みの方はこちら</button>
+    </div>
+    <div id="unlockRow" style="display:none; margin-top:12px; gap:8px;">
+      <input type="text" id="unlockCode" placeholder="登録コードを入力" style="flex:1; background:var(--paper); border:1.5px solid var(--paper-deep); border-radius:12px; padding:11px 14px; font-family:inherit; font-size:14px; color:var(--ink); outline:none;">
+      <button type="button" id="unlockSubmit" style="background:var(--leaf); color:#fff; border:none; border-radius:12px; padding:0 18px; font-family:inherit; font-weight:700; font-size:13px; cursor:pointer;">解除する</button>
+    </div>
+    <p id="unlockMsg" style="font-size:11.5px; color:var(--ink-soft); text-align:center; margin-top:8px; display:none;"></p>
   </div>
 
   <div class="disclaimer">
@@ -488,6 +500,124 @@
     updateSaveState();
     renderLedger();
   }
+
+  /* ───────── 有料プラン判定（手動運用フェーズ）─────────
+     Stripeの支払い後、運営が個別に登録コードを案内し、ここで解除する方式。
+     クライアント側の比較なので厳密なセキュリティではないが、
+     今の手動配布フェーズでは十分と判断（将来Webhook連携に移行予定）。 */
+  const PREMIUM_KEY = 'motokara_premium';
+  const UNLOCK_CODE = 'MOTOKARA-ARIGATO';
+  function isPremiumUser(){ return localStorage.getItem(PREMIUM_KEY) === 'true'; }
+
+  const unlockToggle = document.getElementById('unlockToggle');
+  const unlockRow = document.getElementById('unlockRow');
+  const unlockSubmit = document.getElementById('unlockSubmit');
+  const unlockCode = document.getElementById('unlockCode');
+  const unlockMsg = document.getElementById('unlockMsg');
+
+  unlockToggle.addEventListener('click', () => {
+    unlockRow.style.display = unlockRow.style.display === 'none' ? 'flex' : 'none';
+  });
+  unlockSubmit.addEventListener('click', () => {
+    const val = (unlockCode.value || '').trim().toUpperCase();
+    if (val === UNLOCK_CODE) {
+      localStorage.setItem(PREMIUM_KEY, 'true');
+      applyPremiumUI();
+      renderLetters();
+    } else {
+      unlockMsg.textContent = 'コードが確認できませんでした。ご購入時にお送りしたコードをご確認ください。';
+      unlockMsg.style.display = 'block';
+    }
+  });
+
+  function applyPremiumUI(){
+    if (!isPremiumUser()) return;
+    document.getElementById('stripeCta').style.display = 'none';
+    document.getElementById('unlockToggle').style.display = 'none';
+    document.getElementById('unlockRow').style.display = 'none';
+    unlockMsg.textContent = '有料プラン利用中です。';
+    unlockMsg.style.display = 'block';
+  }
+
+  /* ───────── AIレター生成（有料会員のみ） ───────── */
+  const AI_ENDPOINT = 'https://idjbnrohrthqsabqmfjk.supabase.co/functions/v1/motokara-ai';
+  const AI_KEY = 'sb_publishable_-g-Z8a5ut8zSdp16BNFUhQ_UvTUEwRY';
+
+  function mondayOf(d){
+    const date = new Date(d);
+    const day = (date.getDay() + 6) % 7; // 月曜=0
+    date.setDate(date.getDate() - day);
+    return date.toISOString().slice(0,10);
+  }
+
+  function collectEntries(days){
+    const list = [];
+    for(let i=0;i<days;i++){
+      const d = new Date(); d.setDate(d.getDate()-i);
+      const key = d.toISOString().slice(0,10);
+      if(entries[key]) list.push({ date:key, ...entries[key] });
+    }
+    return list.reverse();
+  }
+
+  async function fetchLetter(period, periodEntries){
+    try{
+      const res = await fetch(AI_ENDPOINT, {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json', 'apikey':AI_KEY, 'Authorization':'Bearer '+AI_KEY },
+        body: JSON.stringify({ period, entries: periodEntries })
+      });
+      if(!res.ok) return null;
+      const data = await res.json();
+      return data.letter || null;
+    }catch(e){ return null; }
+  }
+
+  async function renderLetters(){
+    if(!isPremiumUser()) return;
+    const area = document.getElementById('lettersArea');
+    area.innerHTML = '<p class="sample-caption">レターを生成しています…</p>';
+
+    const weekKey = 'motokaraWeeklyLetter:' + mondayOf(new Date());
+    const monthKey = 'motokaraMonthlyLetter:' + new Date().toISOString().slice(0,7);
+    const weekEntries = collectEntries(7);
+    const monthEntries = collectEntries(30);
+
+    let weeklyLetter = null, monthlyLetter = null;
+
+    if(weekEntries.length > 0){
+      const cached = JSON.parse(localStorage.getItem(weekKey) || 'null');
+      if(cached && cached.count === weekEntries.length){
+        weeklyLetter = cached.letter;
+      } else {
+        weeklyLetter = await fetchLetter('weekly', weekEntries);
+        if(weeklyLetter) localStorage.setItem(weekKey, JSON.stringify({ count: weekEntries.length, letter: weeklyLetter }));
+      }
+    }
+    if(monthEntries.length > 0){
+      const cached = JSON.parse(localStorage.getItem(monthKey) || 'null');
+      if(cached && cached.count === monthEntries.length){
+        monthlyLetter = cached.letter;
+      } else {
+        monthlyLetter = await fetchLetter('monthly', monthEntries);
+        if(monthlyLetter) localStorage.setItem(monthKey, JSON.stringify({ count: monthEntries.length, letter: monthlyLetter }));
+      }
+    }
+
+    area.innerHTML = '';
+    const weekBlock = document.createElement('div');
+    weekBlock.innerHTML = `<div class="plan-sub-label">今週の振り返り</div>
+      <div class="sample-letter">${weeklyLetter ? weeklyLetter.replace(/\n/g,'<br>') : 'まだ記録が足りません。数日分たまると届きます。'}</div>`;
+    area.appendChild(weekBlock);
+
+    const monthBlock = document.createElement('div');
+    monthBlock.innerHTML = `<div class="plan-sub-label" style="margin-top:16px;">今月の振り返り</div>
+      <div class="sample-letter">${monthlyLetter ? monthlyLetter.replace(/\n/g,'<br>') : 'まだ記録が足りません。1ヶ月分たまると届きます。'}</div>`;
+    area.appendChild(monthBlock);
+  }
+
+  applyPremiumUI();
+  if(isPremiumUser()) renderLetters();
 
   renderAll();
 })();
