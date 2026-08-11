@@ -445,6 +445,7 @@
     const total = ITEMS.reduce((s,i)=> s + draft[i.key], 0);
     entries[todayKey()] = { ...draft, total };
     saveEntries(entries);
+    logActivity('checkin_' + weatherTierOf(total));
     renderAll();
   });
 
@@ -616,8 +617,66 @@
     area.appendChild(monthBlock);
   }
 
+  /* ───────── Stripe決済後の自動解除 ───────── */
+  const VERIFY_SESSION_ENDPOINT = 'https://idjbnrohrthqsabqmfjk.supabase.co/functions/v1/motokara-verify-session';
+
+  async function checkStripeReturn(){
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    if(!sessionId) return;
+
+    try{
+      const res = await fetch(VERIFY_SESSION_ENDPOINT, {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ session_id: sessionId })
+      });
+      const data = await res.json();
+      if(data.valid){
+        localStorage.setItem(PREMIUM_KEY, 'true');
+        applyPremiumUI();
+        unlockMsg.textContent = 'ご登録ありがとうございます。有料プランが有効になりました。';
+        unlockMsg.style.display = 'block';
+        renderLetters();
+      }
+    }catch(e){ /* 失敗しても手動コードで解除できるので握りつぶす */ }
+
+    // URLからsession_idを消す（再読み込み・共有時に残らないように）
+    params.delete('session_id');
+    const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+    window.history.replaceState({}, '', newUrl);
+  }
+
+  /* ───────── 匿名エンゲージメント集計（個人・記録内容には一切紐付けない） ───────── */
+  const LOG_ACTIVITY_URL = 'https://idjbnrohrthqsabqmfjk.supabase.co/functions/v1/log-activity';
+  function logActivity(type){
+    fetch(LOG_ACTIVITY_URL, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({ type })
+    }).catch(()=>{});
+  }
+
+  function weatherTierOf(total){
+    if(total>=9) return 'sun';
+    if(total>=5) return 'partly';
+    return 'cloud';
+  }
+
   applyPremiumUI();
+  checkStripeReturn();
   if(isPremiumUser()) renderLetters();
+
+  // 匿名の間隔ベース再訪ログ（経過日数のみ、個人・端末を特定できる情報は送らない）
+  try{
+    const lastActive = localStorage.getItem('motokaraLastActiveDate');
+    const todayStr = todayKey();
+    if(lastActive && lastActive !== todayStr){
+      const gapDays = Math.round((new Date(todayStr) - new Date(lastActive)) / 86400000);
+      if(gapDays > 0) logActivity('return_gap_' + Math.min(gapDays, 30));
+    }
+    localStorage.setItem('motokaraLastActiveDate', todayStr);
+  }catch(e){ /* 記録できなくても体験に影響させない */ }
 
   renderAll();
 })();
