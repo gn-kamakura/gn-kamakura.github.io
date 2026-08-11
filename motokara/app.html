@@ -260,7 +260,7 @@
   <div class="card score-row">
     <div class="score-card">
       <div class="num" id="weeklyScore">--</div>
-      <div class="cap">今週の調子（10点中）</div>
+      <div class="cap">今週の調子（12点中）</div>
     </div>
     <div class="score-card">
       <div class="num" id="streakSafe">0日</div>
@@ -329,19 +329,27 @@
 <script>
 (function(){
   const ITEMS = [
-    { key:'veg', label:'野菜・発酵食品、摂れた？',
-      info:'野菜、きのこ、海藻、味噌・納豆・ヨーグルトなどの発酵食品のことです。',
+    { key:'veg', label:'野菜・果物・食物繊維・発酵食品、摂れた？',
+      info:'野菜、果物、きのこ、海藻、豆類などの食物繊維源と、味噌・納豆・ヨーグルトなどの発酵食品のことです。',
       options:[{v:2,label:'摂れた'},{v:1,label:'ちょっとだけ'},{v:0,label:'あんまり'}] },
     { key:'processed', label:'加工食品・揚げ物、多かった？',
       info:'スナック菓子や清涼飲料水、加工肉、揚げ物など加工度の高い食品のことです。',
       options:[{v:0,label:'多かった'},{v:2,label:'少なかった'}] },
     { key:'alcohol', label:'お酒はどれくらい？', info:'',
-      options:[{v:2,label:'なし'},{v:1,label:'ほどほど'},{v:0,label:'多め'}] },
+      options:[{v:3,label:'なし'},{v:1,label:'ほどほど'},{v:0,label:'多め'}] },
     { key:'exercise', label:'体、動かせた？',
       info:'階段を早歩きで上るような数分の動きでもOK。自重トレーニングやヨガも含みます。',
-      options:[{v:2,label:'動かせた'},{v:0,label:'動かせてない'}] },
+      options:[{v:3,label:'動かせた'},{v:0,label:'動かせてない'}] },
     { key:'sleep', label:'睡眠の質はどうだった？', info:'',
       options:[{v:2,label:'よかった'},{v:1,label:'ふつう'},{v:0,label:'いまいち'}] },
+  ];
+  const SCORE_MAX = 12; // 2+2+3+3+2
+
+  const OPTIONAL_ITEMS = [
+    { key:'water', label:'水、飲めた？', info:'目安の量です。厳密でなくて大丈夫です。',
+      options:[{v:2,label:'2リットル以上'},{v:1,label:'1〜2リットル'},{v:0,label:'1リットル未満'}] },
+    { key:'stool', label:'便の状態は？', info:'国際的に使われるブリストル便形状スケールを参考にした簡易記録です。腸内環境の変化を知る手がかりの一つになります。',
+      options:[{v:2,label:'普通便（バナナ状・滑らか）'},{v:1,label:'硬い便（コロコロ・カチカチ）'},{v:0,label:'柔らかい便（泥状・水様）'}] },
   ];
 
   const STORAGE_KEY = 'motokara_entries_v1';
@@ -356,43 +364,61 @@
   let entries = loadEntries();
   let draft = {};
 
+  let optionalOpen = false;
+
+  function buildItemRow(item){
+    const div = document.createElement('div');
+    div.className = 'item';
+    const head = document.createElement('div');
+    head.className = 'item-head';
+    head.innerHTML = `<span>${item.label}</span>`;
+    div.appendChild(head);
+    if(item.info){
+      const btn = document.createElement('button');
+      btn.type='button'; btn.className='info-btn'; btn.textContent='i';
+      btn.setAttribute('aria-label', item.label + 'の説明を表示');
+      const infoP = document.createElement('div');
+      infoP.className='info-text'; infoP.textContent = item.info;
+      btn.addEventListener('click', ()=> infoP.classList.toggle('open'));
+      head.appendChild(btn);
+      div.appendChild(infoP);
+    }
+    const opts = document.createElement('div');
+    opts.className='options';
+    item.options.forEach(opt=>{
+      const b = document.createElement('button');
+      b.type='button'; b.className='opt'; b.textContent = opt.label;
+      if(draft[item.key] === opt.v) b.classList.add('selected');
+      b.addEventListener('click', ()=>{
+        draft[item.key] = opt.v;
+        [...opts.children].forEach(c=>c.classList.remove('selected'));
+        b.classList.add('selected');
+        updateSaveState();
+      });
+      opts.appendChild(b);
+    });
+    div.appendChild(opts);
+    return div;
+  }
+
   function renderForm(){
     const form = document.getElementById('checkinForm');
     form.innerHTML = '';
-    ITEMS.forEach(item=>{
-      const div = document.createElement('div');
-      div.className = 'item';
-      const head = document.createElement('div');
-      head.className = 'item-head';
-      head.innerHTML = `<span>${item.label}</span>`;
-      div.appendChild(head);
-      if(item.info){
-        const btn = document.createElement('button');
-        btn.type='button'; btn.className='info-btn'; btn.textContent='i';
-        btn.setAttribute('aria-label', item.label + 'の説明を表示');
-        const infoP = document.createElement('div');
-        infoP.className='info-text'; infoP.textContent = item.info;
-        btn.addEventListener('click', ()=> infoP.classList.toggle('open'));
-        head.appendChild(btn);
-        div.appendChild(infoP);
-      }
-      const opts = document.createElement('div');
-      opts.className='options';
-      item.options.forEach(opt=>{
-        const b = document.createElement('button');
-        b.type='button'; b.className='opt'; b.textContent = opt.label;
-        if(draft[item.key] === opt.v) b.classList.add('selected');
-        b.addEventListener('click', ()=>{
-          draft[item.key] = opt.v;
-          [...opts.children].forEach(c=>c.classList.remove('selected'));
-          b.classList.add('selected');
-          updateSaveState();
-        });
-        opts.appendChild(b);
-      });
-      div.appendChild(opts);
-      form.appendChild(div);
+    ITEMS.forEach(item => form.appendChild(buildItemRow(item)));
+
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.style.cssText = 'background:none;border:none;color:var(--coral);font-family:inherit;font-size:12.5px;font-weight:700;padding:12px 0 4px;cursor:pointer;';
+    toggle.textContent = optionalOpen ? '－ 追加の項目を閉じる' : '＋ もっと記録する（任意）';
+    toggle.addEventListener('click', ()=>{
+      optionalOpen = !optionalOpen;
+      renderForm();
     });
+    form.appendChild(toggle);
+
+    if(optionalOpen){
+      OPTIONAL_ITEMS.forEach(item => form.appendChild(buildItemRow(item)));
+    }
   }
 
   function updateSaveState(){
@@ -429,8 +455,8 @@
   };
   function iconFor(total){
     if(total===undefined) return '';
-    if(total>=7) return ICONS.sun;
-    if(total>=4) return ICONS.partly;
+    if(total>=9) return ICONS.sun;
+    if(total>=5) return ICONS.partly;
     return ICONS.cloud;
   }
 
