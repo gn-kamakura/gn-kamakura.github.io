@@ -392,6 +392,12 @@ body::before {
   color:rgba(255,253,249,.35); margin-top:.4rem;
 }
 
+.sub-plan-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:1px;
+}
+.sub-plan-standard {
+  border-left:1px solid rgba(255,253,249,.06);
+}
 .sub-plan-head {
   display:flex; align-items:center; justify-content:space-between;
   flex-wrap:wrap; gap:.4rem; margin-bottom:.9rem;
@@ -415,6 +421,8 @@ body::before {
   white-space:nowrap;
 }
 @media(max-width:960px){
+  .sub-plan-grid { grid-template-columns:1fr; }
+  .sub-plan-standard { border-left:none; border-top:1px solid rgba(255,253,249,.06); }
   .sub-price-val { font-size:1.3rem; }
   .sub-price-unit { font-size:.55rem; margin-left:.2rem; }
 }
@@ -1311,7 +1319,7 @@ footer {
       <div class="svc-en" style="color:var(--c-swell);">AI-Powered Website as a Service</div>
       <p class="svc-desc" style="color:rgba(255,253,249,.55);">初期費用0円、月額定額制。AIを活用した高品質なホームページ・LP制作と、SEO・GEO・LLMOまで込みの運用支援をワンストップで。鎌倉発の「作るだけで終わらない」Webサービス。</p>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,253,249,.06);margin-top:1.5rem;border:1px solid rgba(255,253,249,.06);">
+      <div class="sub-plan-grid" style="background:rgba(255,253,249,.06);margin-top:1.5rem;border:1px solid rgba(255,253,249,.06);">
 
         <div style="padding:1.5rem 1.2rem;background:var(--c-deep);">
           <div class="sub-plan-label" style="margin-bottom:.9rem;">Basic</div>
@@ -1326,7 +1334,7 @@ footer {
           </ul>
         </div>
 
-        <div style="padding:1.5rem 1.2rem;background:rgba(74,143,168,.08);border-left:1px solid rgba(255,253,249,.06);">
+        <div class="sub-plan-standard" style="padding:1.5rem 1.2rem;background:rgba(74,143,168,.08);">
           <div class="sub-plan-head">
             <div class="sub-plan-label">Standard</div>
             <div class="sub-badge">おすすめ</div>
