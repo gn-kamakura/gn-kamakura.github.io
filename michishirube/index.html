@@ -154,6 +154,35 @@
     background:var(--grad); color:#fff; padding:5px 12px; border-radius:999px;
   }
 
+  /* ---- beacon ---- */
+  .beacon{ padding:20px 0 8px; }
+  .beacon-card{
+    display:grid; grid-template-columns:1.6fr 1fr; gap:28px; align-items:center;
+    background:var(--panel); border:1.5px solid var(--line); border-radius:20px;
+    padding:32px 34px; box-shadow:0 10px 30px rgba(11,31,58,.05);
+  }
+  .beacon-eyebrow{
+    display:inline-block; font-family:var(--font-mono); font-size:12px; font-weight:700;
+    color:#fff; background:var(--grad); padding:4px 12px; border-radius:999px; margin-bottom:12px;
+  }
+  .beacon-copy h2{ font-family:var(--font-display); font-size:22px; margin:0 0 10px; }
+  .beacon-points{ list-style:none; margin:16px 0 0; padding:0; font-size:13.5px; }
+  .beacon-points li{
+    padding:8px 0; border-top:1px solid var(--line); display:flex; gap:10px; align-items:flex-start;
+  }
+  .beacon-points li::before{ content:"→"; font-family:var(--font-mono); color:var(--amber); flex:none; }
+  .beacon-buy{
+    background:var(--paper); border:1px solid var(--line); border-radius:16px;
+    padding:22px; text-align:center;
+  }
+  .beacon-price{ font-family:var(--font-mono); font-size:30px; font-weight:700; margin-bottom:14px; }
+  .beacon-price span{ font-size:12px; font-weight:500; color:var(--muted); display:block; }
+  .beacon-buy .btn{ width:100%; justify-content:center; margin-bottom:10px; }
+  .beacon-note{ font-size:11.5px; color:var(--muted); margin:0; }
+  @media (max-width:760px){
+    .beacon-card{ grid-template-columns:1fr; }
+  }
+
   /* ---- flow (genuine sequence -> numbered) ---- */
   .flow{ counter-reset:step; }
   .flow-item{
@@ -252,6 +281,7 @@
     <nav class="nav-links">
       <a href="#service">サービス</a>
       <a href="#plans">料金プラン</a>
+      <a href="#beacon">お試し診断</a>
       <a href="#flow">導入までの流れ</a>
       <a href="#faq">よくある質問</a>
     </nav>
@@ -344,6 +374,31 @@
       <p style="text-align:center; margin-top:28px;">
         <a href="sample-report.pdf" target="_blank" style="color:var(--blue); font-weight:700; text-decoration:underline;">サンプルレポートを見る(PDF)</a>
       </p>
+    </div>
+  </section>
+
+  <section id="beacon" class="beacon">
+    <div class="wrap">
+      <div class="beacon-card">
+        <div class="beacon-copy">
+          <span class="beacon-eyebrow">ミチシルベ Beacon</span>
+          <h2 style="text-align:center;">まずは近隣競合比較だけ、試してみませんか</h2>
+          <p class="section-sub">Googleマップの公開データだけを使った自動診断です。権限付与は不要、その場で受け取れます。<br>正式プランの前に、近隣の中での立ち位置だけをサクッと確認したい方向けです。</p>
+          <p style="text-align:center; margin-top:14px;">
+            <a href="beacon-sample-report.pdf" target="_blank" style="color:var(--blue); font-weight:700; text-decoration:underline;">サンプルレポートを見る(PDF)</a>
+          </p>
+          <ul class="beacon-points">
+            <li>Googleの公開データのみ。権限付与・アカウント連携は不要</li>
+            <li>近隣自動抽出＋気になる競合店を指定して比較</li>
+            <li>お申し込み後、メールでPDFをお届け</li>
+          </ul>
+        </div>
+        <div class="beacon-buy">
+          <div class="beacon-price">¥5,000<span>（税込・単発）</span></div>
+          <a class="btn" href="https://buy.stripe.com/8x28wRc3k0jc6QT49paR203" target="_blank" rel="noopener">今すぐ診断を申し込む</a>
+          <p class="beacon-note">決済完了後、順次メールにてレポートをお送りします（通常1営業日以内）。</p>
+        </div>
+      </div>
     </div>
   </section>
 
