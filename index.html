@@ -246,6 +246,10 @@ body::before {
   opacity:0; animation: fadeUp 1s .45s var(--ease) forwards;
   margin-bottom: 1.8rem;
 }
+.sp-br { display:none; }
+@media(max-width:640px){
+  .sp-br { display:inline; }
+}
 
 .hero-tags {
   display:flex; flex-wrap:wrap; gap:.45rem;
@@ -1076,7 +1080,7 @@ footer {
     <h1 class="hero-h1">Your Digital<br><i>Partner</i><br>in Kamakura.</h1>
     <p class="hero-desc">
       見えにくいものを、見えるように。<br>
-      答えを押し付けるのではなく、次の一歩がわかる状態をつくる。<br>
+      答えを押し付けるのではなく、<br class="sp-br">次の一歩がわかる状態をつくる。<br>
       グッドネイバーカマクラ合同会社は、鎌倉を拠点に、<br>
       デジタルを通じて「人・企業・街」のすべてに寄り添う会社です。
     </p>
