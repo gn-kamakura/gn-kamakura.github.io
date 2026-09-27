@@ -156,6 +156,19 @@
     background:var(--grad); color:#fff; padding:5px 12px; border-radius:999px;
   }
 
+  /* ---- options ---- */
+  .options{ margin-top:48px; }
+  .options h3{ font-family:var(--font-display); font-weight:900; font-size:20px; margin:0 0 6px; text-align:center; }
+  .options .options-sub{ text-align:center; font-size:13.5px; opacity:.8; margin:0 0 20px; }
+  .option-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .option-card{ border:1px solid var(--line); border-radius:16px; padding:20px 22px; background:var(--paper); display:flex; flex-direction:column; gap:8px; }
+  .option-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; }
+  .option-name{ font-weight:900; font-size:16px; }
+  .option-price{ font-family:var(--font-mono); font-weight:700; font-size:18px; white-space:nowrap; }
+  .option-price span{ font-size:12px; font-weight:500; opacity:.75; }
+  .option-card p{ margin:0; font-size:13.5px; line-height:1.7; }
+  .option-note{ font-size:12px; opacity:.75; margin:14px 0 0; text-align:center; }
+
   /* ---- beacon ---- */
   #service, #plans, #beacon, #flow, #faq{ scroll-margin-top:96px; }
   .beacon{ padding:0 0 56px; }
@@ -226,7 +239,7 @@
   .foot-links a:last-child{ margin-right:0; }
 
   @media (max-width:900px){
-    .problem-grid, .plan-grid{ grid-template-columns:1fr; }
+    .problem-grid, .plan-grid, .option-grid{ grid-template-columns:1fr; }
     .plan-card.is-standard{ transform:none; }
     h1{ font-size:30px; }
     h1 .line1, h1 .accent{ white-space:normal; }
@@ -406,7 +419,7 @@
     <div class="wrap">
       <div class="section-head">
         <h2>料金プラン</h2>
-        <p class="section-sub">投稿代行はしません。<br class="pc-br">診断とコンサルに絞ることで、無理のない価格にしています。<br class="pc-br">価格は税別です。</p>
+        <p class="section-sub">プランは診断とコンサルに絞り、無理のない価格にしています。<br class="pc-br">Googleビジネスプロフィールの実務はオプションでお引き受けします。<br class="pc-br">価格は税別です。</p>
       </div>
       <div class="plan-grid">
         <div class="plan-card">
@@ -439,6 +452,29 @@
           </ul>
         </div>
       </div>
+      <div class="options" id="options">
+        <h3>オプションメニュー</h3>
+        <p class="options-sub">どのプランにも追加できます。提案だけでなく、設定・更新の実務までこちらで対応します。</p>
+        <div class="option-grid">
+          <div class="option-card">
+            <div class="option-head"><span class="option-name">Googleビジネスプロフィール初期整備</span><span class="option-price">¥50,000<span>/単発</span></span></div>
+            <p>説明文・カテゴリ・属性・営業時間・メニュー・Q&amp;A・写真を見直し、設定まで反映します。</p>
+          </div>
+          <div class="option-card">
+            <div class="option-head"><span class="option-name">Googleビジネスプロフィール運用代行</span><span class="option-price">¥20,000<span>/月</span></span></div>
+            <p>最新情報の投稿(月4本)、写真の追加、営業時間・臨時休業の更新、Q&amp;Aの追加を行います。</p>
+          </div>
+          <div class="option-card">
+            <div class="option-head"><span class="option-name">口コミ返信代行</span><span class="option-price">¥15,000<span>/月</span></span></div>
+            <p>Googleの口コミへの返信文を作成し、投稿まで行います(月30件まで。超過分は別途お見積もり)。</p>
+          </div>
+          <div class="option-card">
+            <div class="option-head"><span class="option-name">LLMO/GEO実装</span><span class="option-price">¥30,000<span>/単発</span></span></div>
+            <p>AIに拾われやすいFAQ・店舗紹介文を作成し、Googleビジネスプロフィールと公式サイトに反映します。</p>
+          </div>
+        </div>
+        <p class="option-note">Instagramの投稿代行は行っておりません。月額オプションは担当件数に上限があるため、お受けできない場合があります。</p>
+      </div>
     </div>
   </section>
 
@@ -466,8 +502,8 @@
         <div class="flow-item">
           <div class="flow-num"></div>
           <div>
-            <div class="flow-title">月次診断+週次の簡易チェック</div>
-            <div class="flow-desc">毎月のフル診断に加え、週次で簡易チェックと打ち手を1つだけお届けします。</div>
+            <div class="flow-title">月次診断</div>
+            <div class="flow-desc">毎月の集客診断レポートと月1回のMTGで、次に打つ手を一緒に決めていきます。</div>
           </div>
         </div>
       </div>
@@ -529,7 +565,7 @@
       </div>
       <div class="faq-item">
         <p class="faq-q"><span class="q-mark">Q.</span>投稿代行はしてもらえますか?</p>
-        <p class="faq-a">投稿の代行は行っておりません。診断とコンサルに絞ることで、運用代行より軽い価格でご提供しています。</p>
+        <p class="faq-a">Instagramの投稿代行は行っておりません。Googleビジネスプロフィールの投稿・更新や口コミ返信は、オプションメニューでお引き受けしています。</p>
       </div>
       <div class="faq-item">
         <p class="faq-q"><span class="q-mark">Q.</span>自動で生成されたレポートですか?</p>
