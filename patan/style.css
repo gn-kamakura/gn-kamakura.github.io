@@ -141,6 +141,7 @@ details.recipe[open] > summary { background: var(--accent-soft); }
 }
 .field textarea { min-height: 160px; resize: vertical; }
 .btn { font: inherit; font-weight: 700; background: var(--accent); color: #fff; border: 0; border-radius: 8px; padding: 12px 20px; cursor: pointer; justify-self: start; }
+a.btn { display: inline-block; text-decoration: none; }
 .btn:disabled { opacity: .55; cursor: default; }
 .status { display: none; padding: 12px 14px; border-radius: 8px; font-size: 14px; }
 .status.show { display: block; }
