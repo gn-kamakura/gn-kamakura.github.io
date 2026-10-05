@@ -31,26 +31,17 @@ gtag('config', 'G-T7MV4EVEH7');
   --use: #8A5A0B;
   --use-soft: #F6E8C9;
   --font-display: "Kaisei Decol", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  color-scheme: light;
   --font-body: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0F1814; --surface: #17231E; --ink: #E6EFE9; --muted: #93A59B; --line: #28382F;
-    --accent: #4FC596; --accent-ink: #0B1A13; --accent-soft: #1D3A2E; --use: #E0B15A; --use-soft: #3A2F16;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0F1814; --surface: #17231E; --ink: #E6EFE9; --muted: #93A59B; --line: #28382F;
-  --accent: #4FC596; --accent-ink: #0B1A13; --accent-soft: #1D3A2E; --use: #E0B15A; --use-soft: #3A2F16;
-  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body {
   background: var(--bg); color: var(--ink); font-family: var(--font-body);
   font-size: 15px; line-height: 1.7;
 }
-.wrap { max-width: 760px; margin-inline: auto; padding-inline: 16px; padding-block: 28px 56px; display: flex; flex-direction: column; gap: 20px; }
+.wrap { max-width: 760px; margin-inline: auto; padding-inline: 20px; padding-block: 44px 64px; display: flex; flex-direction: column; gap: 28px; }
+header { padding-bottom: 4px; }
+@media (max-width: 480px) { .wrap { padding-block: 56px 64px; gap: 24px; } .panel { padding: 22px 18px; gap: 16px; } }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; text-wrap: balance; line-height: 1.35; }
 h1 { font-size: 30px; letter-spacing: .02em; }
 h2 { font-size: 19px; }
@@ -59,7 +50,7 @@ p { margin: 0; }
 .top-link { font-size: 13px; color: var(--muted); }
 #badge, #madeAt { margin-left: auto; }
 #madeAt:empty { display: none; }
-.tagline { color: var(--muted); margin-top: 4px; }
+.tagline { color: var(--muted); margin-top: 10px; }
 .proto { display: inline-block; font-size: 11px; letter-spacing: .08em; border: 1px solid var(--line); border-radius: 4px; padding: 1px 8px; color: var(--muted); margin-left: 10px; vertical-align: middle; font-family: var(--font-body); font-weight: 500; }
 
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
@@ -99,8 +90,6 @@ input[type="text"], input[type="number"], select {
 
 #status { font-size: 14px; color: var(--muted); }
 #status[data-kind="error"] { color: #B3261E; }
-:root[data-theme="dark"] #status[data-kind="error"] { color: #FF9C93; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #status[data-kind="error"] { color: #FF9C93; } }
 
 .result-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
 .badge { font-size: 12px; border-radius: 4px; padding: 1px 8px; background: var(--use-soft); color: var(--use); font-weight: 500; }
@@ -240,6 +229,10 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
     { id: "rmart", label: "楽天マート", url: function (q) {
       return "https://sm.rakuten.co.jp/search?keyword=" + encodeURIComponent(q);
     } },
+    { id: "fresh", label: "Amazonフレッシュ", url: function (q) {
+      var base = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(q) + "&i=amazonfresh";
+      return AFF.amazon ? base + "&tag=" + encodeURIComponent(AFF.amazon) : base;
+    } },
     { id: "rakuten", label: "楽天市場", url: function (q) {
       var base = "https://search.rakuten.co.jp/search/mall/" + encodeURIComponent(q) + "/";
       return AFF.rakuten ? "https://hb.afl.rakuten.co.jp/hgc/" + AFF.rakuten + "/?pc=" + encodeURIComponent(base) + "&m=" + encodeURIComponent(base) : base;
@@ -247,10 +240,6 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
     { id: "yahoo", label: "Yahoo!ショッピング", url: function (q) {
       var base = "https://shopping.yahoo.co.jp/search?p=" + encodeURIComponent(q);
       return AFF.yahoo.sid && AFF.yahoo.pid ? "https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=" + AFF.yahoo.sid + "&pid=" + AFF.yahoo.pid + "&vc_url=" + encodeURIComponent(base) : base;
-    } },
-    { id: "amazon", label: "Amazon", url: function (q) {
-      var base = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(q);
-      return AFF.amazon ? base + "&tag=" + encodeURIComponent(AFF.amazon) : base;
     } }
   ];
   var KEY = "patan:v1";
