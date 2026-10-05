@@ -118,8 +118,11 @@ details.recipe[open] > summary { background: var(--accent-soft); }
 .doc { padding-block: 24px 40px; }
 .doc h1 { font-size: 28px; margin-bottom: 6px; }
 .updated { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+.lead-note { background: var(--accent-soft); border: 1px solid #B9DCC9; border-radius: 8px; padding: 14px 16px; font-size: 15px; color: var(--ink); margin-bottom: 8px; }
+.lead-note strong { color: var(--accent-deep); }
 .doc h2 { font-size: 18px; margin: 32px 0 8px; }
 .doc p, .doc li { font-size: 15px; color: var(--muted); }
+.doc p + p { margin-top: 10px; }
 .doc ul { padding-left: 1.4em; display: grid; gap: 4px; margin-top: 6px; }
 .doc table { width: 100%; border-collapse: collapse; margin-top: 8px; }
 .doc th, .doc td { text-align: left; vertical-align: top; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
