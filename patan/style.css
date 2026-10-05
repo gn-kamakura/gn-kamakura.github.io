@@ -46,10 +46,11 @@ ul, ol { margin: 0; padding: 0; }
 
 /* ヒーロー */
 .hero { padding-block: 36px 48px; display: grid; grid-template-columns: 1fr; gap: 20px; }
-.fridge { width: 76px; height: auto; display: block; }
-.fridge .door { transform-box: fill-box; transform-origin: left center; animation: shut .9s cubic-bezier(.3, .7, .2, 1) .3s both; }
-@keyframes shut { from { transform: scaleX(.16); } to { transform: scaleX(1); } }
-@media (prefers-reduced-motion: reduce) { .fridge .door { animation: none; } }
+.fridge-btn { justify-self: start; background: none; border: 0; padding: 0; cursor: pointer; line-height: 0; -webkit-tap-highlight-color: transparent; }
+.fridge { width: 124px; height: auto; display: block; overflow: visible; }
+.fridge .door { transform-box: fill-box; transform-origin: left center; transform: scaleX(-.28); transition: transform .5s cubic-bezier(.3, .7, .2, 1); }
+.fridge-btn.is-closed .door { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) { .fridge .door { transition: none; } }
 .hero h1 { font-size: clamp(52px, 14vw, 84px); letter-spacing: .04em; line-height: 1.1; }
 .hero .tagline { font-family: var(--font-display); font-size: clamp(20px, 4.6vw, 26px); line-height: 1.6; }
 .hero .lead { color: var(--muted); max-width: 34em; }

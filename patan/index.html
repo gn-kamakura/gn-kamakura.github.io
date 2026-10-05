@@ -37,20 +37,41 @@ gtag('config', 'G-T7MV4EVEH7');
 
   <main>
     <section class="hero">
-      <svg class="fridge" viewBox="0 0 80 120" aria-hidden="true">
-        <rect x="10" y="4" width="60" height="112" rx="8" fill="#E6F1EA" stroke="#15251E" stroke-width="3"/>
-        <line x1="12" y1="42" x2="68" y2="42" stroke="#15251E" stroke-width="2"/>
-        <line x1="12" y1="80" x2="68" y2="80" stroke="#15251E" stroke-width="2"/>
-        <circle cx="28" cy="33" r="6" fill="#8A5A0B"/>
-        <rect x="42" y="26" width="16" height="16" rx="3" fill="#1E7A59"/>
-        <ellipse cx="34" cy="70" rx="12" ry="8" fill="#F6E8C9" stroke="#8A5A0B" stroke-width="2"/>
-        <rect x="46" y="96" width="14" height="20" rx="3" fill="#DCEFE5" stroke="#15251E" stroke-width="2"/>
-        <g class="door">
-          <rect x="10" y="4" width="60" height="112" rx="8" fill="#1E7A59" stroke="#15251E" stroke-width="3"/>
-          <line x1="12" y1="38" x2="68" y2="38" stroke="#fff" stroke-opacity=".55" stroke-width="2"/>
-          <rect x="57" y="50" width="5" height="26" rx="2.5" fill="#fff"/>
-        </g>
-      </svg>
+      <button class="fridge-btn" id="fridgeBtn" type="button" aria-pressed="false" aria-label="冷蔵庫の扉をとじる">
+        <svg class="fridge" viewBox="-22 0 142 150" aria-hidden="true">
+          <!-- 本体 -->
+          <rect x="14" y="6" width="92" height="138" rx="10" fill="#EAF3EC" stroke="#15251E" stroke-width="3"/>
+          <line x1="16" y1="54" x2="104" y2="54" stroke="#15251E" stroke-width="2.5"/>
+          <line x1="16" y1="100" x2="104" y2="100" stroke="#15251E" stroke-width="2.5"/>
+          <!-- 上段：牛乳と卵 -->
+          <polygon points="24,22 30,13 40,13 46,22" fill="#fff" stroke="#15251E" stroke-width="2" stroke-linejoin="round"/>
+          <rect x="24" y="22" width="22" height="30" fill="#fff" stroke="#15251E" stroke-width="2"/>
+          <rect x="28" y="30" width="14" height="11" rx="2" fill="#1E7A59"/>
+          <rect x="56" y="44" width="42" height="8" rx="3" fill="#D8CDB8" stroke="#8A7A5A" stroke-width="1.5"/>
+          <ellipse cx="66" cy="41" rx="6" ry="7.5" fill="#F7EAD2" stroke="#8A5A0B" stroke-width="1.8"/>
+          <ellipse cx="78" cy="41" rx="6" ry="7.5" fill="#F7EAD2" stroke="#8A5A0B" stroke-width="1.8"/>
+          <ellipse cx="90" cy="41" rx="6" ry="7.5" fill="#F7EAD2" stroke="#8A5A0B" stroke-width="1.8"/>
+          <!-- 中段：鶏肉と豆腐 -->
+          <rect x="22" y="78" width="38" height="19" rx="3" fill="#fff" stroke="#15251E" stroke-width="2"/>
+          <ellipse cx="41" cy="86" rx="14" ry="6.5" fill="#F2A9A0" stroke="#C46A62" stroke-width="1.6"/>
+          <path d="M31 85 Q41 81 51 85" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5" stroke-linecap="round"/>
+          <rect x="66" y="72" width="32" height="25" rx="4" fill="#FFFDF5" stroke="#8A8A7A" stroke-width="2"/>
+          <line x1="71" y1="80" x2="93" y2="80" stroke="#D5DED8" stroke-width="2" stroke-linecap="round"/>
+          <!-- 下段：キャベツ、にんじん、玉ねぎ -->
+          <circle cx="36" cy="124" r="15" fill="#A7D18B" stroke="#3E8E5A" stroke-width="2"/>
+          <path d="M36 110 C29 118 29 130 36 138 M36 110 C43 118 43 130 36 138 M23 121 C30 124 42 124 49 121" fill="none" stroke="#3E8E5A" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M60 112 L82 120 L64 141 Z" fill="#E8833A" stroke="#B85F1E" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M60 112 L53 105 M60 112 L58 103 M60 112 L65 105" fill="none" stroke="#3E8E5A" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="95" cy="128" r="10" fill="#E2B06A" stroke="#A97A33" stroke-width="2"/>
+          <path d="M95 118 L95 111 M89 124 Q95 135 101 124" fill="none" stroke="#A97A33" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- 扉 -->
+          <g class="door">
+            <rect x="14" y="6" width="92" height="138" rx="10" fill="#1E7A59" stroke="#15251E" stroke-width="3"/>
+            <line x1="16" y1="50" x2="104" y2="50" stroke="#fff" stroke-opacity=".5" stroke-width="2.5"/>
+            <rect x="94" y="64" width="6" height="34" rx="3" fill="#fff"/>
+          </g>
+        </svg>
+      </button>
       <h1>ぱたん</h1>
       <p class="tagline">冷蔵庫をとじたら、<br>1週間のごはんが決まる。</p>
       <p class="lead">冷蔵庫の中身から、1週間分の夕食の献立と、買い足すものリストをつくるサービスです。使い切りを先に考え、買い物は最小限にします。</p>
@@ -263,5 +284,23 @@ gtag('config', 'G-T7MV4EVEH7');
   </footer>
 
 </div>
+
+<script>
+  // 読み込み時に、扉が開いて中身が見える。タップすると、ぱたんと閉まる。
+  (function () {
+    var btn = document.getElementById('fridgeBtn');
+    if (!btn) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) {
+      btn.classList.add('is-closed');
+      setTimeout(function () { btn.classList.remove('is-closed'); }, 450);
+    }
+    btn.addEventListener('click', function () {
+      var closed = btn.classList.toggle('is-closed');
+      btn.setAttribute('aria-pressed', closed ? 'true' : 'false');
+      btn.setAttribute('aria-label', closed ? '冷蔵庫の扉を開ける' : '冷蔵庫の扉をとじる');
+    });
+  })();
+</script>
 </body>
 </html>
