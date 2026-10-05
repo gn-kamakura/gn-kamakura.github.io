@@ -39,18 +39,18 @@ body {
   background: var(--bg); color: var(--ink); font-family: var(--font-body);
   font-size: 15px; line-height: 1.7;
 }
-.wrap { max-width: 760px; margin-inline: auto; padding-inline: 20px; padding-block: 44px 64px; display: flex; flex-direction: column; gap: 28px; }
+.wrap { max-width: 760px; margin-inline: auto; padding-inline: 20px; padding-block: 24px 64px; display: flex; flex-direction: column; gap: 28px; }
 header { padding-bottom: 4px; }
-@media (max-width: 480px) { .wrap { padding-block: 56px 64px; gap: 24px; } .panel { padding: 22px 18px; gap: 16px; } }
+@media (max-width: 480px) { .wrap { padding-block: 20px 64px; gap: 24px; } .panel { padding: 22px 18px; gap: 16px; } }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; text-wrap: balance; line-height: 1.35; }
 h1 { font-size: 30px; letter-spacing: .02em; }
 h2 { font-size: 19px; }
 p { margin: 0; }
-.top-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.top-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
 .top-link { font-size: 13px; color: var(--muted); }
 #badge, #madeAt { margin-left: auto; }
 #madeAt:empty { display: none; }
-.tagline { color: var(--muted); margin-top: 10px; }
+.tagline { color: var(--muted); margin-top: 6px; }
 .proto { display: inline-block; font-size: 11px; letter-spacing: .08em; border: 1px solid var(--line); border-radius: 4px; padding: 1px 8px; color: var(--muted); margin-left: 10px; vertical-align: middle; font-family: var(--font-body); font-weight: 500; }
 
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
@@ -135,7 +135,8 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
 <body>
 <main class="wrap">
   <header>
-    <div class="top-row"><h1>ぱたん</h1><a class="top-link" href="./">ぱたんについて →</a></div>
+    <div class="top-row"><svg width="30" height="42" viewBox="0 0 80 112" aria-hidden="true"><rect x="6" y="4" width="68" height="104" rx="10" fill="none" stroke="#15251E" stroke-width="7"/><line x1="6" y1="38" x2="74" y2="38" stroke="#15251E" stroke-width="7"/><line x1="58" y1="54" x2="58" y2="76" stroke="#15251E" stroke-width="7" stroke-linecap="round"/></svg><a class="top-link" href="./">ぱたんについて →</a></div>
+    <h1>ぱたん</h1>
     <p class="tagline">冷蔵庫をとじたら、1週間のごはんが決まる。</p>
   </header>
 
@@ -229,17 +230,17 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
     { id: "rmart", label: "楽天マート", url: function (q) {
       return "https://sm.rakuten.co.jp/search?keyword=" + encodeURIComponent(q);
     } },
-    { id: "fresh", label: "Amazonフレッシュ", url: function (q) {
-      var base = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(q) + "&i=amazonfresh";
-      return AFF.amazon ? base + "&tag=" + encodeURIComponent(AFF.amazon) : base;
-    } },
     { id: "rakuten", label: "楽天市場", url: function (q) {
       var base = "https://search.rakuten.co.jp/search/mall/" + encodeURIComponent(q) + "/";
       return AFF.rakuten ? "https://hb.afl.rakuten.co.jp/hgc/" + AFF.rakuten + "/?pc=" + encodeURIComponent(base) + "&m=" + encodeURIComponent(base) : base;
     } },
-    { id: "yahoo", label: "Yahoo!ショッピング", url: function (q) {
-      var base = "https://shopping.yahoo.co.jp/search?p=" + encodeURIComponent(q);
-      return AFF.yahoo.sid && AFF.yahoo.pid ? "https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=" + AFF.yahoo.sid + "&pid=" + AFF.yahoo.pid + "&vc_url=" + encodeURIComponent(base) : base;
+    { id: "fresh", label: "Amazonフレッシュ", url: function (q) {
+      var base = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(q) + "&i=amazonfresh";
+      return AFF.amazon ? base + "&tag=" + encodeURIComponent(AFF.amazon) : base;
+    } },
+    { id: "amazon", label: "Amazon", url: function (q) {
+      var base = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(q);
+      return AFF.amazon ? base + "&tag=" + encodeURIComponent(AFF.amazon) : base;
     } }
   ];
   var KEY = "patan:v1";
