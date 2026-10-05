@@ -223,9 +223,9 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
   /* アフィリエイトID。空のままなら、通常の検索リンクになる。
      rakuten: 楽天アフィリエイトのID（例 "1234abcd.5678efgh"）
      amazon : アソシエイトのストアID（例 "gnkamakura-22"）
-     yahoo  : バリューコマースの sid と pid（数字） */
-  var AFF = { rakuten: "", amazon: "", yahoo: { sid: "", pid: "" } };
-  function hasAff() { return !!(AFF.rakuten || AFF.amazon || (AFF.yahoo.sid && AFF.yahoo.pid)); }
+     */
+  var AFF = { rakuten: "", amazon: "" };
+  function hasAff() { return !!(AFF.rakuten || AFF.amazon); }
   var STORES = [
     { id: "rmart", label: "楽天マート", url: function (q) {
       return "https://sm.rakuten.co.jp/search?keyword=" + encodeURIComponent(q);
