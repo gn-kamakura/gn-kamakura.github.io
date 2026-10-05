@@ -55,6 +55,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; text
 h1 { font-size: 30px; letter-spacing: .02em; }
 h2 { font-size: 19px; }
 p { margin: 0; }
+.top-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.top-link { font-size: 13px; color: var(--muted); }
+#badge, #madeAt { margin-left: auto; }
 .tagline { color: var(--muted); margin-top: 4px; }
 .proto { display: inline-block; font-size: 11px; letter-spacing: .08em; border: 1px solid var(--line); border-radius: 4px; padding: 1px 8px; color: var(--muted); margin-left: 10px; vertical-align: middle; font-family: var(--font-body); font-weight: 500; }
 
@@ -141,8 +144,8 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
 </head>
 <body>
 <main class="wrap">
-  <header><p class="hint"><a href="./">← ぱたんについて</a></p>
-    <h1>ぱたん</h1>
+  <header>
+    <div class="top-row"><h1>ぱたん</h1><a class="top-link" href="./">ぱたんについて →</a></div>
     <p class="tagline">冷蔵庫をとじたら、1週間のごはんが決まる。</p>
   </header>
 
@@ -200,7 +203,7 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
 
   <section class="panel" aria-labelledby="h-result">
     <div class="result-head">
-      <h2 id="h-result">今週のごよみ</h2>
+      <h2 id="h-result">今週の献立</h2>
       <span class="badge" id="badge" hidden>サンプル</span>
       <span class="hint" id="madeAt"></span>
     </div>
@@ -233,6 +236,9 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
   var AFF = { rakuten: "", amazon: "", yahoo: { sid: "", pid: "" } };
   function hasAff() { return !!(AFF.rakuten || AFF.amazon || (AFF.yahoo.sid && AFF.yahoo.pid)); }
   var STORES = [
+    { id: "rmart", label: "楽天マート", url: function (q) {
+      return "https://sm.rakuten.co.jp/search?keyword=" + encodeURIComponent(q);
+    } },
     { id: "rakuten", label: "楽天市場", url: function (q) {
       var base = "https://search.rakuten.co.jp/search/mall/" + encodeURIComponent(q) + "/";
       return AFF.rakuten ? "https://hb.afl.rakuten.co.jp/hgc/" + AFF.rakuten + "/?pc=" + encodeURIComponent(base) + "&m=" + encodeURIComponent(base) : base;
@@ -283,7 +289,7 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
     settings: { people: 2, budget: 8000, minutes: 30, ng: "", wish: "" },
     result: null,
     checked: {},
-    store: "rakuten",
+    store: "rmart",
     files: []
   };
   var ctl = null;
@@ -425,6 +431,26 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
   function splitList(s) { return String(s || "").split(/[、,，\s]+/).filter(Boolean); }
 
   /* 写真を長辺1024pxのJPEGに縮小して base64 にする */
+  function isHeic(f) { return /heic|heif/i.test(f.type || "") || /\.hei[cf]$/i.test(f.name || ""); }
+  var heicLib = null;
+  function loadHeic() {
+    if (window.heic2any) return Promise.resolve(window.heic2any);
+    if (heicLib) return heicLib;
+    heicLib = new Promise(function (resolve, reject) {
+      var sc = document.createElement("script");
+      sc.src = "https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js";
+      sc.onload = function () { window.heic2any ? resolve(window.heic2any) : reject({ code: "image_rejected" }); };
+      sc.onerror = function () { heicLib = null; reject({ code: "image_rejected" }); };
+      document.head.append(sc);
+    });
+    return heicLib;
+  }
+  /* HEIC（iPhoneの写真形式）は、ブラウザが開けないことがあるのでJPEGに変換する */
+  function normalizeFile(f) {
+    if (!isHeic(f)) return Promise.resolve(f);
+    return loadHeic().then(function (conv) { return conv({ blob: f, toType: "image/jpeg", quality: 0.8 }); })
+      .then(function (out) { return Array.isArray(out) ? out[0] : out; });
+  }
   function toJpeg(file) {
     return new Promise(function (resolve, reject) {
       var url = URL.createObjectURL(file);
@@ -707,9 +733,20 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
     });
     function onPick(e) {
       var max = 3;
-      state.files = Array.prototype.slice.call(e.target.files || [], 0, max);
+      var picked = Array.prototype.slice.call(e.target.files || [], 0, max);
+      state.files = [];
       try { showThumbs(); } catch (err) {}
-      setPhotoStatus(state.files.length ? state.files.length + "枚選びました。「写真から食材を読み取る」を押してください。" : "");
+      if (!picked.length) { setPhotoStatus(""); return; }
+      var needConv = picked.some(isHeic);
+      setPhotoStatus(needConv ? "写真を変換しています。少しお待ちください。" : "");
+      el("readBtn").disabled = true;
+      Promise.all(picked.map(normalizeFile)).then(function (files) {
+        state.files = files;
+        try { showThumbs(); } catch (err) {}
+        setPhotoStatus(files.length + "枚選びました。「写真から食材を読み取る」を押してください。");
+      }).catch(function (err) {
+        setPhotoStatus(copyFor(err), "error");
+      }).finally(function () { el("readBtn").disabled = !!ctl; });
     }
     el("photo").addEventListener("change", onPick);
     el("photo").addEventListener("input", onPick);
