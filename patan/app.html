@@ -227,13 +227,6 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
   var AFF = { rakuten: "", amazon: "gnkamakura-22" };
   function hasAff() { return !!(AFF.rakuten || AFF.amazon); }
   var STORES = [
-    { id: "rmart", label: "楽天マート", url: function (q) {
-      return "https://sm.rakuten.co.jp/search?keyword=" + encodeURIComponent(q);
-    } },
-    { id: "rakuten", label: "楽天市場", url: function (q) {
-      var base = "https://search.rakuten.co.jp/search/mall/" + encodeURIComponent(q) + "/";
-      return AFF.rakuten ? "https://hb.afl.rakuten.co.jp/hgc/" + AFF.rakuten + "/?pc=" + encodeURIComponent(base) + "&m=" + encodeURIComponent(base) : base;
-    } },
     { id: "fresh", label: "Amazonフレッシュ", url: function (q) {
       var base = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(q) + "&i=amazonfresh";
       return AFF.amazon ? base + "&tag=" + encodeURIComponent(AFF.amazon) : base;
@@ -241,6 +234,13 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
     { id: "amazon", label: "Amazon", url: function (q) {
       var base = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(q);
       return AFF.amazon ? base + "&tag=" + encodeURIComponent(AFF.amazon) : base;
+    } },
+    { id: "rmart", label: "楽天マート", url: function (q) {
+      return "https://sm.rakuten.co.jp/search?keyword=" + encodeURIComponent(q);
+    } },
+    { id: "rakuten", label: "楽天市場", url: function (q) {
+      var base = "https://search.rakuten.co.jp/search/mall/" + encodeURIComponent(q) + "/";
+      return AFF.rakuten ? "https://hb.afl.rakuten.co.jp/hgc/" + AFF.rakuten + "/?pc=" + encodeURIComponent(base) + "&m=" + encodeURIComponent(base) : base;
     } }
   ];
   var KEY = "patan:v1";
@@ -280,7 +280,7 @@ textarea#copybox { width: 100%; min-height: 140px; background: var(--bg); border
     settings: { people: 2, budget: 8000, minutes: 30, ng: "", wish: "" },
     result: null,
     checked: {},
-    store: "rmart",
+    store: "fresh",
     files: []
   };
   var ctl = null;
