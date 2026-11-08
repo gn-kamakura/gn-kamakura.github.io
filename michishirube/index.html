@@ -169,8 +169,22 @@
   .option-card p{ margin:0; font-size:13.5px; line-height:1.7; }
   .option-note{ font-size:12px; opacity:.75; margin:14px 0 0; text-align:center; }
 
+  /* ---- cases (monitor results) ---- */
+  .case-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+  .case-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:20px; overflow:hidden;
+    display:flex; flex-direction:column; box-shadow:0 10px 30px rgba(11,31,58,.05);
+  }
+  .case-photo{ width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; object-position:center 35%; }
+  .case-body{ padding:24px 26px 26px; display:flex; flex-direction:column; gap:10px; }
+  .case-shop{ font-family:var(--font-display); font-weight:900; font-size:18px; line-height:1.4; }
+  .case-shop small{ display:block; font-family:var(--font-body); font-weight:500; font-size:12.5px; color:var(--muted); margin-top:2px; }
+  .case-quote{ margin:0; font-size:14.5px; line-height:1.85; }
+  .case-quote strong{ white-space:nowrap; color:var(--blue); font-family:var(--font-mono); font-weight:700; }
+  .case-meta{ margin:0; font-size:12px; color:var(--muted); line-height:1.7; }
+  .case-note{ font-size:11.5px; color:var(--muted); text-align:center; margin:20px 0 0; }
   /* ---- beacon ---- */
-  #service, #plans, #beacon, #flow, #faq{ scroll-margin-top:96px; }
+  #service, #cases, #plans, #beacon, #flow, #faq{ scroll-margin-top:96px; }
   .beacon{ padding:0 0 56px; }
   .beacon-card{
     background:var(--panel); border:1.5px solid var(--line); border-radius:20px;
@@ -238,8 +252,9 @@
   .foot-links a{ margin-right:16px; }
   .foot-links a:last-child{ margin-right:0; }
 
+  @media (max-width:960px){ .nav-links{ display:none; } }
   @media (max-width:900px){
-    .problem-grid, .plan-grid, .option-grid{ grid-template-columns:1fr; }
+    .problem-grid, .plan-grid, .option-grid, .case-grid{ grid-template-columns:1fr; }
     .plan-card.is-standard{ transform:none; }
     h1{ font-size:30px; }
     h1 .line1, h1 .accent{ white-space:normal; }
@@ -293,6 +308,7 @@
     </a>
     <nav class="nav-links">
       <a href="#service">サービス</a>
+      <a href="#cases">モニター事例</a>
       <a href="#plans">料金プラン</a>
       <a href="#beacon">お試し診断</a>
       <a href="#flow">導入までの流れ</a>
@@ -387,6 +403,33 @@
       <p style="text-align:center; margin-top:28px;">
         <a href="sample-report.html" target="_blank" style="color:var(--blue); font-weight:700; text-decoration:underline;">サンプルレポートを見る(PDF)</a>
       </p>
+    </div>
+  </section>
+
+  <section id="cases">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>モニター事例</h2>
+      </div>
+      <div class="case-grid">
+        <article class="case-card">
+          <img class="case-photo" src="assets/case-rans.jpg" alt="Rans kamakura オーナー 伊藤様" width="739" height="985" loading="lazy">
+          <div class="case-body">
+            <div class="case-shop">Rans kamakura<small>鎌倉・イタリアン ／ オーナー 伊藤様</small></div>
+            <p class="case-quote">「Googleビジネスプロフィールの情報整備から約4週間後、店名を出さずにAIへ質問したとき、お店の名前が挙がった割合は <strong>11%から47%</strong> になりました。」</p>
+            <p class="case-meta">ChatGPT・Gemini・Google検索のAIモード・AI概要の4経路、同じ質問での比較（2/18→9/19）</p>
+          </div>
+        </article>
+        <article class="case-card">
+          <img class="case-photo" src="assets/case-factory.jpg" alt="THE FACTORY KAMAKURA 店長 長島様" width="739" height="985" loading="lazy">
+          <div class="case-body">
+            <div class="case-shop">THE FACTORY KAMAKURA<small>鎌倉・ハンバーガー ／ 店長 長島様</small></div>
+            <p class="case-quote">「Googleでの閲覧が1日あたり <strong>+19.7%</strong>、メニューの閲覧が <strong>+68.9%</strong>、ルート検索が <strong>+35.1%</strong> になりました。」</p>
+            <p class="case-meta">前年同月比でも閲覧 +23.0%</p>
+          </div>
+        </article>
+      </div>
+      <p class="case-note">※ 2店舗のモニター結果です。効果はお店の状況により異なり、成果をお約束するものではありません。</p>
     </div>
   </section>
 
