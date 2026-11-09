@@ -698,6 +698,16 @@ body::before {
   font-family:var(--ff-ja); font-size:.9rem;
   letter-spacing:.07em; line-height:1.9; color:var(--c-ink2);
 }
+.about-doc {
+  display:inline-flex; align-items:center; gap:.9rem;
+  margin-top:2.4rem; padding:.95rem 1.6rem;
+  border:1px solid var(--c-ocean); border-radius:2px;
+  color:var(--c-ocean); text-decoration:none;
+  font-family:var(--ff-ja); font-size:.85rem; letter-spacing:.1em;
+  transition:background .3s, color .3s;
+}
+.about-doc:hover { background:var(--c-ocean); color:var(--c-white); }
+.about-doc-meta { font-family:var(--ff-body); font-size:.62rem; letter-spacing:.15em; opacity:.7; }
 /* about visual */
 .about-vis { display:flex; flex-direction:column; align-items:center; gap:2rem; }
 .about-ring {
@@ -1457,6 +1467,9 @@ footer {
       <div class="about-row r"><dt class="about-dt">Address</dt><dd class="about-dd">神奈川県鎌倉市坂ノ下3-7<br>WITH KAMAKURA内</dd></div>
       <div class="about-row r"><dt class="about-dt">Access</dt><dd class="about-dd">江ノ電「長谷」駅より徒歩5分</dd></div>
     </dl>
+    <a href="/assets/docs/gnk-company-profile.pdf" class="about-doc r" target="_blank" rel="noopener">
+      会社紹介資料を見る <span class="about-doc-meta">PDF · 7.3MB</span> <span aria-hidden="true">→</span>
+    </a>
   </div>
   <div class="about-vis r">
     <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:420px;margin:0 auto;display:block;">
