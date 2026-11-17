@@ -71,6 +71,19 @@ section{position:relative;z-index:1;}
 .problem-visual{display:flex;flex-direction:column;gap:1.5rem;}
 .problem-quote{background:rgba(8,80,65,0.3);border:1px solid var(--border);border-left:3px solid var(--primary);padding:2rem;border-radius:4px;}
 .problem-quote p{font-family:'Noto Serif JP',serif;font-size:1.05rem;line-height:1.9;color:var(--text);}
+.problem-extra{margin-top:5rem;padding-top:4rem;border-top:1px solid var(--border);}
+.problem-extra-title{font-family:'Noto Serif JP',serif;font-size:1.25rem;color:var(--text);margin-bottom:1.5rem;}
+.problem-check{list-style:none;padding:0;margin:0 0 3rem;display:grid;gap:0.9rem;}
+.problem-check li{position:relative;padding-left:2rem;color:var(--muted);line-height:1.9;font-size:1rem;}
+.problem-check li::before{content:'';position:absolute;left:0;top:0.55em;width:0.9rem;height:0.9rem;border:1.5px solid var(--primary);border-radius:2px;}
+.problem-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:3rem;}
+.problem-flow-step{background:rgba(8,80,65,0.25);border:1px solid var(--border);border-radius:8px;padding:1.25rem 1rem;text-align:center;font-size:0.9rem;line-height:1.7;color:var(--text);position:relative;}
+.problem-flow-step:not(:last-child)::after{content:'\2192';position:absolute;right:-0.95rem;top:50%;transform:translateY(-50%);color:var(--gold);font-size:1rem;z-index:1;}
+.problem-flow-step.last{border-color:var(--gold);}
+.problem-extra-note{color:var(--muted);line-height:2;font-size:1rem;margin-bottom:0.75rem;}
+.problem-extra-note strong{color:var(--text);font-weight:500;}
+.problem-extra-source{font-size:0.7rem;color:rgba(245,240,232,0.4);font-family:'Space Mono',monospace;letter-spacing:0.04em;}
+@media(max-width:768px){.problem-flow{grid-template-columns:1fr;}.problem-flow-step:not(:last-child)::after{content:'\2193';right:auto;left:50%;top:auto;bottom:-1.1rem;transform:translateX(-50%);}}
 .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
 .stat-box{background:rgba(8,80,65,0.25);border:1px solid var(--border);padding:1.5rem;text-align:center;border-radius:8px;}
 .stat-num{font-family:'DM Serif Display',serif;font-size:2.8rem;color:var(--gold);display:block;line-height:1;margin-bottom:0.5rem;}
@@ -379,6 +392,23 @@ footer a:hover{color:var(--text);}
           </div>
         </div>
       </div>
+    </div>
+    <div class="problem-extra">
+      <p class="problem-extra-title">こんな経験、ありませんか？</p>
+      <ul class="problem-check">
+        <li>AIの答えを、ほとんど読み返さずに資料やメールに使った</li>
+        <li>「なぜそう考えたの？」と聞かれて、うまく説明できなかった</li>
+        <li>自分の意見を持つ前に、まずAIに聞いてしまう</li>
+      </ul>
+      <div class="problem-flow">
+        <div class="problem-flow-step">AIに聞く</div>
+        <div class="problem-flow-step">それらしい答えが出る</div>
+        <div class="problem-flow-step">そのまま使う</div>
+        <div class="problem-flow-step last">自分の考えが<br>残らない</div>
+      </div>
+      <p class="problem-extra-note">AIは、考える手間を肩代わりしてくれます。だからこそ、気づかないうちに<strong>「自分の考え」が残らなくなる</strong>恐れがあります。</p>
+      <p class="problem-extra-note">「自分で考えなくなりそう」——生成AIの機能を知る小学4年〜中学3年の<strong>43.1%</strong>が、そう答えています。子どもたちが感じ始めているこの不安は、AIを日常的に使う大人にとっても、他人事ではありません。</p>
+      <p class="problem-extra-source">出典：博報堂教育財団こども研究所 2025年調査（読売新聞報道より）</p>
     </div>
   </div>
 </section>
