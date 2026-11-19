@@ -77,7 +77,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display
   <p class="page-label">PRIVACY POLICY</p>
   <h1 class="page-title">プライバシーポリシー</h1>
   <p class="page-desc">グッドネイバーカマクラ合同会社（以下「当社」）は、「AI本質力トレーニング」（以下「本アプリ」）において、ユーザーの個人情報を適切に保護・管理するため、以下のとおりプライバシーポリシーを定めます。本アプリをご利用いただくことで、本ポリシーに同意したものとみなします。</p>
-  <p class="updated">最終更新日：2026年6月23日</p>
+  <p class="updated">最終更新日：2026年11月19日</p>
 
   <div class="card">
     <p class="card-title">1. 事業者情報</p>
@@ -94,7 +94,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display
   <div class="card">
     <p class="card-title">2. 収集する個人情報の種類</p>
     <div class="text">
-      <p>本アプリは、以下の情報を収集することがあります。</p>
+      <p>本アプリは「必要最小限の情報しか持たない」ことを方針としています。以下の情報を収集することがあります。</p>
       <table>
         <tr><th>情報の種類</th><th>収集方法</th><th>任意・必須</th></tr>
         <tr><td>業界・職種・経験レベル・目標</td><td>オンボーディング入力</td><td>任意</td></tr>
@@ -104,8 +104,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display
         <tr><td>プッシュ通知の許可状況</td><td>OS設定から取得</td><td>自動</td></tr>
         <tr><td>課金・サブスクリプション情報</td><td>Apple In-App Purchase（iOS）またはGoogle Play 課金システム（Android）経由</td><td>自動</td></tr>
         <tr><td>デバイス情報・OS情報</td><td>アプリ起動時に自動取得</td><td>自動</td></tr>
+        <tr><td>通信元IPアドレス</td><td>不正利用防止のための回数制限に利用（2日で自動削除）</td><td>自動</td></tr>
+        <tr><td>法人プラン管理者のログイン用メールアドレス</td><td>法人プランのご契約時（管理者のみ）</td><td>必須（管理者のみ）</td></tr>
       </table>
-      <p style="margin-top:0.75rem;">※ 氏名・住所・クレジットカード番号などの機密個人情報は当社では収集しません。決済はApple In-App Purchase（iOS）またはGoogle Play 課金システム（Android）を通じて行われます。</p>
+      <p style="margin-top:0.75rem;">※ 氏名・住所・電話番号・メールアドレス（法人プランの管理者を除く）・性別・年代・生年月日・クレジットカード番号は、本アプリでは収集しません。ご利用の端末はアプリ内で匿名のIDにより識別されます。過去のバージョンで任意入力いただいた性別・年代・キーワードは、現在は保存しておらず、削除しました。決済はApple In-App Purchase（iOS）またはGoogle Play 課金システム（Android）を通じて行われます。</p>
     </div>
   </div>
 
@@ -161,14 +163,34 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display
   </div>
 
   <div class="card">
+    <p class="card-title">5-2. 外国にある第三者への提供</p>
+    <div class="text">
+      <p>AIによるフィードバック・問題生成のため、回答内容等をAnthropic, PBC（米国）のAPIに送信します。これらの送信にあたり、氏名・メールアドレス等の個人を直接識別する情報は含めません。決済・通知等で利用するStripe、Apple、Google、Expoも、それぞれ米国等で情報を取り扱う場合があります。各社の個人情報の取り扱いは、上表のリンク先をご確認ください。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-title">5-3. 法人プランにおける情報の取り扱い</p>
+    <div class="text">
+      <ul>
+        <li>参加者（従業員）の氏名・メールアドレスは登録しません。参加は管理者が発行する使い捨ての「参加コード」で行います。</li>
+        <li>管理者に表示されるのは、チーム全体の集計値（平均スコア・人数の内訳等）のみで、個人別の成績・回答内容は表示されません。</li>
+        <li>参加者が5名未満の間は、個人が推測されないよう集計値も表示しません。</li>
+        <li>管理者について保存するのは、ログイン用メールアドレスとお支払い情報（Stripeが管理）です。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
     <p class="card-title">6. 個人情報の保管・セキュリティ</p>
     <div class="text">
-      <p>ユーザーデータはSupabaseのセキュアなサーバー（データセンター所在地：AWS）に保管されます。当社は以下のセキュリティ対策を実施しています。</p>
+      <p>ユーザーデータはSupabaseのセキュアなサーバー（データセンター所在地：日本・東京リージョン／AWS）に保管されます。当社は以下のセキュリティ対策を実施しています。</p>
       <ul>
         <li>通信の暗号化（TLS/SSL）</li>
         <li>データベースアクセスの認証・権限管理（Row Level Security）</li>
         <li>APIキーの安全な管理（環境変数・秘密鍵管理）</li>
         <li>定期的なセキュリティレビューの実施</li>
+        <li>収集する情報の最小化（氏名・メールアドレス等を取得しない設計）</li>
       </ul>
       <p>ただし、インターネット上での完全な安全性を保証するものではありません。</p>
     </div>
@@ -177,7 +199,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 4rem;display
   <div class="card">
     <p class="card-title">7. 個人情報の保存期間</p>
     <div class="text">
-      <p>個人情報は、利用目的に必要な期間保存します。アカウント削除後は、法令上の保存義務がある場合を除き、速やかに削除します。なお、匿名化・統計処理されたデータについては、個人を特定できない形でサービス改善のために継続利用することがあります。</p>
+      <p>主なデータの保存期間は次のとおりです。利用状況ログは12か月で自動削除、通信元IPアドレスは2日で自動削除、法人プランの未使用の参加コードは発行から30日で自動削除します。法人プラン解約後のチームの集計データは30日間保持した後に削除します。アカウント削除の申請があった場合は、法令上の保存義務がある場合を除き、速やかに削除します。なお、匿名化・統計処理されたデータについては、個人を特定できない形でサービス改善のために継続利用することがあります。</p>
     </div>
   </div>
 
