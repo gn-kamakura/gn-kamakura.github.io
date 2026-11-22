@@ -83,7 +83,7 @@ section{position:relative;z-index:1;}
 .problem-extra-note{color:var(--muted);line-height:2.1;font-size:1rem;margin-bottom:1.5rem;text-wrap:pretty;}
 .problem-extra-note strong{color:var(--text);font-weight:500;}
 .problem-extra-source{margin-top:-0.75rem;font-size:0.7rem;color:rgba(245,240,232,0.4);font-family:'Space Mono',monospace;letter-spacing:0.04em;}
-@media(max-width:768px){.problem-extra-title{font-size:1.35rem;}.problem-check li{font-size:1.1rem;}.problem-flow{grid-template-columns:1fr;}.problem-flow-step:not(:last-child)::after{content:'\2193';right:auto;left:50%;top:auto;bottom:-1.1rem;transform:translateX(-50%);}}
+@media(max-width:768px){.problem-extra-title{font-size:1.35rem;}.problem-check li{font-size:1.1rem;}.problem-flow{grid-template-columns:1fr;gap:1.6rem;max-width:300px;margin-left:auto;margin-right:auto;}.problem-flow-step{min-height:3.4rem;padding:0.7rem 1rem;font-size:0.95rem;}.problem-flow-step:not(:last-child)::after{content:'\2193';right:auto;left:50%;top:auto;bottom:-1.1rem;transform:translateX(-50%);}}
 .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
 .stat-box{background:rgba(8,80,65,0.25);border:1px solid var(--border);padding:1.5rem;text-align:center;border-radius:8px;}
 .stat-num{font-family:'DM Serif Display',serif;font-size:2.8rem;color:var(--gold);display:block;line-height:1;margin-bottom:0.5rem;}
@@ -216,7 +216,7 @@ footer a:hover{color:var(--text);}
 .store-row{animation:fadeUp 0.8s 0.45s ease both;}
 
 @media(max-width:900px){
-  nav{padding:1.25rem 1.5rem;}
+  nav{padding:1rem 1.5rem;-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(4,32,26,0.96);border-bottom:1px solid var(--border);}
   .hero{padding:7rem 1.5rem 4rem;}
   .section-inner{padding:0 1.5rem;}
   .problem-grid,.target-intro,.effect-grid{grid-template-columns:1fr;}
@@ -315,6 +315,22 @@ footer a:hover{color:var(--text);}
 .campaign-faq-item:last-child{margin-bottom:0;}
 .campaign-faq-q{font-size:0.8rem;font-weight:700;color:#E8C87A;margin-bottom:0.25rem;}
 .campaign-faq-a{font-size:0.78rem;color:rgba(245,240,232,0.65);line-height:1.8;}
+
+/* ===== スマホ整え（余白・段組の調整） ===== */
+@media(max-width:900px){.target-corp{align-items:stretch;}}
+@media(max-width:600px){
+  .feature-card{padding:1.75rem 1.4rem;}
+  .effect-note{padding:1.6rem 1.4rem;}
+  .target-corp{padding:1.75rem 1.4rem;}
+  .pricing-card{padding:1.75rem 1.4rem;}
+  .problem-quote{padding:1.4rem 1.2rem;}
+  .stat-box{padding:1.1rem 0.6rem;}
+  .stat-num{font-size:2.2rem;}
+  .steps{grid-template-columns:1fr;gap:2.2rem;margin-top:3rem;}
+  .step{padding:0 0.5rem;}
+  .effect-grid{gap:2rem;margin-top:2.5rem;}
+  .section-title{line-height:1.5;}
+}
 </style>
 </head>
 <body>
