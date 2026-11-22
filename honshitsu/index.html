@@ -141,6 +141,14 @@ section{position:relative;z-index:1;}
 .effect-icon{width:44px;height:44px;min-width:44px;}
 .effect-item-text h4{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;margin-bottom:0.3rem;}
 .effect-item-text p{font-size:0.85rem;color:var(--muted);line-height:1.8;}
+.effect-def{margin-top:2.5rem;background:rgba(8,80,65,0.3);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:12px;padding:2rem 2.5rem;}
+.effect-def-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;color:var(--primary);margin-bottom:0.6rem;}
+.effect-def-title{font-family:'Noto Serif JP',serif;font-size:1.35rem;font-weight:700;line-height:1.6;margin-bottom:0.8rem;color:var(--text);}
+.effect-def p{font-size:0.9rem;color:var(--muted);line-height:2;}
+.effect-def-flow{display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;margin-top:1.2rem;font-size:0.82rem;color:var(--text);}
+.effect-def-flow span{background:rgba(29,158,117,0.15);border:1px solid rgba(29,158,117,0.35);border-radius:100px;padding:0.3rem 0.9rem;}
+.effect-def-flow i{color:var(--muted);font-style:normal;}
+.effect-use{display:block;margin-top:0.35rem;font-size:0.8rem;color:var(--gold);line-height:1.7;}
 .effect-note{background:rgba(8,80,65,0.3);border:1px solid var(--border);border-radius:12px;padding:2.5rem;}
 .effect-note-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:600;margin-bottom:1.5rem;color:var(--gold);}
 .effect-note p{font-size:0.88rem;color:var(--muted);line-height:2;margin-bottom:1rem;}
@@ -574,23 +582,29 @@ footer a:hover{color:var(--text);}
   <div class="section-inner">
     <p class="section-label">EXPECTED EFFECTS</p>
     <h2 class="section-title">鍛えられる、<br>4つの思考力。</h2>
+    <div class="effect-def">
+      <p class="effect-def-label">WHAT IS 本質力</p>
+      <p class="effect-def-title">本質力とは、ニュースを「自分の仕事の判断」に使える形にする力。</p>
+      <p>出来事を表面で追うだけでなく、背景・原因・全体の構造・別の立場の見方まで押さえたうえで、「だから自分はどう動くか」を言葉にできる力です。この4つは、仕事で情報を扱う流れ（読む → 判断する → 説明する）に合わせて選んでいます。</p>
+      <div class="effect-def-flow"><span>背景を知る</span><i>→</i><span>原因と先を読む</span><i>→</i><span>整理して伝える</span><i>→</i><span>相手の立場で考える</span></div>
+    </div>
     <div class="effect-grid">
       <ul class="effect-list">
         <li class="effect-item">
           <svg class="effect-icon" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="10" fill="rgba(29,158,117,0.15)"/><circle cx="22" cy="22" r="8" stroke="rgba(29,158,117,0.7)" stroke-width="1.5"/><path d="M22 14v-3M22 33v-3M14 22h-3M33 22h-3" stroke="rgba(29,158,117,0.5)" stroke-width="1.5" stroke-linecap="round"/><circle cx="22" cy="22" r="3" fill="rgba(29,158,117,0.8)"/></svg>
-          <div class="effect-item-text"><h4>背景理解力</h4><p>ニュースの表面だけでなく、背景にある市場構造・業界動向・歴史的文脈を読む力。</p></div>
+          <div class="effect-item-text"><h4>背景理解力</h4><p>ニュースの表面だけでなく、背景にある市場構造・業界動向・歴史的文脈を読む力。</p><span class="effect-use">仕事では：業界の前提を外さずに判断できる</span></div>
         </li>
         <li class="effect-item">
           <svg class="effect-icon" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="10" fill="rgba(29,158,117,0.15)"/><circle cx="13" cy="22" r="4" stroke="rgba(29,158,117,0.7)" stroke-width="1.5"/><circle cx="31" cy="22" r="4" stroke="rgba(29,158,117,0.7)" stroke-width="1.5"/><path d="M17 22h10" stroke="rgba(29,158,117,0.8)" stroke-width="1.5" stroke-linecap="round"/><path d="M24 19l4 3-4 3" stroke="rgba(232,200,122,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div class="effect-item-text"><h4>因果関係把握力</h4><p>「なぜそうなったのか」「次に何が起きるか」という因果の連鎖を追う思考力。</p></div>
+          <div class="effect-item-text"><h4>因果関係把握力</h4><p>「なぜそうなったのか」「次に何が起きるか」という因果の連鎖を追う思考力。</p><span class="effect-use">仕事では：「なぜ」「次に何が起きるか」を説明できる</span></div>
         </li>
         <li class="effect-item">
           <svg class="effect-icon" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="10" fill="rgba(29,158,117,0.15)"/><rect x="11" y="11" width="22" height="15" rx="2" stroke="rgba(29,158,117,0.7)" stroke-width="1.5"/><rect x="15" y="26" width="14" height="8" rx="1.5" stroke="rgba(29,158,117,0.5)" stroke-width="1.5"/><line x1="22" y1="11" x2="22" y2="34" stroke="rgba(29,158,117,0.3)" stroke-width="1" stroke-dasharray="2 2"/><line x1="11" y1="18" x2="33" y2="18" stroke="rgba(29,158,117,0.3)" stroke-width="1" stroke-dasharray="2 2"/></svg>
-          <div class="effect-item-text"><h4>構造的思考力</h4><p>物事を体系的に整理し、本質的な要因を抽出して論理的に説明する力。</p></div>
+          <div class="effect-item-text"><h4>構造的思考力</h4><p>物事を体系的に整理し、本質的な要因を抽出して論理的に説明する力。</p><span class="effect-use">仕事では：複雑な話を整理して、上司や顧客に伝えられる</span></div>
         </li>
         <li class="effect-item">
           <svg class="effect-icon" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="10" fill="rgba(29,158,117,0.15)"/><circle cx="22" cy="22" r="11" stroke="rgba(29,158,117,0.4)" stroke-width="1.5"/><ellipse cx="22" cy="22" rx="5.5" ry="11" stroke="rgba(29,158,117,0.65)" stroke-width="1.5"/><line x1="11" y1="22" x2="33" y2="22" stroke="rgba(29,158,117,0.5)" stroke-width="1.5" stroke-linecap="round"/><line x1="12.5" y1="17" x2="31.5" y2="17" stroke="rgba(29,158,117,0.3)" stroke-width="1" stroke-linecap="round"/><line x1="12.5" y1="27" x2="31.5" y2="27" stroke="rgba(29,158,117,0.3)" stroke-width="1" stroke-linecap="round"/></svg>
-          <div class="effect-item-text"><h4>多角的視点</h4><p>自社・競合・市場・社会の複数視点から物事を捉え、偏りのない判断をする力。</p></div>
+          <div class="effect-item-text"><h4>多角的視点</h4><p>自社・競合・市場・社会の複数視点から物事を捉え、偏りのない判断をする力。</p><span class="effect-use">仕事では：相手の立場を踏まえた提案ができる</span></div>
         </li>
       </ul>
       <div class="effect-note">
@@ -662,7 +676,7 @@ footer a:hover{color:var(--text);}
       <div class="faq-item"><p class="faq-q">どんな業界・職種に対応していますか？</p><p class="faq-a">入力した業界・職種・経験レベルをAIが解析し、あなたに最適なニュースと問いを生成します（2問目以降に反映されます）。製造業・SaaS・金融・コンサルなど幅広い業界に対応しています。</p></div>
       
       <div class="faq-item"><p class="faq-q">毎回文章を書かないといけませんか？</p><p class="faq-a">いいえ。3択の選択肢からサクッと選ぶだけでも回答できます。時間がある時は自由記述でじっくり、忙しい時は選択肢でクイックに——どちらでも同じように本質力トレーニングとして記録されます。</p></div>
-      <div class="faq-item"><p class="faq-q">AIのフィードバックはどのような基準で採点されますか？</p><p class="faq-a">「背景理解力」「因果関係把握力」「構造的思考力」「多角的視点」の4軸で0〜100点で採点されます。単に正解を当てるのではなく、思考の深さと視点の多様性を評価します。</p></div>
+      <div class="faq-item"><p class="faq-q">AIのフィードバックはどのような基準で採点されますか？</p><p class="faq-a">「背景理解力」「因果関係把握力」「構造的思考力」「多角的視点」の4軸で0〜100点で採点されます。単に正解を当てるのではなく、思考の深さと視点の多様性を評価します。これらは「ニュースを仕事の判断に使えるか」という実務の流れに合わせた基準で、AIの採点は、自分の考えを振り返るための材料としてご活用ください。</p></div>
       <div class="faq-item"><p class="faq-q">解約はいつでもできますか？</p><p class="faq-a">はい、いつでも解約できます。iOS版：iPhoneの「設定」→「Apple ID」→「サブスクリプション」からキャンセルしてください。Android版：Google Playストアアプリ→「お支払いとサブスクリプション」→「サブスクリプション」から解約できます。解約後は次の課金期間の開始前までプロプランの機能をご利用いただけます。</p></div>
       <div class="faq-item"><p class="faq-q">法人プランはありますか？</p><p class="faq-a">はい、法人向けプランをご用意しています。参加コードでの簡単導入（氏名・メール登録不要）・チーム全体の集計ダッシュボード・一括購入などがご利用いただけます。<a href="/honshitsu/contact" style="color:var(--primary);">お問い合わせフォーム</a>からお申し込みください。</p></div>
     </div>
