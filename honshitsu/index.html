@@ -93,7 +93,7 @@ section{position:relative;z-index:1;}
 .manifesto{padding:8rem 0;border-top:1px solid var(--border);background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(8,80,65,0.25) 0%,transparent 70%);}
 .manifesto-inner{max-width:800px;margin:0 auto;padding:0 4rem;text-align:center;}
 .manifesto-text{font-family:'Noto Serif JP',serif;font-size:clamp(1.5rem,3vw,2.4rem);font-weight:600;line-height:1.8;}
-.manifesto-text .hl{color:var(--gold);}
+.manifesto-text .hl{color:var(--gold);}.manifesto-text .ms{display:block;margin-bottom:1.1rem;}.manifesto-text .ms:last-child{margin-bottom:0;}.manifesto-text .ph{display:inline-block;}
 .manifesto-text .em{color:var(--primary);}
 .manifesto-sub{margin-top:3rem;font-size:1rem;color:var(--muted);line-height:2;max-width:600px;margin-left:auto;margin-right:auto;}
 
@@ -141,14 +141,14 @@ section{position:relative;z-index:1;}
 .effect-icon{width:44px;height:44px;min-width:44px;}
 .effect-item-text h4{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;margin-bottom:0.3rem;}
 .effect-item-text p{font-size:0.85rem;color:var(--muted);line-height:1.8;}
-.effect-def{margin-top:2.5rem;background:linear-gradient(135deg,rgba(29,158,117,0.22),rgba(8,80,65,0.4));border:1px solid rgba(200,169,110,0.45);border-left:5px solid var(--gold);border-radius:14px;padding:3rem 3rem;}
-.effect-def-label{font-family:'Space Mono',monospace;font-size:0.95rem;font-weight:700;letter-spacing:0.18em;color:var(--gold);margin-bottom:1rem;}
-.effect-def-title{font-family:'Noto Serif JP',serif;font-size:2.2rem;font-weight:700;line-height:1.55;margin-bottom:1.4rem;color:var(--text);}
-.effect-def p{font-size:1.1rem;color:var(--text);opacity:0.88;line-height:2;}
-.effect-def-flow{display:flex;flex-wrap:wrap;gap:0.7rem;align-items:center;margin-top:1.8rem;font-size:1.05rem;font-weight:600;color:var(--text);}
-.effect-def-flow span{background:rgba(29,158,117,0.22);border:1px solid rgba(29,158,117,0.55);border-radius:100px;padding:0.55rem 1.3rem;}
+.effect-def{margin-top:2.5rem;background:linear-gradient(135deg,rgba(29,158,117,0.22),rgba(8,80,65,0.4));border:1px solid rgba(200,169,110,0.45);border-left:5px solid var(--gold);border-radius:14px;padding:2rem 2.2rem;}
+.effect-def-label{font-family:'Space Mono',monospace;font-size:0.8rem;font-weight:700;letter-spacing:0.18em;color:var(--gold);margin-bottom:0.7rem;}
+.effect-def-title{font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:700;line-height:1.55;margin-bottom:1rem;color:var(--text);}
+.effect-def p{font-size:1rem;color:var(--text);opacity:0.88;line-height:2;}
+.effect-def-flow{display:flex;flex-wrap:wrap;gap:0.7rem;align-items:center;margin-top:1.4rem;font-size:0.95rem;font-weight:600;color:var(--text);}
+.effect-def-flow span{background:rgba(29,158,117,0.22);border:1px solid rgba(29,158,117,0.55);border-radius:100px;padding:0.45rem 1.1rem;}
 .effect-def-flow i{color:var(--gold);font-style:normal;font-size:1.2rem;}
-@media(max-width:768px){.effect-def{padding:1.8rem 1.4rem;}.effect-def-title{font-size:1.5rem;}.effect-def p{font-size:1rem;}.effect-def-flow{font-size:0.9rem;}.effect-def-flow span{padding:0.45rem 1rem;}}
+@media(max-width:768px){.effect-def{padding:1.4rem 1.2rem;}.effect-def-title{font-size:1.25rem;}.effect-def p{font-size:0.95rem;}.effect-def-flow{font-size:0.85rem;gap:0.5rem;}.effect-def-flow span{padding:0.45rem 1rem;}}
 .effect-use{display:block;margin-top:0.4rem;font-size:0.9rem;font-weight:600;color:var(--gold);line-height:1.7;}
 .effect-note{background:rgba(8,80,65,0.3);border:1px solid var(--border);border-radius:12px;padding:2.5rem;}
 .effect-note-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:600;margin-bottom:1.5rem;color:var(--gold);}
@@ -317,7 +317,7 @@ footer a:hover{color:var(--text);}
 .campaign-faq-a{font-size:0.78rem;color:rgba(245,240,232,0.65);line-height:1.8;}
 
 /* ===== スマホ整え（余白・段組の調整） ===== */
-@media(max-width:900px){.target-corp{align-items:stretch;}.hero-eyebrow,.hero-title,.hero-subtitle,.store-row{animation:none;}}
+@media(max-width:900px){.manifesto-text{font-size:1.3rem;line-height:1.75;}.hero-photo{background:linear-gradient(180deg,#04201a,#062a22);}.hero-phone-img,.screen-phone-img{filter:none;}.target-corp{align-items:stretch;}.hero-eyebrow,.hero-title,.hero-subtitle,.store-row{animation:none;}}
 @media(max-width:600px){
   .feature-card{padding:1.75rem 1.4rem;}
   .effect-note{padding:1.6rem 1.4rem;}
@@ -434,7 +434,7 @@ footer a:hover{color:var(--text);}
 <section class="manifesto">
   <div class="manifesto-inner">
     <p class="section-label" style="justify-content:center;">MANIFESTO</p>
-    <p class="manifesto-text">今こそ、人間の<span class="hl">「本質」</span>を見せる時。<br>AIが便利になるほど、<span class="em">思考する人間</span>の価値は高まる。<br>本質が見えれば、AIはより強力な武器になる。</p>
+    <p class="manifesto-text"><span class="ms"><span class="ph">今こそ、</span><span class="ph">人間の<span class="hl">「本質」</span>を</span><span class="ph">見せる時。</span></span><span class="ms"><span class="ph">AIが便利になるほど、</span><span class="ph"><span class="em">思考する人間</span>の</span><span class="ph">価値は高まる。</span></span><span class="ms"><span class="ph">本質が見えれば、</span><span class="ph">AIはより強力な</span><span class="ph">武器になる。</span></span></p>
     <p class="manifesto-sub">AI本質力トレーニングは、毎日のビジネスニュースを題材に、あなたの業界・職種にパーソナライズされた「問い」と向き合うことで、思考の筋肉を鍛えるアプリです。</p>
   </div>
 </section>
