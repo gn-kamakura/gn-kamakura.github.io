@@ -161,6 +161,7 @@
   .options h3{ font-family:var(--font-display); font-weight:900; font-size:20px; margin:0 0 6px; text-align:center; }
   .options .options-sub{ text-align:center; font-size:13.5px; opacity:.8; margin:0 0 20px; }
   .option-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+.video-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
   .option-card{ border:1px solid var(--line); border-radius:16px; padding:20px 22px; background:var(--paper); display:flex; flex-direction:column; gap:8px; }
   .option-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; }
   .option-name{ font-weight:900; font-size:16px; }
@@ -254,7 +255,7 @@
 
   @media (max-width:960px){ .nav-links{ display:none; } }
   @media (max-width:900px){
-    .problem-grid, .plan-grid, .option-grid, .case-grid{ grid-template-columns:1fr; }
+    .problem-grid, .plan-grid, .option-grid, .video-grid, .case-grid{ grid-template-columns:1fr; }
     .plan-card.is-standard{ transform:none; }
     h1{ font-size:30px; }
     h1 .line1, h1 .accent{ white-space:normal; }
@@ -516,7 +517,26 @@
             <p>AIに拾われやすいFAQ・店舗紹介文を作成し、Googleビジネスプロフィールと公式サイトに反映します。</p>
           </div>
         </div>
-        <p class="option-note">Instagramの投稿代行は行っておりません。月額オプションは担当件数に上限があるため、お受けできない場合があります。</p>
+        <p class="option-note">診断・コンサルプラン(ライト〜プレミアム)では、Instagramの投稿代行は行っておりません(投稿代行は下記の動画制作メニューの月額プランに含まれます)。月額オプションは担当件数に上限があるため、お受けできない場合があります。</p>
+      </div>
+      <div class="options video-menu" id="video-menu">
+        <h3>動画制作メニュー</h3>
+        <p class="options-sub">InstagramリールやGoogleマップ(Googleビジネスプロフィール)で使える、15〜30秒のショート動画を制作します。診断プランとは別に、単体でもご依頼いただけます。</p>
+        <div class="video-grid">
+          <div class="option-card">
+            <div class="option-head"><span class="option-name">単発</span><span class="option-price">¥25,000〜35,000<span>/本</span></span></div>
+            <p>15〜30秒のショート動画を1本制作します。修正は2回まで対応します。</p>
+          </div>
+          <div class="option-card">
+            <div class="option-head"><span class="option-name">月4本プラン</span><span class="option-price">¥80,000〜100,000<span>/月</span></span></div>
+            <p>毎月4本の動画を制作します。投稿代行込みです。</p>
+          </div>
+          <div class="option-card">
+            <div class="option-head"><span class="option-name">月8本プラン</span><span class="option-price">¥150,000〜180,000<span>/月</span></span></div>
+            <p>毎月8本の動画を制作します。投稿代行と簡易レポート込みです。</p>
+          </div>
+        </div>
+        <p class="option-note">価格は税別です。動画の尺・内容により金額が変わるため、ご相談のうえお見積もりいたします。</p>
       </div>
     </div>
   </section>
@@ -608,7 +628,7 @@
       </div>
       <div class="faq-item">
         <p class="faq-q"><span class="q-mark">Q.</span>投稿代行はしてもらえますか?</p>
-        <p class="faq-a">Instagramの投稿代行は行っておりません。Googleビジネスプロフィールの投稿・更新や口コミ返信は、オプションメニューでお引き受けしています。</p>
+        <p class="faq-a">診断・コンサルプランでは、Instagramの投稿代行は行っておりません。動画制作メニューの月額プラン(月4本・月8本)には投稿代行が含まれます。Googleビジネスプロフィールの投稿・更新や口コミ返信は、オプションメニューでお引き受けしています。</p>
       </div>
       <div class="faq-item">
         <p class="faq-q"><span class="q-mark">Q.</span>自動で生成されたレポートですか?</p>
